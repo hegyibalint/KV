@@ -40,12 +40,11 @@ GpuMat createCirclePattern(Size vidsize, int outer, int ring, int inner) {
     return circleSpectrum;
 }
 
-bool isMarkerNear(std::vector<Point2f> points, Point2f loc, double e, int& index) {
+bool isMarkerNear(std::vector<Point2f> points, Point2f loc, double e) {
     for (int i = 0; i < points.size(); ++i) {
         double distance = cv::norm(loc - points[i]);
         
         if (distance <= e) {
-            index = i;
             return true;
         }
     }
@@ -64,31 +63,24 @@ bool findMarker(std::vector<Point2f>& points, double min, double max, Mat contou
             
             double distance = cv::norm(points[first] - points[last]);
             if (min < distance && distance < max) {
-                std::vector<int> deletionVector = { first, last };
                 Point2f dirVector = (points[last] - points[first]) / (innerMarkers + 1);
                 
+                bool innerMarkersFound = true;
                 for (int div = 1; div <= innerMarkers; ++div) {
                     Point2f pos = points[first] + (div * dirVector);
                     
-                    int deletionIndex;
-                    if (isMarkerNear(points, pos, 10, deletionIndex)) {
-                        deletionVector.push_back(deletionIndex);
-                    } else {
-                        goto markerNotFound;
+                    if (!isMarkerNear(points, pos, 5)) {
+                        innerMarkersFound = false;
+                        break;
                     }
                 }
                 
-                line(contourColor, points[first], points[last], Scalar(255, 0, 0));
-                center =(points[last] - points[first]) / 2;
-                
-                std::sort(deletionVector.begin(), deletionVector.end());
-                for (int i = 0; i < deletionVector.size(); ++i) {
-                    points.erase(points.begin() + (deletionVector[i] - i));
+                if (innerMarkersFound) {
+                    line(contourColor, points[first], points[last], Scalar(255, 0, 0));
+                    center = (points[last] - points[first]) / 2;
+                    
+                    return true;
                 }
-                return true;
-                
-                markerNotFound:
-                continue;
             }
         }
     }
@@ -100,7 +92,7 @@ int main(int argc, char** argv)
 {
     VideoCapture vid(1);
     Size vidsize(vid.get(CV_CAP_PROP_FRAME_WIDTH), vid.get(CV_CAP_PROP_FRAME_HEIGHT));
-    
+    //Size vidsize = imread("train.png").size();
     
     SimpleBlobDetector::Params detector_params;
     detector_params.minThreshold = 50;
@@ -147,37 +139,38 @@ int main(int argc, char** argv)
         
         cuda::magnitude(imageSpectrumGPU, magnitudeGPU);
         cuda::normalize(magnitudeGPU, magnitudeGPU, 0, 1, NORM_MINMAX, CV_32F);
-        cuda::subtract(Scalar::all(1), magnitudeGPU, magnitudeGPU);
+        //cuda::subtract(Scalar::all(1), magnitudeGPU, magnitudeGPU);
+        cuda::threshold(magnitudeGPU, magnitudeGPU, 0.8, 1, CV_THRESH_BINARY);
         
         magnitudeGPU.download(magnitude);
+        magnitude.convertTo(magnitude, CV_8U, 255);
         
-        std::vector<std::vector<Point>> contours;
+        std::vector<std::vector<Point> > contours;
         std::vector<Vec4i> hierarchy;
-        magnitude.convertTo(contour, CV_8U, 255);
-        cvtColor(contour, contourColor, CV_GRAY2RGB);
+        findContours(magnitude, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0) );
         
-        std::vector<KeyPoint> keypoints;
-        detector->detect(contour, keypoints);
+        std::vector<Moments> mu(contours.size() );
+        for( int i = 0; i < contours.size(); i++ )
+        { mu[i] = moments( contours[i], false ); }
         
-        std::vector<Point2f> selected;
-        for(auto& kp : keypoints) {
-            selected.push_back(kp.pt);
+        std::vector<Point2f> mc( contours.size() );
+        for( int i = 0; i < contours.size(); i++ )
+        {
+            Point2f com = Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 );
+            if (!(isnan(com.x) && isnan(com.y))) {
+                mc[i] = com;
+            }
         }
+        
+        Mat magnitudeColor;
+        magnitude.convertTo(magnitudeColor, CV_8U, 255);
+        cv::cvtColor(magnitudeColor, magnitudeColor, CV_GRAY2RGB);
         
         Point2f center;
-        while(findMarker(selected, 0, 1000, contourColor, 2, center)) {
-            std::cout << center << std::endl;
-        }
+        findMarker(mc, 90, 100, magnitudeColor, 2, center);
         
-        for(auto& kp : keypoints) {
-            cv::circle(contourColor, kp.pt, 4, Scalar(0, 0, 255));
-        }
-        for(auto& pt : selected) {
-            cv::circle(contourColor, pt, 4, Scalar(0, 255, 0));
-        }
-        
-        //imshow("1", contourColor);
-        //waitKey(20);
+        imshow("1", magnitudeColor);
+        waitKey(40);
     }
     
     return 0;
