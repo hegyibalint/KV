@@ -13,6 +13,10 @@
 #include <opencv2/cudaarithm.hpp>
 #include <opencv2/cudafilters.hpp>
 
+// User
+#include "Board.hpp"
+#include "Train.hpp"
+
 using namespace cv;
 using namespace cv::cuda;
 
@@ -35,6 +39,10 @@ const int MARKER_C = 0;
 const int MARKER_M = 1;
 const int MARKER_Y = 2;
 const int MARKER_UNKNOWN = 3;
+
+
+const int BOARD = 0;
+const int TRAIN = 1;
 
 
 void drawMarkerToMat(Mat& marker, int x, int y, int outer, int ring, int inner) {
@@ -142,53 +150,26 @@ int identifyMarker(Point2f markerCenter, Mat& img) {
     return MARKER_UNKNOWN;
 }
 
-int main(int argc, char** argv)
-{
-    FileStorage fs2("camera_data.xml", FileStorage::READ);
-    Mat cameraMatrix, distCoeffs;
-    fs2["Camera_Matrix"] >> cameraMatrix;
-    fs2["Distortion_Coefficients"] >> distCoeffs;
+/*
+Mat convolve(VideoCapture vid, GpuMat circleSpectrumGPU) {
+    static Size vidsize(vid.get(CV_CAP_PROP_FRAME_WIDTH), vid.get(CV_CAP_PROP_FRAME_HEIGHT));
+    static Size hvidsize = vidsize / 2;
     
-    VideoCapture vid(1);
+    static Mat raw;
+    static Mat gray;
+    static Mat planes[2];
+    static Mat merged;
     
-    std::cout << static_cast<bool>(vid.get(CV_CAP_PROP_CONVERT_RGB)) << std::endl;
+    static GpuMat mergedGPU;
+    static GpuMat imageSpectrumGPU;
+    static GpuMat magnitudeGPU;
     
-    Size vidsize(vid.get(CV_CAP_PROP_FRAME_WIDTH), vid.get(CV_CAP_PROP_FRAME_HEIGHT));
-    //Size vidsize = imread("train.png").size();
-    Size hvidsize = vidsize / 2;
-    
-    SimpleBlobDetector::Params detector_params;
-    detector_params.minThreshold = 50;
-    detector_params.maxThreshold = 120; //120;
-    
-    detector_params.filterByArea = true;
-    detector_params.minArea = 20;
-    detector_params.maxArea = 50;
-    
-    detector_params.filterByCircularity = false;
-    detector_params.minCircularity = 0.85;
-    detector_params.maxCircularity = 1;
-    
-    Ptr<SimpleBlobDetector> detector = SimpleBlobDetector::create(detector_params);
-    
-    GpuMat circleSpectrumGPU = createCirclePattern(vidsize, 11, 8, 3);
-    
-    Mat raw;
-    Mat gray;
-    Mat planes[2];
-    Mat merged;
-    
-    GpuMat mergedGPU;
-    GpuMat imageSpectrumGPU;
-    GpuMat magnitudeGPU;
-    
-    Mat magnitude;
-    Mat contour;
+    static Mat magnitude;
     
     while (true) {
         auto start = std::chrono::high_resolution_clock::now();
         vid >> raw;
-
+        
         cv::cvtColor(raw, gray, CV_BGR2GRAY);
         cv::equalizeHist(gray, gray);
         
@@ -264,12 +245,155 @@ int main(int argc, char** argv)
         std::cout << (1000 / ms.count()) << " fps" << std::endl;
         
         std::cout << "-----------" << std::endl;
-
         
-        cv::resize(raw, raw, hvidsize);
-        imshow("1", raw);
+        
+        cv::resize(magnitude, magnitude, hvidsize);
+        imshow("1", magnitude);
         waitKey(40);
     }
+}
+*/
+
+
+
+Mat convolve(Mat raw, GpuMat circleSpectrumGPU) {
+    Size vidsize = raw.size();
+    Size hvidsize = vidsize / 2;
+    
+    static Mat gray;
+    static Mat planes[2];
+    static Mat merged;
+    
+    static GpuMat mergedGPU;
+    static GpuMat imageSpectrumGPU;
+    static GpuMat magnitudeGPU;
+    
+    static Mat magnitude;
+    static Mat contour;
+    
+    cv::cvtColor(raw, gray, CV_BGR2GRAY);
+    cv::equalizeHist(gray, gray);
+    
+    gray.convertTo(planes[0], CV_32F, 1/255.0);
+    planes[1] = Mat::zeros(raw.size(), CV_32F);
+    
+    cv::merge(planes, 2, merged);
+    
+    mergedGPU.upload(merged);
+    cuda::dft(mergedGPU, imageSpectrumGPU, mergedGPU.size());
+    cuda::mulSpectrums(imageSpectrumGPU, circleSpectrumGPU, imageSpectrumGPU, 0);
+    cuda::dft(imageSpectrumGPU, imageSpectrumGPU, imageSpectrumGPU.size(), DFT_INVERSE);
+    
+    cuda::magnitude(imageSpectrumGPU, magnitudeGPU);
+    cuda::normalize(magnitudeGPU, magnitudeGPU, 0, 1, NORM_MINMAX, CV_32F);
+    cuda::threshold(magnitudeGPU, magnitudeGPU, 0.70, 1, CV_THRESH_BINARY);
+    
+    magnitudeGPU.download(magnitude);
+    magnitude.convertTo(contour, CV_8U, 255);
+    
+    cv::resize(magnitude, magnitude, hvidsize);
+    imshow("1", magnitude);
+    
+    return contour;
+}
+
+Board detectBoard(VideoCapture vid) {
+    Mat raw;
+    vid >> raw;
+    
+    GpuMat boardCicle = createCirclePattern(raw.size(), 25, 20, 10);
+    Mat contour = convolve(raw, boardCicle);
+    boardCicle.release();
+    
+    return Board();
+}
+
+std::vector<Train> detectTrains(VideoCapture vid) {
+    static Mat raw;
+    vid >> raw;
+    
+    Size vidsize = raw.size();
+    Size hvidsize = vidsize / 2;
+    
+    static GpuMat trainCircle = createCirclePattern(raw.size(), 12, 9, 4);
+    
+    Mat contour = convolve(raw, trainCircle);
+    
+    std::vector<std::vector<Point> > contours;
+    std::vector<Vec4i> hierarchy;
+    findContours(contour, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0) );
+    
+    std::vector<Moments> mu(contours.size() );
+    for( int i = 0; i < contours.size(); i++ )
+    { mu[i] = moments( contours[i], false ); }
+    
+    std::vector<Point2f> mc( contours.size() );
+    for( int i = 0; i < contours.size(); i++ )
+    {
+        Point2f com = Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 );
+        if (!(isnan(com.x) && isnan(com.y))) {
+            mc[i] = com;
+        }
+    }
+    
+    std::vector<Train> trains;
+    while (true) {
+        std::tuple<bool, Point2f, Point2f> result = findMarker(mc, 100, 180);
+        
+        bool found = std::get<0>(result);
+        if (!found)
+            break;
+        
+        Point2f start = std::get<1>(result);
+        Point2f end = std::get<2>(result);
+        Point2f center = (start + end) / 2;
+        
+        int id = identifyMarker(center, raw);
+        switch (id) {
+            case MARKER_C:
+                std::cout << "CYAN MARKER @ ";
+                break;
+            case MARKER_M:
+                std::cout << "MAGENTA MARKER @ ";
+                break;
+            case MARKER_Y:
+                std::cout << "YELLOW MARKER @ ";
+                break;
+            case MARKER_UNKNOWN:
+                std::cout << "UNKOWN MARKER @ ";
+            default:
+                break;
+        }
+        std::cout << center << std::endl;
+        
+        trains.emplace_back(id, center);
+        
+        cv::line(raw, start, end, Scalar(255, 0, 0));
+    }
+    
+    cv::resize(contour, contour, hvidsize);
+    imshow("2", contour);
+    
+    cv::resize(raw, raw, hvidsize);
+    imshow("1", raw);
+    
+    return trains;
+}
+
+int main(int argc, char** argv)
+{
+    Mat raw;
+    Mat contour;
+    
+    VideoCapture vid(1);
+    
+    //detectBoard(vid);
+    while (true) {
+        detectTrains(vid);
+        std::cout << "-----------" << std::endl;
+        waitKey(1);
+    }
+    
     
     return 0;
 }
