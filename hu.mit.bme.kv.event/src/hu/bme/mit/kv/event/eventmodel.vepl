@@ -1,0 +1,26 @@
+package hu.bme.mit.kv.event
+
+AtomicEvent A
+AtomicEvent B
+
+ComplexEvent Test(){
+	definition: A->B->A->B
+}
+
+ComplexEvent Test2(){
+	definition: A-> (NOT B ){*} -> A 
+}
+
+Rule TestRule{
+	events: Test
+	action{
+		println("Triggered!")
+	}
+}
+
+Rule Test2Rule{
+	events: Test2
+	action{
+		
+	}
+}

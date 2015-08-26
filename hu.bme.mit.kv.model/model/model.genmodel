@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/hu.bme.mit.kv.model/src" modelPluginID="hu.bme.mit.kv.model"
+    modelName="RailRoadModel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    language="" operationReflection="true" importOrganizing="true">
+  <foreignModel>model.ecore</foreignModel>
+  <genPackages prefix="Model" basePackage="hu.bme.mit.kv.model" disposableProviderFactory="true"
+      ecorePackage="model.ecore#/">
+    <genClasses ecoreClass="model.ecore#//RailRoadModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//RailRoadModel/trains"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//RailRoadModel/sections"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Train">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/currentlyOn"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/nextSection"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/z"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Section">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Section/clockwise"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Section/counterClockwise"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Section/id"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Turnout">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/notConnectedSection"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Turnout/twoSectionsInClockwiseDirection"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Turn"/>
+  </genPackages>
+</genmodel:GenModel>
