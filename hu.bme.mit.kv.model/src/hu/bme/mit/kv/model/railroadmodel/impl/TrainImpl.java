@@ -23,10 +23,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl#getCurrentlyOn <em>Currently On</em>}</li>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl#getNextSection <em>Next Section</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl#getX <em>X</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl#getY <em>Y</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl#getZ <em>Z</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl#isGoingClockwise <em>Going Clockwise</em>}</li>
  * </ul>
  *
  * @generated
@@ -41,16 +41,6 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	 * @ordered
 	 */
 	protected Section currentlyOn;
-
-	/**
-	 * The cached value of the '{@link #getNextSection() <em>Next Section</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getNextSection()
-	 * @generated
-	 * @ordered
-	 */
-	protected Section nextSection;
 
 	/**
 	 * The default value of the '{@link #getX() <em>X</em>}' attribute.
@@ -113,6 +103,26 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	protected double z = Z_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #isGoingClockwise() <em>Going Clockwise</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isGoingClockwise()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean GOING_CLOCKWISE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isGoingClockwise() <em>Going Clockwise</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isGoingClockwise()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean goingClockwise = GOING_CLOCKWISE_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -167,44 +177,6 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 		currentlyOn = newCurrentlyOn;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TRAIN__CURRENTLY_ON, oldCurrentlyOn, currentlyOn));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Section getNextSection() {
-		if (nextSection != null && nextSection.eIsProxy()) {
-			InternalEObject oldNextSection = (InternalEObject)nextSection;
-			nextSection = (Section)eResolveProxy(oldNextSection);
-			if (nextSection != oldNextSection) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.TRAIN__NEXT_SECTION, oldNextSection, nextSection));
-			}
-		}
-		return nextSection;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Section basicGetNextSection() {
-		return nextSection;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setNextSection(Section newNextSection) {
-		Section oldNextSection = nextSection;
-		nextSection = newNextSection;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TRAIN__NEXT_SECTION, oldNextSection, nextSection));
 	}
 
 	/**
@@ -275,21 +247,41 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isGoingClockwise() {
+		return goingClockwise;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setGoingClockwise(boolean newGoingClockwise) {
+		boolean oldGoingClockwise = goingClockwise;
+		goingClockwise = newGoingClockwise;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TRAIN__GOING_CLOCKWISE, oldGoingClockwise, goingClockwise));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ModelPackage.TRAIN__CURRENTLY_ON:
 				if (resolve) return getCurrentlyOn();
 				return basicGetCurrentlyOn();
-			case ModelPackage.TRAIN__NEXT_SECTION:
-				if (resolve) return getNextSection();
-				return basicGetNextSection();
 			case ModelPackage.TRAIN__X:
 				return getX();
 			case ModelPackage.TRAIN__Y:
 				return getY();
 			case ModelPackage.TRAIN__Z:
 				return getZ();
+			case ModelPackage.TRAIN__GOING_CLOCKWISE:
+				return isGoingClockwise();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -305,9 +297,6 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 			case ModelPackage.TRAIN__CURRENTLY_ON:
 				setCurrentlyOn((Section)newValue);
 				return;
-			case ModelPackage.TRAIN__NEXT_SECTION:
-				setNextSection((Section)newValue);
-				return;
 			case ModelPackage.TRAIN__X:
 				setX((Double)newValue);
 				return;
@@ -316,6 +305,9 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 				return;
 			case ModelPackage.TRAIN__Z:
 				setZ((Double)newValue);
+				return;
+			case ModelPackage.TRAIN__GOING_CLOCKWISE:
+				setGoingClockwise((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -332,9 +324,6 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 			case ModelPackage.TRAIN__CURRENTLY_ON:
 				setCurrentlyOn((Section)null);
 				return;
-			case ModelPackage.TRAIN__NEXT_SECTION:
-				setNextSection((Section)null);
-				return;
 			case ModelPackage.TRAIN__X:
 				setX(X_EDEFAULT);
 				return;
@@ -343,6 +332,9 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 				return;
 			case ModelPackage.TRAIN__Z:
 				setZ(Z_EDEFAULT);
+				return;
+			case ModelPackage.TRAIN__GOING_CLOCKWISE:
+				setGoingClockwise(GOING_CLOCKWISE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -358,14 +350,14 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 		switch (featureID) {
 			case ModelPackage.TRAIN__CURRENTLY_ON:
 				return currentlyOn != null;
-			case ModelPackage.TRAIN__NEXT_SECTION:
-				return nextSection != null;
 			case ModelPackage.TRAIN__X:
 				return x != X_EDEFAULT;
 			case ModelPackage.TRAIN__Y:
 				return y != Y_EDEFAULT;
 			case ModelPackage.TRAIN__Z:
 				return z != Z_EDEFAULT;
+			case ModelPackage.TRAIN__GOING_CLOCKWISE:
+				return goingClockwise != GOING_CLOCKWISE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -386,6 +378,8 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 		result.append(y);
 		result.append(", z: ");
 		result.append(z);
+		result.append(", goingClockwise: ");
+		result.append(goingClockwise);
 		result.append(')');
 		return result.toString();
 	}

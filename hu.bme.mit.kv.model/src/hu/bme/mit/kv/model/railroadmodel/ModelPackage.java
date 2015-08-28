@@ -122,22 +122,13 @@ public interface ModelPackage extends EPackage {
 	int TRAIN__CURRENTLY_ON = 0;
 
 	/**
-	 * The feature id for the '<em><b>Next Section</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRAIN__NEXT_SECTION = 1;
-
-	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN__X = 2;
+	int TRAIN__X = 1;
 
 	/**
 	 * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -146,7 +137,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN__Y = 3;
+	int TRAIN__Y = 2;
 
 	/**
 	 * The feature id for the '<em><b>Z</b></em>' attribute.
@@ -155,7 +146,16 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN__Z = 4;
+	int TRAIN__Z = 3;
+
+	/**
+	 * The feature id for the '<em><b>Going Clockwise</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRAIN__GOING_CLOCKWISE = 4;
 
 	/**
 	 * The number of structural features of the '<em>Train</em>' class.
@@ -414,17 +414,6 @@ public interface ModelPackage extends EPackage {
 	EReference getTrain_CurrentlyOn();
 
 	/**
-	 * Returns the meta object for the reference '{@link hu.bme.mit.kv.model.railroadmodel.Train#getNextSection <em>Next Section</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Next Section</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Train#getNextSection()
-	 * @see #getTrain()
-	 * @generated
-	 */
-	EReference getTrain_NextSection();
-
-	/**
 	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Train#getX <em>X</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -456,6 +445,17 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTrain_Z();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Train#isGoingClockwise <em>Going Clockwise</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Going Clockwise</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Train#isGoingClockwise()
+	 * @see #getTrain()
+	 * @generated
+	 */
+	EAttribute getTrain_GoingClockwise();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Section <em>Section</em>}'.
@@ -610,14 +610,6 @@ public interface ModelPackage extends EPackage {
 		EReference TRAIN__CURRENTLY_ON = eINSTANCE.getTrain_CurrentlyOn();
 
 		/**
-		 * The meta object literal for the '<em><b>Next Section</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TRAIN__NEXT_SECTION = eINSTANCE.getTrain_NextSection();
-
-		/**
 		 * The meta object literal for the '<em><b>X</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -640,6 +632,14 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TRAIN__Z = eINSTANCE.getTrain_Z();
+
+		/**
+		 * The meta object literal for the '<em><b>Going Clockwise</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRAIN__GOING_CLOCKWISE = eINSTANCE.getTrain_GoingClockwise();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl <em>Section</em>}' class.

@@ -170,17 +170,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTrain_NextSection() {
-		return (EReference)trainEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getTrain_X() {
-		return (EAttribute)trainEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)trainEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -189,7 +180,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	public EAttribute getTrain_Y() {
-		return (EAttribute)trainEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)trainEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -198,6 +189,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	public EAttribute getTrain_Z() {
+		return (EAttribute)trainEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTrain_GoingClockwise() {
 		return (EAttribute)trainEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -307,10 +307,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		trainEClass = createEClass(TRAIN);
 		createEReference(trainEClass, TRAIN__CURRENTLY_ON);
-		createEReference(trainEClass, TRAIN__NEXT_SECTION);
 		createEAttribute(trainEClass, TRAIN__X);
 		createEAttribute(trainEClass, TRAIN__Y);
 		createEAttribute(trainEClass, TRAIN__Z);
+		createEAttribute(trainEClass, TRAIN__GOING_CLOCKWISE);
 
 		sectionEClass = createEClass(SECTION);
 		createEReference(sectionEClass, SECTION__CLOCKWISE);
@@ -362,10 +362,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		initEClass(trainEClass, Train.class, "Train", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTrain_CurrentlyOn(), this.getSection(), null, "currentlyOn", null, 1, 1, Train.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrain_NextSection(), this.getSection(), null, "nextSection", null, 1, 1, Train.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTrain_X(), ecorePackage.getEDouble(), "x", null, 1, 1, Train.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTrain_Y(), ecorePackage.getEDouble(), "y", null, 1, 1, Train.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTrain_Z(), ecorePackage.getEDouble(), "z", null, 1, 1, Train.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTrain_GoingClockwise(), ecorePackage.getEBoolean(), "goingClockwise", null, 1, 1, Train.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(sectionEClass, Section.class, "Section", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSection_Clockwise(), this.getSection(), null, "clockwise", null, 1, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

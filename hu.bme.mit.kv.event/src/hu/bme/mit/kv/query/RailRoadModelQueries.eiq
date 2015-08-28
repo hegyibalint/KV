@@ -1,0 +1,36 @@
+package hu.bme.mit.kv.query
+
+import "http://hu.bme.mit.kv.railroadmodel"
+
+pattern sectionBeforeClockwiseTrain(t: Train, s: Section) = {
+	Train.goingClockwise(t, true);
+	Train.currentlyOn(t, currentSection);
+	Section.clockwise(currentSection, s);
+}
+
+pattern sectionBeforeCounterClockwiseTrain(t : Train, s : Section) = {
+	Train.goingClockwise(t, false);
+	Train.currentlyOn(t, currentSection);
+	Section.counterClockwise(currentSection, s);
+}
+
+pattern sectionBeforeTrain(t : Train, s : Section){
+	find sectionBeforeCounterClockwiseTrain(t, s);
+} or {
+	find sectionBeforeClockwiseTrain(t,s);
+}
+
+pattern crash(t1 : Train, t2 : Train){
+	Train.currentlyOn(t1, section);
+	Train.currentlyOn(t2, section);
+}
+
+pattern zeroBetween(t1 : Train, t2 : Train){
+	Train.currentlyOn(t1, section);
+	find sectionBeforeTrain(t2, section);
+}
+
+pattern oneBetween(t1 : Train, t2 : Train){
+	find sectionBeforeTrain(t1, section);
+	find sectionBeforeTrain(t2, section);
+}

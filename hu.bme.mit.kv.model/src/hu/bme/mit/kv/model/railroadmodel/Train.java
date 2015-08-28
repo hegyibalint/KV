@@ -14,10 +14,10 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#getCurrentlyOn <em>Currently On</em>}</li>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#getNextSection <em>Next Section</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#getX <em>X</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#getY <em>Y</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#getZ <em>Z</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#isGoingClockwise <em>Going Clockwise</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getTrain()
@@ -50,32 +50,6 @@ public interface Train extends EObject {
 	 * @generated
 	 */
 	void setCurrentlyOn(Section value);
-
-	/**
-	 * Returns the value of the '<em><b>Next Section</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Next Section</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Next Section</em>' reference.
-	 * @see #setNextSection(Section)
-	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getTrain_NextSection()
-	 * @model required="true"
-	 * @generated
-	 */
-	Section getNextSection();
-
-	/**
-	 * Sets the value of the '{@link hu.bme.mit.kv.model.railroadmodel.Train#getNextSection <em>Next Section</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Next Section</em>' reference.
-	 * @see #getNextSection()
-	 * @generated
-	 */
-	void setNextSection(Section value);
 
 	/**
 	 * Returns the value of the '<em><b>X</b></em>' attribute.
@@ -154,5 +128,31 @@ public interface Train extends EObject {
 	 * @generated
 	 */
 	void setZ(double value);
+
+	/**
+	 * Returns the value of the '<em><b>Going Clockwise</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Going Clockwise</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Going Clockwise</em>' attribute.
+	 * @see #setGoingClockwise(boolean)
+	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getTrain_GoingClockwise()
+	 * @model required="true"
+	 * @generated
+	 */
+	boolean isGoingClockwise();
+
+	/**
+	 * Sets the value of the '{@link hu.bme.mit.kv.model.railroadmodel.Train#isGoingClockwise <em>Going Clockwise</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Going Clockwise</em>' attribute.
+	 * @see #isGoingClockwise()
+	 * @generated
+	 */
+	void setGoingClockwise(boolean value);
 
 } // Train
