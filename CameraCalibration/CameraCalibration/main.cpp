@@ -340,7 +340,7 @@ int main(int argc, char* argv[])
         
         //------------------------------ Show image and check for input commands -------------------
         imshow("Image View", view);
-        char key = (char)waitKey(s.inputCapture.isOpened() ? 50 : s.delay);
+        char key = (char)waitKey(s.inputCapture.isOpened() ? 0 : 0);
         
         if( key  == ESC_KEY )
             break;

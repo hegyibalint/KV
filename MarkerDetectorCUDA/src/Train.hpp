@@ -2,9 +2,85 @@
 
 #include <opencv2/core.hpp>
 
-struct Train {
+#include "Position.hpp"
+#include "Constants.hpp"
+
+class Train {
     int identifier;
-    cv::Point2f center;
+    bool detected;
+    float lastSpeed = 0.0;
+    std::vector<Position> positions;
     
-    Train(int identifier, cv::Point2f center) : identifier(identifier), center(center) { }
+public:
+    Train(int identifier) : identifier(identifier) { }
+    
+    void setCurrentPosition(Position pos) {
+        static int BUFFER_SIZE = 20;
+        
+        if (positions.size() < BUFFER_SIZE) {
+            positions.push_back(pos);
+            lastSpeed = 0.0;
+        } else {
+            positions.push_back(pos);
+            positions.erase(positions.begin());
+
+            float accumulatedSpeed = 0.0;
+            for (int i = 0; i < positions.size() - 1; ++i) {
+                accumulatedSpeed += positions[i].getSpeed(positions[i+1]);
+            }
+            lastSpeed = accumulatedSpeed / positions.size();
+            
+            float deg = positions[0].getAngle(positions[positions.size() - 1]);
+            std::cout << deg << std::endl;
+        }
+    }
+    
+    void setDetected(bool detected) {
+        this->detected = detected;
+    }
+    
+    bool getDetected() {
+        return detected;
+    }
+    
+    void clearPositions() {
+        positions.clear();
+    }
+    
+    float getSpeed() {
+        return lastSpeed;
+    }
+    
+    Position getPosition() {
+        return positions[positions.size() - 1];
+    }
+    
+    Point2f getCoordinate() {
+        return positions[positions.size() - 1].coordinate;
+    }
+    
+    static Point2f getCorrectedCenter(Board& board, Point2f currentCameraPos) {
+        Point2f translatedCenter = currentCameraPos - board.topLeft;
+        Mat translatedCenterMat(Size(1, 2), CV_32F);
+        translatedCenterMat.at<float>(0, 0) = translatedCenter.x;
+        translatedCenterMat.at<float>(1, 0) = translatedCenter.y;
+        Mat correctedMat = board.baseTrans * translatedCenterMat;
+        
+        Point2f corrected(correctedMat.at<float>(0, 0), correctedMat.at<float>(1, 0));
+        Point2f distFromCenter = board.getCenter() - corrected;
+        Point2f perspectiveError = distFromCenter * (TRAIN_HEIGHT / CAMERA_HEIGHT);
+        Point2f perspectiveCorrected = corrected + perspectiveError;
+        
+        return perspectiveCorrected;
+    }
+    
+    static Point2f getCorrectedToCamera(Point2f corrected, Board& board) {
+        Mat translatedCenterMat(Size(1, 2), CV_32F);
+        translatedCenterMat.at<float>(0, 0) = corrected.x;
+        translatedCenterMat.at<float>(1, 0) = corrected.y;
+        Mat correctedMat = board.inverseTrans * translatedCenterMat;
+        
+        Point2f inverted(correctedMat.at<float>(0, 0), correctedMat.at<float>(1, 0));
+        return board.topLeft + inverted;
+    }
 };
