@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Event
-Bundle-SymbolicName: hu.mit.bme.kv.event
+Bundle-SymbolicName: hu.bme.mit.kv.event
 Bundle-Version: 1.0.0.qualifier
 Export-Package: hu.bme.mit.kv.event,
  hu.bme.mit.kv.event.events,
