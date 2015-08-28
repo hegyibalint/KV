@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CV Receiver
-Bundle-SymbolicName: hu.mit.bme.kv.cvreceiver
+Bundle-SymbolicName: hu.bme.mit.kv.cvreceiver
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit,

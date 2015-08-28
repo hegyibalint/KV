@@ -17,15 +17,12 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.viatra.cep.core.api.engine.CEPEngine;
-import org.eclipse.viatra.cep.core.api.engine.ResetTransformations;
 import org.eclipse.viatra.cep.core.api.rules.ICepRule;
 import org.eclipse.viatra.cep.core.metamodels.automaton.EventContext;
-import org.eclipse.viatra.cep.core.metamodels.automaton.InternalModel;
 import org.eclipse.viatra.cep.core.streams.EventStream;
 import org.eclipse.viatra.cep.core.streams.IStreamManager;
 import org.eclipse.viatra.cep.examples.sosym.tests.internal.DefaultRealm;
 import org.eclipse.xtext.xbase.lib.Extension;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -77,10 +74,9 @@ public class Main {
   
   @Test
   public void testFunction() {
-    InputOutput.<String>println("=================================");
-    InternalModel _internalModel = this.engine.getInternalModel();
-    String asd = ResetTransformations.toGraphViz(_internalModel);
-    InputOutput.<String>println(asd);
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method toGraphViz is undefined for the type Main"
+      + "\nThe field internalModel is not visible");
   }
   
   @Test
