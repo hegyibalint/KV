@@ -72,10 +72,26 @@ class ModelUtil {
 		secF.counterClockwise = sec11
 
 		// Check for model consistency
-		root.sections.filter[sec|sec.clockwise == null].forEach[sec|println("Clockwise is missing: " + sec.id.toHexa)]
-		root.sections.filter[sec|sec.counterClockwise == null].forEach [ sec |	println("Counterclockwise is missing: " + sec.id.toHexa)]
+//		root.sections.filter[sec|sec.clockwise == null].forEach[sec|println("Clockwise is missing: " + sec.id.toHexa)]
+//		root.sections.filter[sec|sec.counterClockwise == null].forEach [ sec |	println("Counterclockwise is missing: " + sec.id.toHexa)]
 
-		println(root.toGraphViz)
+		// Print the newly generated map
+//		println(root.toGraphViz)
+		
+		//Add the trains
+		var train1 = createTrain
+		var train2 = createTrain
+		train1.id = 1
+		train2.id = 2
+		
+		train1.currentlyOn = getSectionByID(root,0x15); // TODO remove this
+		train1.goingClockwise = true
+	
+		train2.currentlyOn = getSectionByID(root,0x8); // TODO remove this
+		train2.goingClockwise = true	
+		
+		root.trains.add(train1)
+		root.trains.add(train2)
 
 		root
 	}

@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl#getY <em>Y</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl#getZ <em>Z</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl#isGoingClockwise <em>Going Clockwise</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl#getId <em>Id</em>}</li>
  * </ul>
  *
  * @generated
@@ -121,6 +122,26 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	 * @ordered
 	 */
 	protected boolean goingClockwise = GOING_CLOCKWISE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int ID_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected int id = ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -268,6 +289,27 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setId(int newId) {
+		int oldId = id;
+		id = newId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TRAIN__ID, oldId, id));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -282,6 +324,8 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 				return getZ();
 			case ModelPackage.TRAIN__GOING_CLOCKWISE:
 				return isGoingClockwise();
+			case ModelPackage.TRAIN__ID:
+				return getId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -308,6 +352,9 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 				return;
 			case ModelPackage.TRAIN__GOING_CLOCKWISE:
 				setGoingClockwise((Boolean)newValue);
+				return;
+			case ModelPackage.TRAIN__ID:
+				setId((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -336,6 +383,9 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 			case ModelPackage.TRAIN__GOING_CLOCKWISE:
 				setGoingClockwise(GOING_CLOCKWISE_EDEFAULT);
 				return;
+			case ModelPackage.TRAIN__ID:
+				setId(ID_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -358,6 +408,8 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 				return z != Z_EDEFAULT;
 			case ModelPackage.TRAIN__GOING_CLOCKWISE:
 				return goingClockwise != GOING_CLOCKWISE_EDEFAULT;
+			case ModelPackage.TRAIN__ID:
+				return id != ID_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -380,6 +432,8 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 		result.append(z);
 		result.append(", goingClockwise: ");
 		result.append(goingClockwise);
+		result.append(", id: ");
+		result.append(id);
 		result.append(')');
 		return result.toString();
 	}

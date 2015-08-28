@@ -65,6 +65,10 @@
                 <styles xmi:type="notation:FontStyle" xmi:id="_VT6BYU1qEeWbaPggKJAbkA" fontColor="2697711" fontName="Segoe UI" fontHeight="8"/>
                 <layoutConstraint xmi:type="notation:Location" xmi:id="_VT6BYk1qEeWbaPggKJAbkA"/>
               </children>
+              <children xmi:type="notation:Node" xmi:id="_TvDQgE13EeWbaPggKJAbkA" type="3010" element="_TuhFAE13EeWbaPggKJAbkA">
+                <styles xmi:type="notation:FontStyle" xmi:id="_TvDQgU13EeWbaPggKJAbkA" fontName="Segoe UI" fontHeight="8" bold="true"/>
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_TvDQgk13EeWbaPggKJAbkA"/>
+              </children>
               <styles xmi:type="notation:SortingStyle" xmi:id="_LFJ9YkpUEeW6wL3s9ln4_g"/>
               <styles xmi:type="notation:FilteringStyle" xmi:id="_LFJ9Y0pUEeW6wL3s9ln4_g"/>
             </children>
@@ -286,6 +290,14 @@
           <target xmi:type="ecore:EAttribute" href="model.ecore#//Train/goingClockwise"/>
           <semanticElements xmi:type="ecore:EAttribute" href="model.ecore#//Train/goingClockwise"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_Xs55EE1qEeWbaPggKJAbkA" labelAlignment="LEFT" description="_i00bMEpVEeW6wL3s9ln4_g">
+            <labelFormat>bold</labelFormat>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_TuhFAE13EeWbaPggKJAbkA" name="id : EInt = " tooltipText="">
+          <target xmi:type="ecore:EAttribute" href="model.ecore#//Train/id"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="model.ecore#//Train/id"/>
+          <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_TuhsEE13EeWbaPggKJAbkA" labelAlignment="LEFT" description="_i00bMEpVEeW6wL3s9ln4_g">
             <labelFormat>bold</labelFormat>
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>

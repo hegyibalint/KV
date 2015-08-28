@@ -158,13 +158,22 @@ public interface ModelPackage extends EPackage {
 	int TRAIN__GOING_CLOCKWISE = 4;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRAIN__ID = 5;
+
+	/**
 	 * The number of structural features of the '<em>Train</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN_FEATURE_COUNT = 5;
+	int TRAIN_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>Train</em>' class.
@@ -458,6 +467,17 @@ public interface ModelPackage extends EPackage {
 	EAttribute getTrain_GoingClockwise();
 
 	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Train#getId <em>Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Train#getId()
+	 * @see #getTrain()
+	 * @generated
+	 */
+	EAttribute getTrain_Id();
+
+	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Section <em>Section</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -640,6 +660,14 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TRAIN__GOING_CLOCKWISE = eINSTANCE.getTrain_GoingClockwise();
+
+		/**
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRAIN__ID = eINSTANCE.getTrain_Id();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl <em>Section</em>}' class.

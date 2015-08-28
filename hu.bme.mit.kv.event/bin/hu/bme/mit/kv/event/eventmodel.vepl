@@ -1,5 +1,37 @@
 package hu.bme.mit.kv.event
 
+import-queries hu.bme.mit.kv.queries.*
+
+QueryResultChangeEvent safe(){
+	query: safe
+	resultChangeType: NEW_MATCH_FOUND
+}
+
+QueryResultChangeEvent onSame(){
+	query: sameSection
+	resultChangeType: NEW_MATCH_FOUND
+}
+
+QueryResultChangeEvent zeroBetween(){
+	query: zeroBetween
+	resultChangeType: NEW_MATCH_FOUND
+}
+
+QueryResultChangeEvent oneBetween(){
+	query: oneBetween
+	resultChangeType: NEW_MATCH_FOUND
+}
+
+Rule debugRule{
+	events: safe, onSame, zeroBetween, oneBetween
+	action{
+		println(ruleInstance.atom.observedEventPatternId.split("\\.").last.split("_pattern").head)
+	}
+}
+
+
+
+/*
 AtomicEvent A
 AtomicEvent B
 
@@ -24,3 +56,5 @@ Rule Test2Rule{
 		
 	}
 }
+
+ */

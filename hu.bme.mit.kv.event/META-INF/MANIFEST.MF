@@ -4,11 +4,13 @@ Bundle-Name: Event
 Bundle-SymbolicName: hu.bme.mit.kv.event;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: hu.bme.mit.kv.event,
- hu.bme.mit.kv.event.events,
+ hu.bme.mit.kv.event.events.queryresult,
  hu.bme.mit.kv.event.jobs,
- hu.bme.mit.kv.event.patterns.atomic,
- hu.bme.mit.kv.event.patterns.complex,
+ hu.bme.mit.kv.event.mapping,
+ hu.bme.mit.kv.event.patterns.atomic.queryresult,
  hu.bme.mit.kv.event.rules,
+ hu.bme.mit.kv.queries,
+ hu.bme.mit.kv.queries.util,
  hu.bme.mit.kv.query,
  hu.bme.mit.kv.query.util
 Require-Bundle: org.junit;bundle-version="4.12.0",

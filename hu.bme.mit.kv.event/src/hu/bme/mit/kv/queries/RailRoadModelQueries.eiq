@@ -1,0 +1,47 @@
+package hu.bme.mit.kv.queries
+
+import "http://hu.bme.mit.kv.railroadmodel"
+
+pattern sectionBeforeClockwiseTrain(t: Train, s: Section) = {
+	Train.goingClockwise(t, true);
+	Train.currentlyOn(t, currentSection);
+	Section.clockwise(currentSection, s);
+}
+
+pattern sectionBeforeCounterClockwiseTrain(t : Train, s : Section) = { //TODO turner
+	Train.goingClockwise(t, false);
+	Train.currentlyOn(t, currentSection);
+	Section.counterClockwise(currentSection, s);
+}
+
+pattern sectionBeforeTrain(t : Train, s : Section){
+	find sectionBeforeCounterClockwiseTrain(t, s);
+} or {
+	find sectionBeforeClockwiseTrain(t,s);
+}
+
+pattern sameSection(t1 : Train, t2 : Train){
+	t1 != t2;
+	Train.currentlyOn(t1, section);
+	Train.currentlyOn(t2, section);
+}
+
+pattern zeroBetween(t1 : Train, t2 : Train){
+	t1 != t2; //Feel free to remove this when the turner has been implemented
+	Train.currentlyOn(t1, section);
+	find sectionBeforeTrain(t2, section);
+}
+
+pattern oneBetween(t1 : Train, t2 : Train){
+	t1 != t2;//Feel free to remove this when the turner has been implemented
+	find sectionBeforeTrain(t1, section);
+	find sectionBeforeTrain(t2, section);
+}
+
+pattern safe(t1: Train, t2: Train){
+	t1 != t2;
+	0 == count find sameSection(t1, t2);
+	0 == count find zeroBetween(t1,t2);
+	0 == count find oneBetween(t1,t2);
+
+}

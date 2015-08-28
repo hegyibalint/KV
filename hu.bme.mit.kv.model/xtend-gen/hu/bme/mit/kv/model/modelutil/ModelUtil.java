@@ -1,17 +1,15 @@
 package hu.bme.mit.kv.model.modelutil;
 
-import com.google.common.base.Objects;
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory;
 import hu.bme.mit.kv.model.railroadmodel.RailRoadModel;
 import hu.bme.mit.kv.model.railroadmodel.Section;
+import hu.bme.mit.kv.model.railroadmodel.Train;
 import hu.bme.mit.kv.model.railroadmodel.Turn;
 import hu.bme.mit.kv.model.railroadmodel.Turnout;
-import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
 @SuppressWarnings("all")
@@ -76,34 +74,20 @@ public class ModelUtil {
       Section secF = ModelUtil.getSectionByID(root, 0xF);
       sec11.setCounterClockwise(secF);
       secF.setCounterClockwise(sec11);
-      EList<Section> _sections_2 = root.getSections();
-      final Function1<Section, Boolean> _function = (Section sec) -> {
-        Section _clockwise = sec.getClockwise();
-        return Boolean.valueOf(Objects.equal(_clockwise, null));
-      };
-      Iterable<Section> _filter = IterableExtensions.<Section>filter(_sections_2, _function);
-      final Consumer<Section> _function_1 = (Section sec) -> {
-        int _id = sec.getId();
-        String _hexa = ModelUtil.toHexa(_id);
-        String _plus = ("Clockwise is missing: " + _hexa);
-        InputOutput.<String>println(_plus);
-      };
-      _filter.forEach(_function_1);
-      EList<Section> _sections_3 = root.getSections();
-      final Function1<Section, Boolean> _function_2 = (Section sec) -> {
-        Section _counterClockwise = sec.getCounterClockwise();
-        return Boolean.valueOf(Objects.equal(_counterClockwise, null));
-      };
-      Iterable<Section> _filter_1 = IterableExtensions.<Section>filter(_sections_3, _function_2);
-      final Consumer<Section> _function_3 = (Section sec) -> {
-        int _id = sec.getId();
-        String _hexa = ModelUtil.toHexa(_id);
-        String _plus = ("Counterclockwise is missing: " + _hexa);
-        InputOutput.<String>println(_plus);
-      };
-      _filter_1.forEach(_function_3);
-      String _graphViz = ModelUtil.toGraphViz(root);
-      InputOutput.<String>println(_graphViz);
+      Train train1 = ModelUtil.factory.createTrain();
+      Train train2 = ModelUtil.factory.createTrain();
+      train1.setId(1);
+      train2.setId(2);
+      Section _sectionByID = ModelUtil.getSectionByID(root, 0x15);
+      train1.setCurrentlyOn(_sectionByID);
+      train1.setGoingClockwise(true);
+      Section _sectionByID_1 = ModelUtil.getSectionByID(root, 0x8);
+      train2.setCurrentlyOn(_sectionByID_1);
+      train2.setGoingClockwise(true);
+      EList<Train> _trains = root.getTrains();
+      _trains.add(train1);
+      EList<Train> _trains_1 = root.getTrains();
+      _trains_1.add(train2);
       _xblockexpression = root;
     }
     return _xblockexpression;
