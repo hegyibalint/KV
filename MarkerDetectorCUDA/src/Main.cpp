@@ -11,6 +11,9 @@
 #include <opencv2/cudaarithm.hpp>
 #include <opencv2/cudafilters.hpp>
 
+// SVG
+#include "nanosvg.h"
+
 // User
 #include "Board.hpp"
 #include "Train.hpp"
@@ -253,7 +256,7 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
     
     static GpuMat trainCircle = createCirclePattern(raw.size(), 10, 8, 4);
     static Mat contour;
-    contour = convolve(raw, trainCircle, 0.5);
+    contour = convolve(raw, trainCircle, 0.6);
     
     auto mc = calculateMassCenters(contour);
     
