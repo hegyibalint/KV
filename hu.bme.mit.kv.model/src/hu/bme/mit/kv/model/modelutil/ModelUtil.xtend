@@ -16,12 +16,21 @@ class ModelUtil {
 		}
 
 		for (var i = 8; i != 24; i++) {
-			if (i != 0x12) {
+			if (i != 0x12 && i != 0xF && i != 0x11) {
 				var section = createSection
 				section.id = i
 				root.sections.add(section)
 			}
 		}
+		
+		var turnerF = createTurn
+		turnerF.id = 0xF
+		var turner11 = createTurn
+		turner11.id = 0x11
+		root.sections.add(turnerF)
+		root.sections.add(turner11)
+		
+		
 		// English turnout
 		var turnout4 = getTurnoutByID(root, 0x4)
 		var turnout7 = getTurnoutByID(root, 0x7)
@@ -66,13 +75,6 @@ class ModelUtil {
 		root.sections.filter[sec|sec.clockwise == null].forEach[sec|println("Clockwise is missing: " + sec.id.toHexa)]
 		root.sections.filter[sec|sec.counterClockwise == null].forEach [ sec |	println("Counterclockwise is missing: " + sec.id.toHexa)]
 
-
-		
-//		println("11 CW " + sec11.clockwise.id)
-//		println("11 CCW " + sec11.counterClockwise?.id)
-//		println("F CW " + secF.clockwise.id)
-//		println("F CCW " + secF.counterClockwise?.id)
-		println("=======================================")
 		println(root.toGraphViz)
 
 		root

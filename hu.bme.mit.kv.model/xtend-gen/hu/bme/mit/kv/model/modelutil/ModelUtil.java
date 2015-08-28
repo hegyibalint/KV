@@ -4,6 +4,7 @@ import com.google.common.base.Objects;
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory;
 import hu.bme.mit.kv.model.railroadmodel.RailRoadModel;
 import hu.bme.mit.kv.model.railroadmodel.Section;
+import hu.bme.mit.kv.model.railroadmodel.Turn;
 import hu.bme.mit.kv.model.railroadmodel.Turnout;
 import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
@@ -31,13 +32,21 @@ public class ModelUtil {
         }
       }
       for (int i = 8; (i != 24); i++) {
-        if ((i != 0x12)) {
+        if ((((i != 0x12) && (i != 0xF)) && (i != 0x11))) {
           Section section = ModelUtil.factory.createSection();
           section.setId(i);
           EList<Section> _sections = root.getSections();
           _sections.add(section);
         }
       }
+      Turn turnerF = ModelUtil.factory.createTurn();
+      turnerF.setId(0xF);
+      Turn turner11 = ModelUtil.factory.createTurn();
+      turner11.setId(0x11);
+      EList<Section> _sections = root.getSections();
+      _sections.add(turnerF);
+      EList<Section> _sections_1 = root.getSections();
+      _sections_1.add(turner11);
       Turnout turnout4 = ModelUtil.getTurnoutByID(root, 0x4);
       Turnout turnout7 = ModelUtil.getTurnoutByID(root, 0x7);
       Section section15 = ModelUtil.getSectionByID(root, 0x15);
@@ -67,12 +76,12 @@ public class ModelUtil {
       Section secF = ModelUtil.getSectionByID(root, 0xF);
       sec11.setCounterClockwise(secF);
       secF.setCounterClockwise(sec11);
-      EList<Section> _sections = root.getSections();
+      EList<Section> _sections_2 = root.getSections();
       final Function1<Section, Boolean> _function = (Section sec) -> {
         Section _clockwise = sec.getClockwise();
         return Boolean.valueOf(Objects.equal(_clockwise, null));
       };
-      Iterable<Section> _filter = IterableExtensions.<Section>filter(_sections, _function);
+      Iterable<Section> _filter = IterableExtensions.<Section>filter(_sections_2, _function);
       final Consumer<Section> _function_1 = (Section sec) -> {
         int _id = sec.getId();
         String _hexa = ModelUtil.toHexa(_id);
@@ -80,12 +89,12 @@ public class ModelUtil {
         InputOutput.<String>println(_plus);
       };
       _filter.forEach(_function_1);
-      EList<Section> _sections_1 = root.getSections();
+      EList<Section> _sections_3 = root.getSections();
       final Function1<Section, Boolean> _function_2 = (Section sec) -> {
         Section _counterClockwise = sec.getCounterClockwise();
         return Boolean.valueOf(Objects.equal(_counterClockwise, null));
       };
-      Iterable<Section> _filter_1 = IterableExtensions.<Section>filter(_sections_1, _function_2);
+      Iterable<Section> _filter_1 = IterableExtensions.<Section>filter(_sections_3, _function_2);
       final Consumer<Section> _function_3 = (Section sec) -> {
         int _id = sec.getId();
         String _hexa = ModelUtil.toHexa(_id);
@@ -93,7 +102,6 @@ public class ModelUtil {
         InputOutput.<String>println(_plus);
       };
       _filter_1.forEach(_function_3);
-      InputOutput.<String>println("=======================================");
       String _graphViz = ModelUtil.toGraphViz(root);
       InputOutput.<String>println(_graphViz);
       _xblockexpression = root;
