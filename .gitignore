@@ -57,5 +57,5 @@ DerivedData
 
 # JAVA BS #
 ###########
-src-gen/
-xtend-gen/
+**/src-gen/
+**/xtend-gen/
