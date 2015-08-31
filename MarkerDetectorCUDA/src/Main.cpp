@@ -152,7 +152,13 @@ int identifyMarker(Point2f markerCenter, Mat& img) {
     cv::rectangle(img, roi, Scalar(0, 0, 255));
     
     float hue = cv::mean(sample)[0] * 2;
-    //std::cout << hue << std::endl;
+    std::cout << hue << std::endl;
+    
+    float sat = cv::mean(sample)[1];
+    std::cout << sat << std::endl;
+    
+    float val = cv::mean(sample)[2];
+    std::cout << val << std::endl << std::endl;
     
     if (CYAN_LOW < hue && hue < CYAN_HIGH)
         return MARKER_C;

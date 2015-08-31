@@ -2,6 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/hu.bme.mit.kv.model"/>
 	<classpathentry kind="lib" path="dep/batik-anim-1.8.jar"/>
 	<classpathentry kind="lib" path="dep/batik-awt-util-1.8.jar"/>
 	<classpathentry kind="lib" path="dep/batik-bridge-1.8.jar"/>
@@ -22,15 +24,13 @@
 	<classpathentry kind="lib" path="dep/batik-xml-1.8.jar"/>
 	<classpathentry kind="lib" path="dep/fop-transcoder-allinone-1.1.jar"/>
 	<classpathentry kind="lib" path="dep/js.jar"/>
+	<classpathentry kind="lib" path="dep/org.eclipse.emf.common_2.11.0.v20150512-0501.jar"/>
+	<classpathentry kind="lib" path="dep/org.eclipse.emf.ecore_2.11.0.v20150512-0501.jar"/>
+	<classpathentry kind="lib" path="dep/org.eclipse.emf.ecore.xmi_2.11.0.v20150512-0501.jar"/>
 	<classpathentry kind="lib" path="dep/xalan-2.7.0.jar"/>
 	<classpathentry kind="lib" path="dep/xerces_2_5_0.jar"/>
 	<classpathentry kind="lib" path="dep/xml-apis-1.3.04.jar"/>
 	<classpathentry kind="lib" path="dep/xml-apis-ext-1.3.04.jar"/>
 	<classpathentry kind="lib" path="dep/xmlgraphics-commons-2.0.jar"/>
-	<classpathentry kind="lib" path="/Developer/Tools/Eclipse-Modeling.app/Contents/Eclipse/plugins/org.eclipse.emf.ecore.xmi_2.11.0.v20150512-0501.jar"/>
-	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="/Developer/Tools/Eclipse-Modeling.app/Contents/Eclipse/plugins/org.eclipse.emf.common_2.11.0.v20150512-0501.jar"/>
-	<classpathentry kind="lib" path="/Developer/Tools/Eclipse-Modeling.app/Contents/Eclipse/plugins/org.eclipse.emf.ecore_2.11.0.v20150512-0501.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/hu.bme.mit.kv.model"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
