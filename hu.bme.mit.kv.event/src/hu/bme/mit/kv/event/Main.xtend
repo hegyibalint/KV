@@ -5,7 +5,6 @@ import org.junit.Test
 import org.eclipse.viatra.cep.core.api.engine.CEPEngine
 import org.eclipse.viatra.cep.core.api.engine.ResetTransformations
 import org.junit.Before
-import hu.bme.mit.kv.model.railroadmodel.RailRoadModel
 import org.eclipse.viatra.cep.examples.sosym.tests.internal.DefaultRealm
 import hu.bme.mit.kv.event.mapping.QueryEngine2ViatraCep
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
@@ -15,6 +14,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import hu.bme.mit.kv.model.modelutil.ModelUtil
 import org.eclipse.emf.common.util.URI
 import java.util.Random
+import hu.bme.mit.kv.model.railroadmodel.SectionModel
+import hu.bme.mit.kv.model.railroadmodel.TrainModel
 
 class Main {
 	extension CepFactory factory = CepFactory.instance
@@ -26,7 +27,8 @@ class Main {
 	var ResourceSet resourceSet
 	var CEPEngine engine
 
-	var RailRoadModel ref // root of the runtime EMF model
+	var SectionModel sectionModel // root of the runtime EMF model
+	var TrainModel trainModel
 	
 	@Before
 	def void setUp() {
@@ -34,15 +36,18 @@ class Main {
 
 		engine = CEPEngine.newEngine().eventContext(EventContext.CHRONICLE).rules(allRules).prepare(); 
 
-		ref = ModelUtil.createReadyModel
+		sectionModel = ModelUtil.createReadySectionModel
+		trainModel = ModelUtil.createReadyTrainModel(sectionModel)
 
 		val reg = Resource.Factory.Registry.INSTANCE
 		val m = reg.getExtensionToFactoryMap()
 		m.put("model", new XMIResourceFactoryImpl())
 
 		resourceSet = new ResourceSetImpl()
-		resource = resourceSet.createResource(URI.createURI("teqball.model"))
-		resource.getContents().add(ref)
+		resource = resourceSet.createResource(URI.createURI("railroad.model"))
+		resource.getContents().add(sectionModel)
+		resource.getContents().add(trainModel)
+		
 
 		mapping = QueryEngine2ViatraCep.register(resourceSet, engine.streamManager.newEventStream)
 
@@ -65,9 +70,9 @@ class Main {
 	
 	@Test
 	def void modelTest(){
-		var rand = new Random();
-		while(true){
-			ref.trains.get(0).currentlyOn = ref.sections.get(Math.abs(rand.nextInt%20))
-		}
+		val train1 = trainModel.trains.get(0);
+		val train2 = trainModel.trains.get(1);
+		
+//		sectionModel.sections.forEach[ | ]
 	}
 } 

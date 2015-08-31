@@ -46,9 +46,9 @@ public class QueryEngine2ViatraCep {
   public EventDrivenTransformationRuleGroup getRules() {
     EventDrivenTransformationRuleGroup ruleGroup = new EventDrivenTransformationRuleGroup(
     	createsafe_MappingRule(), 
-    	createoneBetween_MappingRule(), 
     	createsameSection_MappingRule(), 
-    	createzeroBetween_MappingRule()
+    	createzeroBetween_MappingRule(), 
+    	createoneBetween_MappingRule()
     );
     return ruleGroup;
   }
@@ -78,36 +78,6 @@ public class QueryEngine2ViatraCep {
       
       IMatchProcessor<SafeMatch> actionOnDisappear_0 = new IMatchProcessor<SafeMatch>() {
         public void process(final SafeMatch matchedPattern) {
-        }
-      };
-      builder.action(IncQueryActivationStateEnum.DISAPPEARED, actionOnDisappear_0);
-      
-      return builder.build();
-    } catch (IncQueryException e) {
-      e.printStackTrace();
-    } catch (InconsistentEventSemanticsException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-  
-  public EventDrivenTransformationRule<OneBetweenMatch, OneBetweenMatcher> createoneBetween_MappingRule() {
-    try{
-      EventDrivenTransformationRuleFactory.EventDrivenTransformationBuilder<OneBetweenMatch, OneBetweenMatcher> builder = new EventDrivenTransformationRuleFactory().createRule();
-      builder.addLifeCycle(Lifecycles.getDefault(false, true));
-      builder.precondition(OneBetweenMatcher.querySpecification());
-      
-      IMatchProcessor<OneBetweenMatch> actionOnAppear_0 = new IMatchProcessor<OneBetweenMatch>() {
-        public void process(final OneBetweenMatch matchedPattern) {
-          OneBetween_Event event = new OneBetween_Event(null);
-          event.setIncQueryPattern(matchedPattern);
-          eventStream.push(event);
-        }
-      };
-      builder.action(IncQueryActivationStateEnum.APPEARED, actionOnAppear_0);
-      
-      IMatchProcessor<OneBetweenMatch> actionOnDisappear_0 = new IMatchProcessor<OneBetweenMatch>() {
-        public void process(final OneBetweenMatch matchedPattern) {
         }
       };
       builder.action(IncQueryActivationStateEnum.DISAPPEARED, actionOnDisappear_0);
@@ -168,6 +138,36 @@ public class QueryEngine2ViatraCep {
       
       IMatchProcessor<ZeroBetweenMatch> actionOnDisappear_0 = new IMatchProcessor<ZeroBetweenMatch>() {
         public void process(final ZeroBetweenMatch matchedPattern) {
+        }
+      };
+      builder.action(IncQueryActivationStateEnum.DISAPPEARED, actionOnDisappear_0);
+      
+      return builder.build();
+    } catch (IncQueryException e) {
+      e.printStackTrace();
+    } catch (InconsistentEventSemanticsException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+  
+  public EventDrivenTransformationRule<OneBetweenMatch, OneBetweenMatcher> createoneBetween_MappingRule() {
+    try{
+      EventDrivenTransformationRuleFactory.EventDrivenTransformationBuilder<OneBetweenMatch, OneBetweenMatcher> builder = new EventDrivenTransformationRuleFactory().createRule();
+      builder.addLifeCycle(Lifecycles.getDefault(false, true));
+      builder.precondition(OneBetweenMatcher.querySpecification());
+      
+      IMatchProcessor<OneBetweenMatch> actionOnAppear_0 = new IMatchProcessor<OneBetweenMatch>() {
+        public void process(final OneBetweenMatch matchedPattern) {
+          OneBetween_Event event = new OneBetween_Event(null);
+          event.setIncQueryPattern(matchedPattern);
+          eventStream.push(event);
+        }
+      };
+      builder.action(IncQueryActivationStateEnum.APPEARED, actionOnAppear_0);
+      
+      IMatchProcessor<OneBetweenMatch> actionOnDisappear_0 = new IMatchProcessor<OneBetweenMatch>() {
+        public void process(final OneBetweenMatch matchedPattern) {
         }
       };
       builder.action(IncQueryActivationStateEnum.DISAPPEARED, actionOnDisappear_0);
