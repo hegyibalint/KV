@@ -1,21 +1,22 @@
 package hu.bme.mit.kv.event
 
-import org.eclipse.viatra.cep.core.metamodels.automaton.EventContext
-import org.junit.Test
-import org.eclipse.viatra.cep.core.api.engine.CEPEngine
-import org.eclipse.viatra.cep.core.api.engine.ResetTransformations
-import org.junit.Before
-import org.eclipse.viatra.cep.examples.sosym.tests.internal.DefaultRealm
 import hu.bme.mit.kv.event.mapping.QueryEngine2ViatraCep
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.eclipse.emf.ecore.resource.ResourceSet
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl 
 import hu.bme.mit.kv.model.modelutil.ModelUtil
-import org.eclipse.emf.common.util.URI
-import java.util.Random
 import hu.bme.mit.kv.model.railroadmodel.SectionModel
 import hu.bme.mit.kv.model.railroadmodel.TrainModel
+import java.net.DatagramPacket
+import java.net.DatagramSocket
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import org.eclipse.viatra.cep.core.api.engine.CEPEngine
+import org.eclipse.viatra.cep.core.metamodels.automaton.EventContext
+import org.eclipse.viatra.cep.examples.sosym.tests.internal.DefaultRealm
+import org.junit.Before
+import org.junit.Test
+import hu.bme.mit.kv.json.JsonObject
 
 class Main {
 	extension CepFactory factory = CepFactory.instance
@@ -70,6 +71,19 @@ class Main {
 		val train1 = trainModel.trains.get(0);
 		val train2 = trainModel.trains.get(1);
 		
-//		sectionModel.sections.forEach[ | ]
+		sectionModel.sections.forEach[ firstSection | sectionModel.sections.forEach[ secondSection | println('''==============''') println(''''Train1 : «firstSection.id»; Train2 : «secondSection.id»''') train1.currentlyOn = firstSection; train2.currentlyOn = secondSection  ] ]
+	}
+	
+	@Test
+	def void networkTest(){
+		val DatagramSocket socket = new DatagramSocket(24000)
+		
+		val buffer = newByteArrayOfSize(1024*16);
+		
+		val packet = new DatagramPacket(buffer, buffer.length);
+		socket.receive(packet);
+		val trimmed = new String(packet.data).trim
+		val data = JsonObject.readFrom(trimmed)
+		
 	}
 } 
