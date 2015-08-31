@@ -1,9 +1,10 @@
 package hu.bme.mit.kv.model.modelutil;
 
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory;
-import hu.bme.mit.kv.model.railroadmodel.RailRoadModel;
 import hu.bme.mit.kv.model.railroadmodel.Section;
+import hu.bme.mit.kv.model.railroadmodel.SectionModel;
 import hu.bme.mit.kv.model.railroadmodel.Train;
+import hu.bme.mit.kv.model.railroadmodel.TrainModel;
 import hu.bme.mit.kv.model.railroadmodel.Turn;
 import hu.bme.mit.kv.model.railroadmodel.Turnout;
 import org.eclipse.emf.common.util.EList;
@@ -17,83 +18,84 @@ public class ModelUtil {
   @Extension
   private static ModelFactory factory = ModelFactory.eINSTANCE;
   
-  public static RailRoadModel createReadyModel() {
-    RailRoadModel _xblockexpression = null;
-    {
-      RailRoadModel root = ModelUtil.factory.createRailRoadModel();
-      for (int i = 1; (i != 8); i++) {
-        {
-          Turnout turnout = ModelUtil.factory.createTurnout();
-          turnout.setId(i);
-          EList<Section> _sections = root.getSections();
-          _sections.add(turnout);
-        }
+  public static SectionModel createReadySectionModel() {
+    SectionModel sectionModel = ModelUtil.factory.createSectionModel();
+    for (int i = 1; (i != 8); i++) {
+      {
+        Turnout turnout = ModelUtil.factory.createTurnout();
+        turnout.setId(i);
+        EList<Section> _sections = sectionModel.getSections();
+        _sections.add(turnout);
       }
-      for (int i = 8; (i != 24); i++) {
-        if ((((i != 0x12) && (i != 0xF)) && (i != 0x11))) {
-          Section section = ModelUtil.factory.createSection();
-          section.setId(i);
-          EList<Section> _sections = root.getSections();
-          _sections.add(section);
-        }
-      }
-      Turn turnerF = ModelUtil.factory.createTurn();
-      turnerF.setId(0xF);
-      Turn turner11 = ModelUtil.factory.createTurn();
-      turner11.setId(0x11);
-      EList<Section> _sections = root.getSections();
-      _sections.add(turnerF);
-      EList<Section> _sections_1 = root.getSections();
-      _sections_1.add(turner11);
-      Turnout turnout4 = ModelUtil.getTurnoutByID(root, 0x4);
-      Turnout turnout7 = ModelUtil.getTurnoutByID(root, 0x7);
-      Section section15 = ModelUtil.getSectionByID(root, 0x15);
-      Section section10 = ModelUtil.getSectionByID(root, 0x10);
-      Section sectionE = ModelUtil.getSectionByID(root, 0xE);
-      Section section16 = ModelUtil.getSectionByID(root, 0x16);
-      turnout4.setClockwise(turnout7);
-      turnout7.setCounterClockwise(turnout4);
-      turnout4.setCounterClockwise(section15);
-      turnout4.setNotConnectedSection(section10);
-      turnout7.setClockwise(sectionE);
-      turnout7.setNotConnectedSection(section16);
-      section15.setClockwise(turnout4);
-      section10.setClockwise(turnout4);
-      sectionE.setCounterClockwise(turnout7);
-      section16.setCounterClockwise(turnout7);
-      ModelUtil.connectSectionToTurnout(root, 0x1, 0xE, 0xD, 0x9, true);
-      ModelUtil.connectSectionToTurnout(root, 0x2, 0xC, 0x16, 0xF, false);
-      ModelUtil.connectSectionToTurnout(root, 0x3, 0x8, 0x17, 0xB, true);
-      ModelUtil.connectSectionToTurnout(root, 0x5, 0x10, 0x11, 0xA, false);
-      ModelUtil.connectSectionToTurnout(root, 0x6, 0x15, 0x13, 0x14, false);
-      ModelUtil.connectSectionToSection(root, 0xC, 0xA);
-      ModelUtil.connectSectionToSection(root, 0xD, 0x8);
-      ModelUtil.connectSectionToSection(root, 0x17, 0x14);
-      ModelUtil.connectSectionToSection(root, 0xB, 0x13);
-      Section sec11 = ModelUtil.getSectionByID(root, 0x11);
-      Section secF = ModelUtil.getSectionByID(root, 0xF);
-      sec11.setCounterClockwise(secF);
-      secF.setCounterClockwise(sec11);
-      Train train1 = ModelUtil.factory.createTrain();
-      Train train2 = ModelUtil.factory.createTrain();
-      train1.setId(1);
-      train2.setId(2);
-      Section _sectionByID = ModelUtil.getSectionByID(root, 0x15);
-      train1.setCurrentlyOn(_sectionByID);
-      train1.setGoingClockwise(true);
-      Section _sectionByID_1 = ModelUtil.getSectionByID(root, 0x8);
-      train2.setCurrentlyOn(_sectionByID_1);
-      train2.setGoingClockwise(true);
-      EList<Train> _trains = root.getTrains();
-      _trains.add(train1);
-      EList<Train> _trains_1 = root.getTrains();
-      _trains_1.add(train2);
-      _xblockexpression = root;
     }
-    return _xblockexpression;
+    for (int i = 8; (i != 24); i++) {
+      if ((((i != 0x12) && (i != 0xF)) && (i != 0x11))) {
+        Section section = ModelUtil.factory.createSection();
+        section.setId(i);
+        EList<Section> _sections = sectionModel.getSections();
+        _sections.add(section);
+      }
+    }
+    Turn turnerF = ModelUtil.factory.createTurn();
+    turnerF.setId(0xF);
+    Turn turner11 = ModelUtil.factory.createTurn();
+    turner11.setId(0x11);
+    EList<Section> _sections = sectionModel.getSections();
+    _sections.add(turnerF);
+    EList<Section> _sections_1 = sectionModel.getSections();
+    _sections_1.add(turner11);
+    Turnout turnout4 = ModelUtil.getTurnoutByID(sectionModel, 0x4);
+    Turnout turnout7 = ModelUtil.getTurnoutByID(sectionModel, 0x7);
+    Section section15 = ModelUtil.getSectionByID(sectionModel, 0x15);
+    Section section10 = ModelUtil.getSectionByID(sectionModel, 0x10);
+    Section sectionE = ModelUtil.getSectionByID(sectionModel, 0xE);
+    Section section16 = ModelUtil.getSectionByID(sectionModel, 0x16);
+    turnout4.setClockwise(turnout7);
+    turnout7.setCounterClockwise(turnout4);
+    turnout4.setCounterClockwise(section15);
+    turnout4.setNotConnectedSection(section10);
+    turnout7.setClockwise(sectionE);
+    turnout7.setNotConnectedSection(section16);
+    section15.setClockwise(turnout4);
+    section10.setClockwise(turnout4);
+    sectionE.setCounterClockwise(turnout7);
+    section16.setCounterClockwise(turnout7);
+    ModelUtil.connectSectionToTurnout(sectionModel, 0x1, 0xE, 0xD, 0x9, true);
+    ModelUtil.connectSectionToTurnout(sectionModel, 0x2, 0xC, 0x16, 0xF, false);
+    ModelUtil.connectSectionToTurnout(sectionModel, 0x3, 0x8, 0x17, 0xB, true);
+    ModelUtil.connectSectionToTurnout(sectionModel, 0x5, 0x10, 0x11, 0xA, false);
+    ModelUtil.connectSectionToTurnout(sectionModel, 0x6, 0x15, 0x13, 0x14, false);
+    ModelUtil.connectSectionToSection(sectionModel, 0xC, 0xA);
+    ModelUtil.connectSectionToSection(sectionModel, 0xD, 0x8);
+    ModelUtil.connectSectionToSection(sectionModel, 0x17, 0x14);
+    ModelUtil.connectSectionToSection(sectionModel, 0xB, 0x13);
+    Section sec11 = ModelUtil.getSectionByID(sectionModel, 0x11);
+    Section secF = ModelUtil.getSectionByID(sectionModel, 0xF);
+    sec11.setCounterClockwise(secF);
+    secF.setCounterClockwise(sec11);
+    return sectionModel;
   }
   
-  public static String toGraphViz(final RailRoadModel root) {
+  public static TrainModel createReadyTrainModel(final SectionModel sectionModel) {
+    TrainModel trainModel = ModelUtil.factory.createTrainModel();
+    Train train1 = ModelUtil.factory.createTrain();
+    Train train2 = ModelUtil.factory.createTrain();
+    train1.setId(1);
+    train2.setId(2);
+    Section _sectionByID = ModelUtil.getSectionByID(sectionModel, 0x15);
+    train1.setCurrentlyOn(_sectionByID);
+    train1.setGoingClockwise(true);
+    Section _sectionByID_1 = ModelUtil.getSectionByID(sectionModel, 0x8);
+    train2.setCurrentlyOn(_sectionByID_1);
+    train2.setGoingClockwise(true);
+    EList<Train> _trains = trainModel.getTrains();
+    _trains.add(train1);
+    EList<Train> _trains_1 = trainModel.getTrains();
+    _trains_1.add(train2);
+    return trainModel;
+  }
+  
+  public static String toGraphViz(final SectionModel root) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("digraph{");
     _builder.newLine();
@@ -171,7 +173,7 @@ public class ModelUtil {
     return String.format("%X", Integer.valueOf(a));
   }
   
-  public static void connectSectionToTurnout(final RailRoadModel model, final int turnoutID, final int onlySection, final int oneOfTwoSections, final int secondOfTwoSections, final boolean twoSectionsInClockwiseDirection) {
+  public static void connectSectionToTurnout(final SectionModel model, final int turnoutID, final int onlySection, final int oneOfTwoSections, final int secondOfTwoSections, final boolean twoSectionsInClockwiseDirection) {
     Turnout turnout = ModelUtil.getTurnoutByID(model, turnoutID);
     Section onlyConnection = ModelUtil.getSectionByID(model, onlySection);
     Section first = ModelUtil.getSectionByID(model, oneOfTwoSections);
@@ -194,7 +196,7 @@ public class ModelUtil {
     }
   }
   
-  public static Section getSectionByID(final RailRoadModel model, final int id) {
+  public static Section getSectionByID(final SectionModel model, final int id) {
     EList<Section> _sections = model.getSections();
     final Function1<Section, Boolean> _function = (Section sec) -> {
       int _id = sec.getId();
@@ -204,7 +206,7 @@ public class ModelUtil {
     return IterableExtensions.<Section>head(_filter);
   }
   
-  public static Turnout getTurnoutByID(final RailRoadModel model, final int id) {
+  public static Turnout getTurnoutByID(final SectionModel model, final int id) {
     EList<Section> _sections = model.getSections();
     final Function1<Section, Boolean> _function = (Section sec) -> {
       int _id = sec.getId();
@@ -215,7 +217,7 @@ public class ModelUtil {
     return ((Turnout) _head);
   }
   
-  public static void connectSectionToSection(final RailRoadModel model, final int clockwise, final int counterClockwise) {
+  public static void connectSectionToSection(final SectionModel model, final int clockwise, final int counterClockwise) {
     Section a = ModelUtil.getSectionByID(model, clockwise);
     Section b = ModelUtil.getSectionByID(model, counterClockwise);
     a.setClockwise(b);

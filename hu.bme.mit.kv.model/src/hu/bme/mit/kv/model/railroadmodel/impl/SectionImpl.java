@@ -3,15 +3,24 @@
 package hu.bme.mit.kv.model.railroadmodel.impl;
 
 import hu.bme.mit.kv.model.railroadmodel.ModelPackage;
+import hu.bme.mit.kv.model.railroadmodel.Point;
 import hu.bme.mit.kv.model.railroadmodel.Section;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,6 +33,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl#getClockwise <em>Clockwise</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl#getCounterClockwise <em>Counter Clockwise</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl#getId <em>Id</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl#getPoints <em>Points</em>}</li>
  * </ul>
  *
  * @generated
@@ -68,6 +78,16 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 	 * @ordered
 	 */
 	protected int id = ID_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getPoints() <em>Points</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPoints()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Point> points;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -190,6 +210,32 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Point> getPoints() {
+		if (points == null) {
+			points = new EObjectContainmentEList<Point>(Point.class, this, ModelPackage.SECTION__POINTS);
+		}
+		return points;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ModelPackage.SECTION__POINTS:
+				return ((InternalEList<?>)getPoints()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -201,6 +247,8 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 				return basicGetCounterClockwise();
 			case ModelPackage.SECTION__ID:
 				return getId();
+			case ModelPackage.SECTION__POINTS:
+				return getPoints();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -210,6 +258,7 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -221,6 +270,10 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 				return;
 			case ModelPackage.SECTION__ID:
 				setId((Integer)newValue);
+				return;
+			case ModelPackage.SECTION__POINTS:
+				getPoints().clear();
+				getPoints().addAll((Collection<? extends Point>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -243,6 +296,9 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 			case ModelPackage.SECTION__ID:
 				setId(ID_EDEFAULT);
 				return;
+			case ModelPackage.SECTION__POINTS:
+				getPoints().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -261,6 +317,8 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 				return counterClockwise != null;
 			case ModelPackage.SECTION__ID:
 				return id != ID_EDEFAULT;
+			case ModelPackage.SECTION__POINTS:
+				return points != null && !points.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

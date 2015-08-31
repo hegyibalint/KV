@@ -22,13 +22,13 @@ public interface ModelFactory extends EFactory {
 	ModelFactory eINSTANCE = hu.bme.mit.kv.model.railroadmodel.impl.ModelFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Rail Road Model</em>'.
+	 * Returns a new object of class '<em>Train Model</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Rail Road Model</em>'.
+	 * @return a new object of class '<em>Train Model</em>'.
 	 * @generated
 	 */
-	RailRoadModel createRailRoadModel();
+	TrainModel createTrainModel();
 
 	/**
 	 * Returns a new object of class '<em>Train</em>'.
@@ -65,6 +65,24 @@ public interface ModelFactory extends EFactory {
 	 * @generated
 	 */
 	Turn createTurn();
+
+	/**
+	 * Returns a new object of class '<em>Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Point</em>'.
+	 * @generated
+	 */
+	Point createPoint();
+
+	/**
+	 * Returns a new object of class '<em>Section Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Section Model</em>'.
+	 * @generated
+	 */
+	SectionModel createSectionModel();
 
 	/**
 	 * Returns the package supported by this factory.

@@ -68,8 +68,8 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	protected ModelSwitch<Adapter> modelSwitch =
 		new ModelSwitch<Adapter>() {
 			@Override
-			public Adapter caseRailRoadModel(RailRoadModel object) {
-				return createRailRoadModelAdapter();
+			public Adapter caseTrainModel(TrainModel object) {
+				return createTrainModelAdapter();
 			}
 			@Override
 			public Adapter caseTrain(Train object) {
@@ -86,6 +86,14 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseTurn(Turn object) {
 				return createTurnAdapter();
+			}
+			@Override
+			public Adapter casePoint(Point object) {
+				return createPointAdapter();
+			}
+			@Override
+			public Adapter caseSectionModel(SectionModel object) {
+				return createSectionModelAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -108,16 +116,16 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link hu.bme.mit.kv.model.railroadmodel.RailRoadModel <em>Rail Road Model</em>}'.
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.kv.model.railroadmodel.TrainModel <em>Train Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see hu.bme.mit.kv.model.railroadmodel.RailRoadModel
+	 * @see hu.bme.mit.kv.model.railroadmodel.TrainModel
 	 * @generated
 	 */
-	public Adapter createRailRoadModelAdapter() {
+	public Adapter createTrainModelAdapter() {
 		return null;
 	}
 
@@ -174,6 +182,34 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTurnAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.kv.model.railroadmodel.Point <em>Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Point
+	 * @generated
+	 */
+	public Adapter createPointAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.kv.model.railroadmodel.SectionModel <em>Section Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.kv.model.railroadmodel.SectionModel
+	 * @generated
+	 */
+	public Adapter createSectionModelAdapter() {
 		return null;
 	}
 

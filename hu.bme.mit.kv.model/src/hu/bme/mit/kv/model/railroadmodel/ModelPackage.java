@@ -57,14 +57,14 @@ public interface ModelPackage extends EPackage {
 	ModelPackage eINSTANCE = hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.RailRoadModelImpl <em>Rail Road Model</em>}' class.
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainModelImpl <em>Train Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.RailRoadModelImpl
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getRailRoadModel()
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.TrainModelImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getTrainModel()
 	 * @generated
 	 */
-	int RAIL_ROAD_MODEL = 0;
+	int TRAIN_MODEL = 0;
 
 	/**
 	 * The feature id for the '<em><b>Trains</b></em>' containment reference list.
@@ -73,34 +73,25 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RAIL_ROAD_MODEL__TRAINS = 0;
+	int TRAIN_MODEL__TRAINS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Sections</b></em>' containment reference list.
+	 * The number of structural features of the '<em>Train Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RAIL_ROAD_MODEL__SECTIONS = 1;
+	int TRAIN_MODEL_FEATURE_COUNT = 1;
 
 	/**
-	 * The number of structural features of the '<em>Rail Road Model</em>' class.
+	 * The number of operations of the '<em>Train Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RAIL_ROAD_MODEL_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>Rail Road Model</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RAIL_ROAD_MODEL_OPERATION_COUNT = 0;
+	int TRAIN_MODEL_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl <em>Train</em>}' class.
@@ -222,13 +213,22 @@ public interface ModelPackage extends EPackage {
 	int SECTION__ID = 2;
 
 	/**
+	 * The feature id for the '<em><b>Points</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SECTION__POINTS = 3;
+
+	/**
 	 * The number of structural features of the '<em>Section</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SECTION_FEATURE_COUNT = 3;
+	int SECTION_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Section</em>' class.
@@ -277,6 +277,15 @@ public interface ModelPackage extends EPackage {
 	int TURNOUT__ID = SECTION__ID;
 
 	/**
+	 * The feature id for the '<em><b>Points</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TURNOUT__POINTS = SECTION__POINTS;
+
+	/**
 	 * The feature id for the '<em><b>Not Connected Section</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -311,7 +320,6 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int TURNOUT_OPERATION_COUNT = SECTION_OPERATION_COUNT + 0;
-
 
 	/**
 	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnImpl <em>Turn</em>}' class.
@@ -351,6 +359,15 @@ public interface ModelPackage extends EPackage {
 	int TURN__ID = SECTION__ID;
 
 	/**
+	 * The feature id for the '<em><b>Points</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TURN__POINTS = SECTION__POINTS;
+
+	/**
 	 * The number of structural features of the '<em>Turn</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -368,38 +385,110 @@ public interface ModelPackage extends EPackage {
 	 */
 	int TURN_OPERATION_COUNT = SECTION_OPERATION_COUNT + 0;
 
-
 	/**
-	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.RailRoadModel <em>Rail Road Model</em>}'.
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.PointImpl <em>Point</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Rail Road Model</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.RailRoadModel
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.PointImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getPoint()
 	 * @generated
 	 */
-	EClass getRailRoadModel();
+	int POINT = 5;
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.kv.model.railroadmodel.RailRoadModel#getTrains <em>Trains</em>}'.
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POINT__X = 0;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POINT__Y = 1;
+
+	/**
+	 * The number of structural features of the '<em>Point</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POINT_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Point</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POINT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionModelImpl <em>Section Model</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.SectionModelImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getSectionModel()
+	 * @generated
+	 */
+	int SECTION_MODEL = 6;
+
+	/**
+	 * The feature id for the '<em><b>Sections</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SECTION_MODEL__SECTIONS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Section Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SECTION_MODEL_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Section Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SECTION_MODEL_OPERATION_COUNT = 0;
+
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.TrainModel <em>Train Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Train Model</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.TrainModel
+	 * @generated
+	 */
+	EClass getTrainModel();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.kv.model.railroadmodel.TrainModel#getTrains <em>Trains</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Trains</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.RailRoadModel#getTrains()
-	 * @see #getRailRoadModel()
+	 * @see hu.bme.mit.kv.model.railroadmodel.TrainModel#getTrains()
+	 * @see #getTrainModel()
 	 * @generated
 	 */
-	EReference getRailRoadModel_Trains();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.kv.model.railroadmodel.RailRoadModel#getSections <em>Sections</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Sections</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.RailRoadModel#getSections()
-	 * @see #getRailRoadModel()
-	 * @generated
-	 */
-	EReference getRailRoadModel_Sections();
+	EReference getTrainModel_Trains();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Train <em>Train</em>}'.
@@ -521,6 +610,17 @@ public interface ModelPackage extends EPackage {
 	EAttribute getSection_Id();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.kv.model.railroadmodel.Section#getPoints <em>Points</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Points</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Section#getPoints()
+	 * @see #getSection()
+	 * @generated
+	 */
+	EReference getSection_Points();
+
+	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Turnout <em>Turnout</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -563,6 +663,59 @@ public interface ModelPackage extends EPackage {
 	EClass getTurn();
 
 	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Point <em>Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Point</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Point
+	 * @generated
+	 */
+	EClass getPoint();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Point#getX <em>X</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>X</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Point#getX()
+	 * @see #getPoint()
+	 * @generated
+	 */
+	EAttribute getPoint_X();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Point#getY <em>Y</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Y</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Point#getY()
+	 * @see #getPoint()
+	 * @generated
+	 */
+	EAttribute getPoint_Y();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.SectionModel <em>Section Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Section Model</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.SectionModel
+	 * @generated
+	 */
+	EClass getSectionModel();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.kv.model.railroadmodel.SectionModel#getSections <em>Sections</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Sections</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.SectionModel#getSections()
+	 * @see #getSectionModel()
+	 * @generated
+	 */
+	EReference getSectionModel_Sections();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -586,14 +739,14 @@ public interface ModelPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.RailRoadModelImpl <em>Rail Road Model</em>}' class.
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainModelImpl <em>Train Model</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.RailRoadModelImpl
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getRailRoadModel()
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.TrainModelImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getTrainModel()
 		 * @generated
 		 */
-		EClass RAIL_ROAD_MODEL = eINSTANCE.getRailRoadModel();
+		EClass TRAIN_MODEL = eINSTANCE.getTrainModel();
 
 		/**
 		 * The meta object literal for the '<em><b>Trains</b></em>' containment reference list feature.
@@ -601,15 +754,7 @@ public interface ModelPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RAIL_ROAD_MODEL__TRAINS = eINSTANCE.getRailRoadModel_Trains();
-
-		/**
-		 * The meta object literal for the '<em><b>Sections</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference RAIL_ROAD_MODEL__SECTIONS = eINSTANCE.getRailRoadModel_Sections();
+		EReference TRAIN_MODEL__TRAINS = eINSTANCE.getTrainModel_Trains();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TrainImpl <em>Train</em>}' class.
@@ -704,6 +849,14 @@ public interface ModelPackage extends EPackage {
 		EAttribute SECTION__ID = eINSTANCE.getSection_Id();
 
 		/**
+		 * The meta object literal for the '<em><b>Points</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SECTION__POINTS = eINSTANCE.getSection_Points();
+
+		/**
 		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl <em>Turnout</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -738,6 +891,50 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass TURN = eINSTANCE.getTurn();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.PointImpl <em>Point</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.PointImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getPoint()
+		 * @generated
+		 */
+		EClass POINT = eINSTANCE.getPoint();
+
+		/**
+		 * The meta object literal for the '<em><b>X</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute POINT__X = eINSTANCE.getPoint_X();
+
+		/**
+		 * The meta object literal for the '<em><b>Y</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute POINT__Y = eINSTANCE.getPoint_Y();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionModelImpl <em>Section Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.SectionModelImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getSectionModel()
+		 * @generated
+		 */
+		EClass SECTION_MODEL = eINSTANCE.getSectionModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Sections</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SECTION_MODEL__SECTIONS = eINSTANCE.getSectionModel_Sections();
 
 	}
 

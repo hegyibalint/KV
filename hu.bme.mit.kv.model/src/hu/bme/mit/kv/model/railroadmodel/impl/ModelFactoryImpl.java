@@ -56,11 +56,13 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ModelPackage.RAIL_ROAD_MODEL: return createRailRoadModel();
+			case ModelPackage.TRAIN_MODEL: return createTrainModel();
 			case ModelPackage.TRAIN: return createTrain();
 			case ModelPackage.SECTION: return createSection();
 			case ModelPackage.TURNOUT: return createTurnout();
 			case ModelPackage.TURN: return createTurn();
+			case ModelPackage.POINT: return createPoint();
+			case ModelPackage.SECTION_MODEL: return createSectionModel();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -71,9 +73,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RailRoadModel createRailRoadModel() {
-		RailRoadModelImpl railRoadModel = new RailRoadModelImpl();
-		return railRoadModel;
+	public TrainModel createTrainModel() {
+		TrainModelImpl trainModel = new TrainModelImpl();
+		return trainModel;
 	}
 
 	/**
@@ -114,6 +116,26 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public Turn createTurn() {
 		TurnImpl turn = new TurnImpl();
 		return turn;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Point createPoint() {
+		PointImpl point = new PointImpl();
+		return point;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SectionModel createSectionModel() {
+		SectionModelImpl sectionModel = new SectionModelImpl();
+		return sectionModel;
 	}
 
 	/**

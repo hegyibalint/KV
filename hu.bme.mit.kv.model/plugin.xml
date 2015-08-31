@@ -1,17 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.0"?>
-
-<!--
--->
-
-<plugin>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated model -->
-      <package
-            uri="http://hu.bme.mit.kv.railroadmodel"
-            class="hu.bme.mit.kv.model.railroadmodel.ModelPackage"
-            genModel="model/model.genmodel"/>
-   </extension>
-
+<?xml version="1.0" encoding="UTF-8"?><?eclipse version="3.0"?><!--
+--><plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <!-- @generated model -->
+    <package class="hu.bme.mit.kv.model.railroadmodel.ModelPackage" genModel="model/model.genmodel" uri="http://hu.bme.mit.kv.railroadmodel"/>
+  </extension>
 </plugin>

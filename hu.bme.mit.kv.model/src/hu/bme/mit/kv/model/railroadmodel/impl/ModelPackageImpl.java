@@ -4,9 +4,11 @@ package hu.bme.mit.kv.model.railroadmodel.impl;
 
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory;
 import hu.bme.mit.kv.model.railroadmodel.ModelPackage;
-import hu.bme.mit.kv.model.railroadmodel.RailRoadModel;
+import hu.bme.mit.kv.model.railroadmodel.Point;
 import hu.bme.mit.kv.model.railroadmodel.Section;
+import hu.bme.mit.kv.model.railroadmodel.SectionModel;
 import hu.bme.mit.kv.model.railroadmodel.Train;
+import hu.bme.mit.kv.model.railroadmodel.TrainModel;
 import hu.bme.mit.kv.model.railroadmodel.Turn;
 import hu.bme.mit.kv.model.railroadmodel.Turnout;
 
@@ -29,7 +31,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass railRoadModelEClass = null;
+	private EClass trainModelEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -58,6 +60,20 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass turnEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass pointEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass sectionModelEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -125,8 +141,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRailRoadModel() {
-		return railRoadModelEClass;
+	public EClass getTrainModel() {
+		return trainModelEClass;
 	}
 
 	/**
@@ -134,17 +150,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRailRoadModel_Trains() {
-		return (EReference)railRoadModelEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getRailRoadModel_Sections() {
-		return (EReference)railRoadModelEClass.getEStructuralFeatures().get(1);
+	public EReference getTrainModel_Trains() {
+		return (EReference)trainModelEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -251,6 +258,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSection_Points() {
+		return (EReference)sectionEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTurnout() {
 		return turnoutEClass;
 	}
@@ -287,6 +303,51 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getPoint() {
+		return pointEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPoint_X() {
+		return (EAttribute)pointEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPoint_Y() {
+		return (EAttribute)pointEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSectionModel() {
+		return sectionModelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSectionModel_Sections() {
+		return (EReference)sectionModelEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ModelFactory getModelFactory() {
 		return (ModelFactory)getEFactoryInstance();
 	}
@@ -310,9 +371,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		isCreated = true;
 
 		// Create classes and their features
-		railRoadModelEClass = createEClass(RAIL_ROAD_MODEL);
-		createEReference(railRoadModelEClass, RAIL_ROAD_MODEL__TRAINS);
-		createEReference(railRoadModelEClass, RAIL_ROAD_MODEL__SECTIONS);
+		trainModelEClass = createEClass(TRAIN_MODEL);
+		createEReference(trainModelEClass, TRAIN_MODEL__TRAINS);
 
 		trainEClass = createEClass(TRAIN);
 		createEReference(trainEClass, TRAIN__CURRENTLY_ON);
@@ -326,12 +386,20 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEReference(sectionEClass, SECTION__CLOCKWISE);
 		createEReference(sectionEClass, SECTION__COUNTER_CLOCKWISE);
 		createEAttribute(sectionEClass, SECTION__ID);
+		createEReference(sectionEClass, SECTION__POINTS);
 
 		turnoutEClass = createEClass(TURNOUT);
 		createEReference(turnoutEClass, TURNOUT__NOT_CONNECTED_SECTION);
 		createEAttribute(turnoutEClass, TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION);
 
 		turnEClass = createEClass(TURN);
+
+		pointEClass = createEClass(POINT);
+		createEAttribute(pointEClass, POINT__X);
+		createEAttribute(pointEClass, POINT__Y);
+
+		sectionModelEClass = createEClass(SECTION_MODEL);
+		createEReference(sectionModelEClass, SECTION_MODEL__SECTIONS);
 	}
 
 	/**
@@ -366,9 +434,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		turnEClass.getESuperTypes().add(this.getSection());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(railRoadModelEClass, RailRoadModel.class, "RailRoadModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRailRoadModel_Trains(), this.getTrain(), null, "trains", null, 0, -1, RailRoadModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRailRoadModel_Sections(), this.getSection(), null, "sections", null, 0, -1, RailRoadModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trainModelEClass, TrainModel.class, "TrainModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTrainModel_Trains(), this.getTrain(), null, "trains", null, 0, -1, TrainModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(trainEClass, Train.class, "Train", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTrain_CurrentlyOn(), this.getSection(), null, "currentlyOn", null, 1, 1, Train.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -382,12 +449,20 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEReference(getSection_Clockwise(), this.getSection(), null, "clockwise", null, 1, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSection_CounterClockwise(), this.getSection(), null, "counterClockwise", null, 1, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSection_Id(), ecorePackage.getEInt(), "id", null, 1, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSection_Points(), this.getPoint(), null, "points", null, 0, -1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(turnoutEClass, Turnout.class, "Turnout", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTurnout_NotConnectedSection(), this.getSection(), null, "notConnectedSection", null, 1, 1, Turnout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTurnout_TwoSectionsInClockwiseDirection(), ecorePackage.getEBoolean(), "twoSectionsInClockwiseDirection", null, 1, 1, Turnout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(turnEClass, Turn.class, "Turn", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(pointEClass, Point.class, "Point", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPoint_X(), ecorePackage.getEDouble(), "x", null, 0, 1, Point.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPoint_Y(), ecorePackage.getEDouble(), "y", null, 0, 1, Point.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(sectionModelEClass, SectionModel.class, "SectionModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSectionModel_Sections(), this.getSection(), null, "sections", null, 0, -1, SectionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

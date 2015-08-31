@@ -47,6 +47,7 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 	 * @ordered
 	 */
 	protected static final boolean TWO_SECTIONS_IN_CLOCKWISE_DIRECTION_EDEFAULT = false;
+
 	/**
 	 * The cached value of the '{@link #isTwoSectionsInClockwiseDirection() <em>Two Sections In Clockwise Direction</em>}' attribute.
 	 * <!-- begin-user-doc -->

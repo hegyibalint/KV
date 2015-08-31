@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="railroadmodel" nsURI="http://hu.bme.mit.kv.railroadmodel" nsPrefix="railroadmodel">
-  <eClassifiers xsi:type="ecore:EClass" name="RailRoadModel">
+  <eClassifiers xsi:type="ecore:EClass" name="TrainModel">
     <eStructuralFeatures xsi:type="ecore:EReference" name="trains" upperBound="-1"
         eType="#//Train" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
-        eType="#//Section" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Train">
     <eStructuralFeatures xsi:type="ecore:EReference" name="currentlyOn" lowerBound="1"
         eType="#//Section"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="goingClockwise" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
@@ -25,6 +22,8 @@
         eType="#//Section"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="points" upperBound="-1"
+        eType="#//Point" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Turnout" eSuperTypes="#//Section">
     <eStructuralFeatures xsi:type="ecore:EReference" name="notConnectedSection" lowerBound="1"
@@ -33,4 +32,12 @@
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Turn" eSuperTypes="#//Section"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Point">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SectionModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
+        eType="#//Section" containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>
