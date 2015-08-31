@@ -2,13 +2,32 @@ package hu.bme.mit.kv.queries
 
 import "http://hu.bme.mit.kv.railroadmodel"
 
-pattern sectionBeforeClockwiseTrain(t: Train, s: Section) = {
+//pattern distanceFromTrain(t : Train, p : Point){
+//	Train.x(t, tx);
+//	Train.y(t, ty);
+//	
+//	Point.x(p, px);
+//	Point.y(p, py);
+//	
+//	distance == (tx-px)*(tx-px) + (ty-py)*(ty-py) );
+//}
+
+//pattern closestPointToTrain(t : Train, p : Point){
+//	neg find 
+//}
+//
+//pattern closestSectionToTrain(t :  Train, s : Section) {
+//	Train(t);	
+//	Section(s);
+//}
+
+pattern sectionBeforeClockwiseTrain(t: Train, s: Section) {
 	Train.goingClockwise(t, true);
 	Train.currentlyOn(t, currentSection);
 	Section.clockwise(currentSection, s);
 }
 
-pattern sectionBeforeCounterClockwiseTrain(t : Train, s : Section) = { //TODO turner
+pattern sectionBeforeCounterClockwiseTrain(t : Train, s : Section) { //TODO tina turner
 	Train.goingClockwise(t, false);
 	Train.currentlyOn(t, currentSection);
 	Section.counterClockwise(currentSection, s);

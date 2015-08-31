@@ -86,8 +86,17 @@ class Main {
 			socket.receive(packet);
 			val trimmed = new String(packet.data).trim
 			val data = JsonObject.readFrom(trimmed)
-			//TODO json format
+			val trains = data.get("trains").asArray
+			for(i : trains){
+				val train = i.asObject
+				val id = train.get("id").asInt
+				val posX = train.get("x").asDouble
+				val posY = train.get("y").asDouble
+				val speed = train.get("speed").asDouble
+				val direction = train.get("dir").asString
+				
+				println("ID = " + id +"\tX = " + posX + "\tY = " + posY + "\tspeed = " + speed + "\tdirection = " + direction)
+			}
 		}
-		
 	}
 } 
