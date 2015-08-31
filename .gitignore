@@ -17,13 +17,6 @@
 *.tar
 *.zip
 
-# Logs and databases #
-######################
-log/
-*.log
-*.sql
-*.sqlite
-
 # OS generated files #
 ######################
 .DS_Store
@@ -31,12 +24,6 @@ log/
 ehthumbs.db
 Icon?
 Thumbs.db
-
-# VCS #
-#######
-.svn
-.svn/
-CVS
 
 # XCode 5 #
 ###########
@@ -59,3 +46,4 @@ DerivedData
 ###########
 **/src-gen/
 **/xtend-gen/
+**/bin/
