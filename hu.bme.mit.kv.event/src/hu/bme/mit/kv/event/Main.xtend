@@ -36,7 +36,7 @@ class Main {
 
 		engine = CEPEngine.newEngine().eventContext(EventContext.CHRONICLE).rules(allRules).prepare(); 
 
-		sectionModel = ModelUtil.createReadySectionModel
+		sectionModel = ModelUtil.loadReadySectionModel
 		trainModel = ModelUtil.createReadyTrainModel(sectionModel)
 
 		val reg = Resource.Factory.Registry.INSTANCE
@@ -55,12 +55,9 @@ class Main {
 	 
 	@Test
 	def void testFunction(){
-
-		
-
 		println("=================================")	
-		var asd = ResetTransformations.toGraphViz(engine.internalModel)
-		println(asd)
+		//var asd = ResetTransformations.toGraphViz(engine.internalModel)
+		//println(asd)
 //		var eventStream = engine.getStreamManager().newEventStream();
 //		eventStream.push(createA_Event)
 //		eventStream.push(createB_Event)

@@ -17,9 +17,9 @@ class ModelUtil {
     	m.put("kv", new XMIResourceFactoryImpl())
     	
     	val resSet = new ResourceSetImpl()
-    	val resource = resSet.getResource(URI.createURI("platform:/plugin/hu.bme.mit.kv.event/res.SectionModel.kv"), true)
+    	val resource = resSet.getResource(URI.createURI("platform:/plugin/hu.bme.mit.kv.event/res/SectionModel.kv"), true)
     	
-    	val sectionModel = resource.contents.head
+    	val sectionModel = resource.contents.head as SectionModel
     	return sectionModel
 	}
 
