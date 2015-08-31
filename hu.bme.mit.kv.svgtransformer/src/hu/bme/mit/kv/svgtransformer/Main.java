@@ -2,13 +2,10 @@ package hu.bme.mit.kv.svgtransformer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
-import org.apache.batik.anim.dom.SVGOMGElement;
 import org.apache.batik.anim.dom.SVGOMPathElement;
 import org.apache.batik.bridge.BridgeContext;
 import org.apache.batik.bridge.DocumentLoader;
@@ -23,12 +20,13 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
+import hu.bme.mit.kv.model.modelutil.ModelUtil;
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory;
 import hu.bme.mit.kv.model.railroadmodel.Point;
 import hu.bme.mit.kv.model.railroadmodel.Section;
 import hu.bme.mit.kv.model.railroadmodel.SectionModel;
+import hu.bme.mit.kv.model.railroadmodel.Turnout;
 
 public class Main {
 
@@ -47,22 +45,40 @@ public class Main {
 	    GVTBuilder builder = new GVTBuilder();
 	    builder.build(ctx, doc);
 	    
-	    List<SVGOMPathElement> paths = getSectionPaths(doc);
-	    SectionModel sectionModel = ModelFactory.eINSTANCE.createSectionModel();
-	    for(SVGOMPathElement path : paths) {
-	    	fillModelWithPath(path);
+	    SectionModel sectionModel = ModelUtil.createReadySectionModel();
+	    for(Section section : sectionModel.getSections()) {
+	    	fillSectionWithPoints(section, doc);
 	    }
 	    
 	    saveToEmf(sectionModel);
 	}
 
+	private static void fillSectionWithPoints(Section section, Document doc) {
+		if (section instanceof Turnout) {
+			return;
+		}
+		
+		String idStr = Integer.toHexString(section.getId());
+		String id = "0x" + (idStr.length() == 1 ? "0" : "")  + idStr;
+		SVGOMPathElement pathElement = (SVGOMPathElement)doc.getElementById(id);
+		SVGPathContext pathCtx = (SVGPathContext)pathElement.getSVGContext();
+		
+		for (float i = 0; i < pathCtx.getTotalLength(); i += 1.0) {
+			Point point = ModelFactory.eINSTANCE.createPoint();
+			java.awt.geom.Point2D.Float pointAtLength = (java.awt.geom.Point2D.Float)pathCtx.getPointAtLength(i);
+			point.setX(pointAtLength.getX());
+			point.setY(pointAtLength.getY());
+			section.getPoints().add(point);
+		}
+	}
+
 	private static void saveToEmf(SectionModel model) {
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Map<String, Object> m = reg.getExtensionToFactoryMap();
-		m.put("sectionModel", new XMIResourceFactoryImpl());
+		m.put("kv", new XMIResourceFactoryImpl());
 
 		ResourceSet resSet = new ResourceSetImpl();
-		Resource resource = resSet.createResource(URI.createURI("SectionModel.kv"));
+		Resource resource = resSet.createResource(URI.createURI("../hu.bme.mit.kv.event/res/SectionModel.kv"));
 
 		resource.getContents().add(model);
 		try {
@@ -70,36 +86,8 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private static void fillModelWithPath(SVGOMPathElement path) {
-		Section section = ModelFactory.eINSTANCE.createSection();
-
-		SVGPathContext pathCtx = (SVGPathContext)path.getSVGContext();
-
-		section.setId(Integer.parseInt(path.getId(), 16));
-		for (float i = 0; i < pathCtx.getTotalLength(); i += 1.0) {
-			Point point = ModelFactory.eINSTANCE.createPoint();
-			java.awt.geom.Point2D.Double pointAtLength = (java.awt.geom.Point2D.Double)pathCtx.getPointAtLength(i);
-			point.setX(pointAtLength.getX());
-			point.setY(pointAtLength.getY());
-			section.getPoints().add(point);
-		}
-	}
-
-	private static List<SVGOMPathElement> getSectionPaths(Document doc) {
-		List<SVGOMPathElement> paths = new ArrayList<>();
-
-		SVGOMGElement sectionGroup = (SVGOMGElement)doc.getElementById("Sections");
-		NodeList sectionChild = sectionGroup.getChildNodes();
-		for (int i = 0; i < sectionChild.getLength(); ++i) {
-			if (sectionChild.item(i) instanceof SVGOMPathElement) {
-				SVGOMPathElement pathElement = (SVGOMPathElement)sectionChild.item(i);
-				paths.add(pathElement);
-			}
-		}
-
-		return paths;
+		
+		System.out.println("Successfully converted SVG to EMF model");
 	}
 
 }

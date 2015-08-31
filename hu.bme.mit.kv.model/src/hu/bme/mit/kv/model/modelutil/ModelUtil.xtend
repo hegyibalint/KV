@@ -3,9 +3,25 @@ package hu.bme.mit.kv.model.modelutil
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory
 import hu.bme.mit.kv.model.railroadmodel.SectionModel
 import hu.bme.mit.kv.model.railroadmodel.Turnout
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 
 class ModelUtil {
 	static extension ModelFactory factory = ModelFactory.eINSTANCE
+
+	def static loadReadySectionModel() {
+		val reg = Resource.Factory.Registry.INSTANCE
+    	val m = reg.getExtensionToFactoryMap()
+    	m.put("kv", new XMIResourceFactoryImpl())
+    	
+    	val resSet = new ResourceSetImpl()
+    	val resource = resSet.getResource(URI.createURI("platform:/plugin/hu.bme.mit.kv.event/res.SectionModel.kv"), true)
+    	
+    	val sectionModel = resource.contents.head
+    	return sectionModel
+	}
 
 	def static createReadySectionModel() {
 		var sectionModel = createSectionModel

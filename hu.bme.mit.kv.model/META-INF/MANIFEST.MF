@@ -12,6 +12,7 @@ Export-Package: hu.bme.mit.kv.model.modelutil,
  hu.bme.mit.kv.model.railroadmodel.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;bundle-version="2.11.0",
  com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
