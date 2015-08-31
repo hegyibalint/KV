@@ -77,13 +77,17 @@ class Main {
 	@Test
 	def void networkTest(){
 		val DatagramSocket socket = new DatagramSocket(24000)
+		var boolean flag = true
 		
-		val buffer = newByteArrayOfSize(1024*16);
+		while(flag){
+			val buffer = newByteArrayOfSize(1024*16);
 		
-		val packet = new DatagramPacket(buffer, buffer.length);
-		socket.receive(packet);
-		val trimmed = new String(packet.data).trim
-		val data = JsonObject.readFrom(trimmed)
+			val packet = new DatagramPacket(buffer, buffer.length);
+			socket.receive(packet);
+			val trimmed = new String(packet.data).trim
+			val data = JsonObject.readFrom(trimmed)
+			//TODO json format
+		}
 		
 	}
 } 
