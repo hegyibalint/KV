@@ -11,17 +11,36 @@
 #include <opencv2/cudaarithm.hpp>
 #include <opencv2/cudafilters.hpp>
 
-// SVG
-#include "nanosvg.h"
+// Network
+#include <arpa/inet.h>
+#include <sys/socket.h>
 
 // User
 #include "Board.hpp"
 #include "Train.hpp"
+#include "TrainJSON.hpp"
 
 using namespace cv;
 using namespace cv::cuda;
 
 Mat distCoeffs, cameraMatrix;
+
+
+int sockhandler;
+
+void initSocket() {
+    sockhandler = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+}
+
+void sendData(TrainJSON& trainJSON) {
+    struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(24000);
+    addr.sin_addr.s_addr = inet_addr("152.66.159.136");
+    
+    std::string data = trainJSON.generateJSON();
+    sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
+}
 
 void drawMarkerToMat(Mat& marker, int x, int y, int outer, int ring, int inner) {
     circle(marker, Point(x, y), outer, Scalar(1.0), -1);
@@ -270,6 +289,8 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
         trains[i].setDetected(false);
     }
     
+    TrainJSON json;
+    
     while (true) {
         std::tuple<bool, Point2f, Point2f> result = findMarker(mc, 50, 70);
         //std::tuple<bool, Point2f, Point2f> result = findMarker(mc, 100, 150);
@@ -311,6 +332,8 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
             
             Point2f inverted = Train::getCorrectedToCamera(trains[id].getCoordinate(), board);
             cv::circle(raw, inverted, 4, Scalar(0, 255, 0), -1);
+            
+            json.addTrain(trains[id]);
         }
         
         cv::line(raw, start, end, Scalar(255, 0, 0));
@@ -341,6 +364,7 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
             trains[i].clearPositions();
     }
     
+    sendData(json);
     
     cv::resize(raw, raw, raw.size() / 3 * 2);
     imshow("1", raw);
@@ -349,6 +373,8 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
 
 int main(int argc, char** argv)
 {
+    initSocket();
+    
     VideoCapture vid(1);
     Train trains[] = {
         Train(MARKER_C),

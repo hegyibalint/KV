@@ -38,7 +38,7 @@ const int MARKER_UNKNOWN = -1;
 
 
 /// TRAIN DIRECTION -------------------------------
-const int CW = 0;
-const int CCW = 1;
-const int NONE = -1;
+const int DIR_CW = 0;
+const int DIR_CCW = 1;
+const int DIR_NONE = -1;
 /// ----------------------------------------------

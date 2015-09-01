@@ -6,6 +6,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "Board.hpp"
+#include "Constants.hpp"
 
 using namespace cv;
 
@@ -25,17 +26,34 @@ struct Position {
         return newSpeed;
     }
     
-    float getAngle(const Position& newPos) {
-        float baseAngle = cos(coordinate.y / cv::norm(coordinate));
-        std::cout << std::endl;
-        std::cout << baseAngle * (360 / M_PI) << std::endl;
+    int getDir(const Position& newPos) {
+        Point2f center = {
+            BOARD_WIDTH / 2,
+            BOARD_HEIGHT / 2
+        };
         
-        float newAngle = cos(newPos.coordinate.y / cv::norm(newPos.coordinate));
+        Point2f centeredOld = center - coordinate;
+        Mat oldPosMat(1, 3, CV_32F);
+        oldPosMat.at<float>(0, 0) = centeredOld.x;
+        oldPosMat.at<float>(0, 1) = centeredOld.y;
+        oldPosMat.at<float>(0, 2) = 0.0f;
         
-        float diff = abs(newAngle) - abs(baseAngle);
-        if (abs(diff) < 0.00001)
-            return 0.0;
-        else
-            return diff  * (360 / M_PI);
+        Point2f centeredNew = center - newPos.coordinate;
+        Mat newPosMat(1, 3, CV_32F);
+        newPosMat.at<float>(0, 0) = centeredNew.x;
+        newPosMat.at<float>(0, 1) = centeredNew.y;
+        newPosMat.at<float>(0, 2) = 0.0f;
+        
+        Mat crossedMat = oldPosMat.cross(newPosMat);
+        float z = crossedMat.at<float>(0, 2);
+ 
+        if (abs(z) > 2.0) {
+            if (z < 0)
+                return DIR_CCW;
+            else if (z > 0)
+                return DIR_CW;
+        }
+        
+        return DIR_NONE;
     }
 };

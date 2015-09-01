@@ -5,17 +5,17 @@
 #include "Position.hpp"
 #include "Constants.hpp"
 
-class Train {
+struct Train {
     int identifier;
     bool detected;
+    int dir = DIR_NONE;
     float lastSpeed = 0.0;
     std::vector<Position> positions;
     
-public:
     Train(int identifier) : identifier(identifier) { }
     
     void setCurrentPosition(Position pos) {
-        static int BUFFER_SIZE = 20;
+        static int BUFFER_SIZE = 5;
         
         if (positions.size() < BUFFER_SIZE) {
             positions.push_back(pos);
@@ -30,8 +30,8 @@ public:
             }
             lastSpeed = accumulatedSpeed / positions.size();
             
-            float deg = positions[0].getAngle(positions[positions.size() - 1]);
-            std::cout << deg << std::endl;
+            dir = positions[0].getDir(positions[positions.size() - 1]);
+            std::cout << dir << std::endl;
         }
     }
     
@@ -49,6 +49,19 @@ public:
     
     float getSpeed() {
         return lastSpeed;
+    }
+    
+    std::string getDir() {
+        switch (dir) {
+            case DIR_NONE:
+                return "NONE";
+            case DIR_CW:
+                return "CW";
+            case DIR_CCW:
+                return "CCW";
+        }
+        
+        return "LOL";
     }
     
     Position getPosition() {
