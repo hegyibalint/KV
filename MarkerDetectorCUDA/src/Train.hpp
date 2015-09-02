@@ -93,7 +93,7 @@ struct Train {
         translatedCenterMat.at<float>(1, 0) = corrected.y;
         Mat correctedMat = board.inverseTrans * translatedCenterMat;
         
-        Point2f inverted(correctedMat.at<float>(0, 0), correctedMat.at<float>(1, 0));
+        Point2f inverted = correctedMat.at<Point2f>(0, 0);
         return board.topLeft + inverted;
     }
 };

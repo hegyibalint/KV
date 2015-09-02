@@ -171,13 +171,13 @@ int identifyMarker(Point2f markerCenter, Mat& img) {
     cv::rectangle(img, roi, Scalar(0, 0, 255));
     
     float hue = cv::mean(sample)[0] * 2;
-    std::cout << hue << std::endl;
+    //std::cout << hue << std::endl;
     
     float sat = cv::mean(sample)[1];
-    std::cout << sat << std::endl;
+    //std::cout << sat << std::endl;
     
     float val = cv::mean(sample)[2];
-    std::cout << val << std::endl << std::endl;
+    //std::cout << val << std::endl << std::endl;
     
     if (CYAN_LOW < hue && hue < CYAN_HIGH)
         return MARKER_C;
@@ -324,15 +324,19 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
         
         if (id != MARKER_UNKNOWN) {
             trains[id].setDetected(true);
-            Position pos = {timestamp, Train::getCorrectedCenter(board, center)};
+            
+            Mat_<Point2f> cameraCorrectionMat(1, 1, center);
+            cv::undistortPoints(cameraCorrectionMat, cameraCorrectionMat, cameraMatrix, distCoeffs, cv::noArray(), cameraMatrix);
+            Point2f undistorted = cameraCorrectionMat.at<Point2f>(0, 0);
+            Point2f corrected = Train::getCorrectedCenter(board, undistorted);
+
+            Position pos = {timestamp, };
             trains[id].setCurrentPosition(pos);
             
             std::cout << trains[id].getCoordinate() << std::endl;
             std::cout << trains[id].getSpeed() << " cm/s" << std::endl;
             
-            Point2f inverted = Train::getCorrectedToCamera(trains[id].getCoordinate(), board);
-            cv::circle(raw, inverted, 4, Scalar(0, 255, 0), -1);
-            
+            cv::circle(raw, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
             json.addTrain(trains[id]);
         }
         

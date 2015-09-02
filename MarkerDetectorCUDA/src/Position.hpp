@@ -33,19 +33,8 @@ struct Position {
         };
         
         Point2f centeredOld = center - coordinate;
-        Mat oldPosMat(1, 3, CV_32F);
-        oldPosMat.at<float>(0, 0) = centeredOld.x;
-        oldPosMat.at<float>(0, 1) = centeredOld.y;
-        oldPosMat.at<float>(0, 2) = 0.0f;
-        
         Point2f centeredNew = center - newPos.coordinate;
-        Mat newPosMat(1, 3, CV_32F);
-        newPosMat.at<float>(0, 0) = centeredNew.x;
-        newPosMat.at<float>(0, 1) = centeredNew.y;
-        newPosMat.at<float>(0, 2) = 0.0f;
-        
-        Mat crossedMat = oldPosMat.cross(newPosMat);
-        float z = crossedMat.at<float>(0, 2);
+        float z = centeredOld.cross(centeredNew);
  
         if (abs(z) > 2.0) {
             if (z < 0)
