@@ -63,6 +63,8 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 			case ModelPackage.TURN: return createTurn();
 			case ModelPackage.POINT: return createPoint();
 			case ModelPackage.SECTION_MODEL: return createSectionModel();
+			case ModelPackage.RECTANGLE: return createRectangle();
+			case ModelPackage.DIMENSION: return createDimension();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -136,6 +138,26 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public SectionModel createSectionModel() {
 		SectionModelImpl sectionModel = new SectionModelImpl();
 		return sectionModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Rectangle createRectangle() {
+		RectangleImpl rectangle = new RectangleImpl();
+		return rectangle;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Dimension createDimension() {
+		DimensionImpl dimension = new DimensionImpl();
+		return dimension;
 	}
 
 	/**

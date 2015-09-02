@@ -14,6 +14,7 @@ package hu.bme.mit.kv.model.railroadmodel;
  * <ul>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Turnout#getNotConnectedSection <em>Not Connected Section</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Turnout#isTwoSectionsInClockwiseDirection <em>Two Sections In Clockwise Direction</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Turnout#getRectangle <em>Rectangle</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getTurnout()
@@ -72,5 +73,31 @@ public interface Turnout extends Section {
 	 * @generated
 	 */
 	void setTwoSectionsInClockwiseDirection(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Rectangle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Rectangle</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Rectangle</em>' containment reference.
+	 * @see #setRectangle(Rectangle)
+	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getTurnout_Rectangle()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	Rectangle getRectangle();
+
+	/**
+	 * Sets the value of the '{@link hu.bme.mit.kv.model.railroadmodel.Turnout#getRectangle <em>Rectangle</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Rectangle</em>' containment reference.
+	 * @see #getRectangle()
+	 * @generated
+	 */
+	void setRectangle(Rectangle value);
 
 } // Turnout

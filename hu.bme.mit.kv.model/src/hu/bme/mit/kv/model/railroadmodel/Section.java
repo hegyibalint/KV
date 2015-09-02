@@ -115,7 +115,7 @@ public interface Section extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Points</em>' containment reference list.
 	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getSection_Points()
-	 * @model containment="true"
+	 * @model containment="true" lower="2"
 	 * @generated
 	 */
 	EList<Point> getPoints();

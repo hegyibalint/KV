@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#getCurrentlyOn <em>Currently On</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#getX <em>X</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#getY <em>Y</em>}</li>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#getZ <em>Z</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#isGoingClockwise <em>Going Clockwise</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Train#getId <em>Id</em>}</li>
  * </ul>
@@ -103,32 +102,6 @@ public interface Train extends EObject {
 	 * @generated
 	 */
 	void setY(double value);
-
-	/**
-	 * Returns the value of the '<em><b>Z</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Z</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Z</em>' attribute.
-	 * @see #setZ(double)
-	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getTrain_Z()
-	 * @model required="true"
-	 * @generated
-	 */
-	double getZ();
-
-	/**
-	 * Sets the value of the '{@link hu.bme.mit.kv.model.railroadmodel.Train#getZ <em>Z</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Z</em>' attribute.
-	 * @see #getZ()
-	 * @generated
-	 */
-	void setZ(double value);
 
 	/**
 	 * Returns the value of the '<em><b>Going Clockwise</b></em>' attribute.

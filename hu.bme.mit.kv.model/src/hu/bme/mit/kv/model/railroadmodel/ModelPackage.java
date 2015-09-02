@@ -4,6 +4,7 @@ package hu.bme.mit.kv.model.railroadmodel;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -131,22 +132,13 @@ public interface ModelPackage extends EPackage {
 	int TRAIN__Y = 2;
 
 	/**
-	 * The feature id for the '<em><b>Z</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRAIN__Z = 3;
-
-	/**
 	 * The feature id for the '<em><b>Going Clockwise</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN__GOING_CLOCKWISE = 4;
+	int TRAIN__GOING_CLOCKWISE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -155,7 +147,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN__ID = 5;
+	int TRAIN__ID = 4;
 
 	/**
 	 * The number of structural features of the '<em>Train</em>' class.
@@ -164,7 +156,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN_FEATURE_COUNT = 6;
+	int TRAIN_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Train</em>' class.
@@ -304,13 +296,22 @@ public interface ModelPackage extends EPackage {
 	int TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION = SECTION_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Rectangle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TURNOUT__RECTANGLE = SECTION_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Turnout</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TURNOUT_FEATURE_COUNT = SECTION_FEATURE_COUNT + 2;
+	int TURNOUT_FEATURE_COUNT = SECTION_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Turnout</em>' class.
@@ -468,6 +469,116 @@ public interface ModelPackage extends EPackage {
 	 */
 	int SECTION_MODEL_OPERATION_COUNT = 0;
 
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl <em>Rectangle</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getRectangle()
+	 * @generated
+	 */
+	int RECTANGLE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Origin</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECTANGLE__ORIGIN = 0;
+
+	/**
+	 * The feature id for the '<em><b>Size</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECTANGLE__SIZE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Inverse Matrix</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECTANGLE__INVERSE_MATRIX = 2;
+
+	/**
+	 * The number of structural features of the '<em>Rectangle</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECTANGLE_FEATURE_COUNT = 3;
+
+	/**
+	 * The operation id for the '<em>Is Point Inside</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECTANGLE___IS_POINT_INSIDE__POINT = 0;
+
+	/**
+	 * The number of operations of the '<em>Rectangle</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECTANGLE_OPERATION_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.DimensionImpl <em>Dimension</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.DimensionImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getDimension()
+	 * @generated
+	 */
+	int DIMENSION = 8;
+
+	/**
+	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION__WIDTH = 0;
+
+	/**
+	 * The feature id for the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION__HEIGHT = 1;
+
+	/**
+	 * The number of structural features of the '<em>Dimension</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Dimension</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION_OPERATION_COUNT = 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.TrainModel <em>Train Model</em>}'.
@@ -532,17 +643,6 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTrain_Y();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Train#getZ <em>Z</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Z</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Train#getZ()
-	 * @see #getTrain()
-	 * @generated
-	 */
-	EAttribute getTrain_Z();
 
 	/**
 	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Train#isGoingClockwise <em>Going Clockwise</em>}'.
@@ -653,6 +753,17 @@ public interface ModelPackage extends EPackage {
 	EAttribute getTurnout_TwoSectionsInClockwiseDirection();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.kv.model.railroadmodel.Turnout#getRectangle <em>Rectangle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Rectangle</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Turnout#getRectangle()
+	 * @see #getTurnout()
+	 * @generated
+	 */
+	EReference getTurnout_Rectangle();
+
+	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Turn <em>Turn</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -714,6 +825,91 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSectionModel_Sections();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle <em>Rectangle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Rectangle</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rectangle
+	 * @generated
+	 */
+	EClass getRectangle();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getOrigin <em>Origin</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Origin</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rectangle#getOrigin()
+	 * @see #getRectangle()
+	 * @generated
+	 */
+	EReference getRectangle_Origin();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getSize <em>Size</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Size</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rectangle#getSize()
+	 * @see #getRectangle()
+	 * @generated
+	 */
+	EReference getRectangle_Size();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getInverseMatrix <em>Inverse Matrix</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Inverse Matrix</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rectangle#getInverseMatrix()
+	 * @see #getRectangle()
+	 * @generated
+	 */
+	EAttribute getRectangle_InverseMatrix();
+
+	/**
+	 * Returns the meta object for the '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#isPointInside(hu.bme.mit.kv.model.railroadmodel.Point) <em>Is Point Inside</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Point Inside</em>' operation.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rectangle#isPointInside(hu.bme.mit.kv.model.railroadmodel.Point)
+	 * @generated
+	 */
+	EOperation getRectangle__IsPointInside__Point();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Dimension <em>Dimension</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Dimension</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Dimension
+	 * @generated
+	 */
+	EClass getDimension();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Dimension#getWidth <em>Width</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Width</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Dimension#getWidth()
+	 * @see #getDimension()
+	 * @generated
+	 */
+	EAttribute getDimension_Width();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Dimension#getHeight <em>Height</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Height</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Dimension#getHeight()
+	 * @see #getDimension()
+	 * @generated
+	 */
+	EAttribute getDimension_Height();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -789,14 +985,6 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TRAIN__Y = eINSTANCE.getTrain_Y();
-
-		/**
-		 * The meta object literal for the '<em><b>Z</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TRAIN__Z = eINSTANCE.getTrain_Z();
 
 		/**
 		 * The meta object literal for the '<em><b>Going Clockwise</b></em>' attribute feature.
@@ -883,6 +1071,14 @@ public interface ModelPackage extends EPackage {
 		EAttribute TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION = eINSTANCE.getTurnout_TwoSectionsInClockwiseDirection();
 
 		/**
+		 * The meta object literal for the '<em><b>Rectangle</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TURNOUT__RECTANGLE = eINSTANCE.getTurnout_Rectangle();
+
+		/**
 		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnImpl <em>Turn</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -935,6 +1131,74 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SECTION_MODEL__SECTIONS = eINSTANCE.getSectionModel_Sections();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl <em>Rectangle</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getRectangle()
+		 * @generated
+		 */
+		EClass RECTANGLE = eINSTANCE.getRectangle();
+
+		/**
+		 * The meta object literal for the '<em><b>Origin</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RECTANGLE__ORIGIN = eINSTANCE.getRectangle_Origin();
+
+		/**
+		 * The meta object literal for the '<em><b>Size</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RECTANGLE__SIZE = eINSTANCE.getRectangle_Size();
+
+		/**
+		 * The meta object literal for the '<em><b>Inverse Matrix</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RECTANGLE__INVERSE_MATRIX = eINSTANCE.getRectangle_InverseMatrix();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Point Inside</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation RECTANGLE___IS_POINT_INSIDE__POINT = eINSTANCE.getRectangle__IsPointInside__Point();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.DimensionImpl <em>Dimension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.DimensionImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getDimension()
+		 * @generated
+		 */
+		EClass DIMENSION = eINSTANCE.getDimension();
+
+		/**
+		 * The meta object literal for the '<em><b>Width</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIMENSION__WIDTH = eINSTANCE.getDimension_Width();
+
+		/**
+		 * The meta object literal for the '<em><b>Height</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIMENSION__HEIGHT = eINSTANCE.getDimension_Height();
 
 	}
 

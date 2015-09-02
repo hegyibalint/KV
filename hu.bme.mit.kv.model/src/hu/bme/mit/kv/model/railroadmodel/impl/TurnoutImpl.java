@@ -3,10 +3,12 @@
 package hu.bme.mit.kv.model.railroadmodel.impl;
 
 import hu.bme.mit.kv.model.railroadmodel.ModelPackage;
+import hu.bme.mit.kv.model.railroadmodel.Rectangle;
 import hu.bme.mit.kv.model.railroadmodel.Section;
 import hu.bme.mit.kv.model.railroadmodel.Turnout;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -23,6 +25,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <ul>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl#getNotConnectedSection <em>Not Connected Section</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl#isTwoSectionsInClockwiseDirection <em>Two Sections In Clockwise Direction</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl#getRectangle <em>Rectangle</em>}</li>
  * </ul>
  *
  * @generated
@@ -57,6 +60,16 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 	 * @ordered
 	 */
 	protected boolean twoSectionsInClockwiseDirection = TWO_SECTIONS_IN_CLOCKWISE_DIRECTION_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getRectangle() <em>Rectangle</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRectangle()
+	 * @generated
+	 * @ordered
+	 */
+	protected Rectangle rectangle;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -141,6 +154,63 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Rectangle getRectangle() {
+		return rectangle;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetRectangle(Rectangle newRectangle, NotificationChain msgs) {
+		Rectangle oldRectangle = rectangle;
+		rectangle = newRectangle;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.TURNOUT__RECTANGLE, oldRectangle, newRectangle);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRectangle(Rectangle newRectangle) {
+		if (newRectangle != rectangle) {
+			NotificationChain msgs = null;
+			if (rectangle != null)
+				msgs = ((InternalEObject)rectangle).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.TURNOUT__RECTANGLE, null, msgs);
+			if (newRectangle != null)
+				msgs = ((InternalEObject)newRectangle).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.TURNOUT__RECTANGLE, null, msgs);
+			msgs = basicSetRectangle(newRectangle, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TURNOUT__RECTANGLE, newRectangle, newRectangle));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ModelPackage.TURNOUT__RECTANGLE:
+				return basicSetRectangle(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -149,6 +219,8 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 				return basicGetNotConnectedSection();
 			case ModelPackage.TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION:
 				return isTwoSectionsInClockwiseDirection();
+			case ModelPackage.TURNOUT__RECTANGLE:
+				return getRectangle();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -166,6 +238,9 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 				return;
 			case ModelPackage.TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION:
 				setTwoSectionsInClockwiseDirection((Boolean)newValue);
+				return;
+			case ModelPackage.TURNOUT__RECTANGLE:
+				setRectangle((Rectangle)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -185,6 +260,9 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 			case ModelPackage.TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION:
 				setTwoSectionsInClockwiseDirection(TWO_SECTIONS_IN_CLOCKWISE_DIRECTION_EDEFAULT);
 				return;
+			case ModelPackage.TURNOUT__RECTANGLE:
+				setRectangle((Rectangle)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -201,6 +279,8 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 				return notConnectedSection != null;
 			case ModelPackage.TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION:
 				return twoSectionsInClockwiseDirection != TWO_SECTIONS_IN_CLOCKWISE_DIRECTION_EDEFAULT;
+			case ModelPackage.TURNOUT__RECTANGLE:
+				return rectangle != null;
 		}
 		return super.eIsSet(featureID);
 	}
