@@ -22,13 +22,17 @@ QueryResultChangeEvent oneBetween(){
 	resultChangeType: NEW_MATCH_FOUND
 }
 
+QueryResultChangeEvent cut(){
+	query: trainGoingToCutTheTurnout
+	resultChangeType: NEW_MATCH_FOUND
+}
+
 Rule debugRule{
-	events: safe, onSame, zeroBetween, oneBetween
+	events: safe, onSame, zeroBetween, oneBetween, cut
 	action{
 		println(ruleInstance.atom.observedEventPatternId.split("\\.").last.split("_pattern").head)
 	}
 }
-
 
 
  /*

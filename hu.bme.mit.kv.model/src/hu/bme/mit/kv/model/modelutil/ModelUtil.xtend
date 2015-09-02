@@ -20,6 +20,12 @@ class ModelUtil {
     	val resource = resSet.getResource(URI.createURI("platform:/plugin/hu.bme.mit.kv.event/res/SectionModel.kv"), true)
     	
     	val sectionModel = resource.contents.head as SectionModel
+    	//HACK :(
+    	getTurnoutByID(sectionModel, 0x01 ).switchTurnout
+    	getTurnoutByID(sectionModel, 0x03 ).switchTurnout
+    	getTurnoutByID(sectionModel, 0x05 ).switchTurnout
+    	
+    	
     	return sectionModel
 	}
 

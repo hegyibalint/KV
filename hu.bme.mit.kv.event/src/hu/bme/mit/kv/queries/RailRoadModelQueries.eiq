@@ -79,7 +79,16 @@ pattern sectionNeighbor(s1 : Section, s2 : Section){
 	neg find turnout(s1);
 	neg find turnout(s2);
 	Section.counterClockwise(s1,s2);
-}
+} 
+//or {
+//	neg find turnout(s1);
+//	neg find turnout(s2);
+//	Section.counterClockwise(s2,s1);
+//} or {
+//	neg find turnout(s1);
+//	neg find turnout(s2);
+//	Section.clockwise(s2,s1);
+//}
 
 pattern inSameRailroadPart(section : Section, someSection : Section){
 	find sectionNeighbor+(section, someSection);
@@ -128,6 +137,11 @@ pattern trainsNextTurnout(train : Train, turnout : Turnout){
 	find inSameRailroadPart(trainSection, sectionNextToTurnout);
 }
 
+pattern sectionsInSameRailroadPartAsTrain(train : Train, section : Section){
+	Train.currentlyOn(train, trainSection);
+	find inSameRailroadPart(trainSection, section);
+}
+
 pattern turnoutWithTwoTrainsComingTowards(turnout : Turnout, train1 : Train, train2 : Train ){
 	train1 != train2;
 	find trainsNextTurnout(train1, turnout);
@@ -146,15 +160,15 @@ pattern rename(turnout : Turnout, train1 : Train, train2 : Train ){//FIXME renam
 pattern trainGoingToCutTheTurnout(train : Train, turnout : Turnout){
 	find trainsNextTurnout(train, turnout);
 	Train.goingClockwise(train,true);
+	Section.clockwise(sectionNearTheTurnout, turnout);
+	Turnout.notConnectedSection(turnout, sectionNearTheTurnout);
+} or {
+	find trainsNextTurnout(train, turnout);
+	Train.goingClockwise(train,false);
+	Section.counterClockwise(sectionNearTheTurnout, turnout);
+	Turnout.notConnectedSection(turnout, sectionNearTheTurnout);
 }
 
-pattern nextSectionInClockwise(from : Section, to : Section){
-	Section.clockwise(from,to);
-}
-
-pattern nextSectionInCounterClockwise(from : Section, to : Section){
-	Section.counterClockwise(from,to);
-}
 
 
 pattern inTheForwardPath(t : Train, s : Section){
