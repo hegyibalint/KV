@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <vector>
 #include <sstream>
 
@@ -7,6 +8,7 @@
 
 class TrainJSON {
     std::vector<std::string> trainChunks;
+    std::chrono::high_resolution_clock::time_point timestamp;
     
 public:
     void addTrain(Train& train) {
@@ -18,10 +20,15 @@ public:
         trainChunks.push_back(ss.str());
     }
     
+    void setTimestamp(std::chrono::high_resolution_clock::time_point t) {
+        timestamp = t;
+    }
+    
     std::string generateJSON() {
         std::stringstream ss;
         
         ss << "{" << std::endl;
+        ss << "\t" << "\"timestamp\": " << timestamp.time_since_epoch().count() << "," << std::endl;
         ss << "\t" << "\"trains\": [" << std::endl;
         
         for (int i = 0; i < trainChunks.size(); ++i) {

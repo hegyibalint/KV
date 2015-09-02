@@ -36,7 +36,7 @@ void sendData(TrainJSON& trainJSON) {
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(24000);
-    addr.sin_addr.s_addr = inet_addr("152.66.159.136");
+    addr.sin_addr.s_addr = inet_addr("152.66.157.105");
     
     std::string data = trainJSON.generateJSON();
     sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
@@ -217,6 +217,10 @@ Board detectBoard(VideoCapture vid) {
     vid >> raw;
     Mat undistorted;
     cv::undistort(raw, undistorted, cameraMatrix, distCoeffs);
+
+    cv::resize(undistorted, undistorted, undistorted.size() / 3 * 2);
+    imshow("1", undistorted);
+    waitKey(0);
     
     Point2i decPoint = raw.size() / 2;
     
@@ -290,6 +294,7 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
     }
     
     TrainJSON json;
+    json.setTimestamp(timestamp);
     
     while (true) {
         std::tuple<bool, Point2f, Point2f> result = findMarker(mc, 50, 70);
@@ -328,14 +333,15 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
             Mat_<Point2f> cameraCorrectionMat(1, 1, center);
             cv::undistortPoints(cameraCorrectionMat, cameraCorrectionMat, cameraMatrix, distCoeffs, cv::noArray(), cameraMatrix);
             Point2f undistorted = cameraCorrectionMat.at<Point2f>(0, 0);
-            Point2f corrected = Train::getCorrectedCenter(board, undistorted);
+            Point2f corrected = Train::getCorrectedCenter(undistorted, board);
 
-            Position pos = {timestamp, };
+            Position pos = {timestamp, corrected};
             trains[id].setCurrentPosition(pos);
             
             std::cout << trains[id].getCoordinate() << std::endl;
             std::cout << trains[id].getSpeed() << " cm/s" << std::endl;
             
+            cv::circle(raw, Train::getCorrectedToCamera(Train::getCorrectedCenter(center, board), board), 4, Scalar(0, 0, 255), -1);
             cv::circle(raw, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
             json.addTrain(trains[id]);
         }

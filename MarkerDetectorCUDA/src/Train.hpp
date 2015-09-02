@@ -72,7 +72,7 @@ struct Train {
         return positions[positions.size() - 1].coordinate;
     }
     
-    static Point2f getCorrectedCenter(Board& board, Point2f currentCameraPos) {
+    static Point2f getCorrectedCenter(Point2f currentCameraPos, Board& board) {
         Point2f translatedCenter = currentCameraPos - board.topLeft;
         Mat translatedCenterMat(Size(1, 2), CV_32F);
         translatedCenterMat.at<float>(0, 0) = translatedCenter.x;
