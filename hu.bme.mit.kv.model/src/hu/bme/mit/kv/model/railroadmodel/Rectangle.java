@@ -2,6 +2,8 @@
  */
 package hu.bme.mit.kv.model.railroadmodel;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -15,7 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getOrigin <em>Origin</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getSize <em>Size</em>}</li>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getTransformation <em>Transformation</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getInverseMatrix <em>Inverse Matrix</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getRectangle()
@@ -76,30 +78,20 @@ public interface Rectangle extends EObject {
 	void setSize(Dimension value);
 
 	/**
-	 * Returns the value of the '<em><b>Transformation</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Inverse Matrix</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.Double}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Transformation</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Inverse Matrix</em>' attribute list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Transformation</em>' containment reference.
-	 * @see #setTransformation(Matrix)
-	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getRectangle_Transformation()
-	 * @model containment="true" required="true"
+	 * @return the value of the '<em>Inverse Matrix</em>' attribute list.
+	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getRectangle_InverseMatrix()
+	 * @model default="0.0" unique="false" upper="8" ordered="false"
 	 * @generated
 	 */
-	Matrix getTransformation();
-
-	/**
-	 * Sets the value of the '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getTransformation <em>Transformation</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Transformation</em>' containment reference.
-	 * @see #getTransformation()
-	 * @generated
-	 */
-	void setTransformation(Matrix value);
+	EList<Double> getInverseMatrix();
 
 	/**
 	 * <!-- begin-user-doc -->

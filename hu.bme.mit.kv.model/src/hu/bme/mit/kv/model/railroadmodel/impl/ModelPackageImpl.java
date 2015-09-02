@@ -3,7 +3,6 @@
 package hu.bme.mit.kv.model.railroadmodel.impl;
 
 import hu.bme.mit.kv.model.railroadmodel.Dimension;
-import hu.bme.mit.kv.model.railroadmodel.Matrix;
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory;
 import hu.bme.mit.kv.model.railroadmodel.ModelPackage;
 import hu.bme.mit.kv.model.railroadmodel.Point;
@@ -92,13 +91,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass dimensionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass matrixEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -400,8 +392,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRectangle_Transformation() {
-		return (EReference)rectangleEClass.getEStructuralFeatures().get(2);
+	public EAttribute getRectangle_InverseMatrix() {
+		return (EAttribute)rectangleEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -438,69 +430,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	public EAttribute getDimension_Height() {
 		return (EAttribute)dimensionEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getMatrix() {
-		return matrixEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMatrix_A() {
-		return (EAttribute)matrixEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMatrix_B() {
-		return (EAttribute)matrixEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMatrix_C() {
-		return (EAttribute)matrixEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMatrix_D() {
-		return (EAttribute)matrixEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMatrix_E() {
-		return (EAttribute)matrixEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMatrix_F() {
-		return (EAttribute)matrixEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -564,20 +493,12 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		rectangleEClass = createEClass(RECTANGLE);
 		createEReference(rectangleEClass, RECTANGLE__ORIGIN);
 		createEReference(rectangleEClass, RECTANGLE__SIZE);
-		createEReference(rectangleEClass, RECTANGLE__TRANSFORMATION);
+		createEAttribute(rectangleEClass, RECTANGLE__INVERSE_MATRIX);
 		createEOperation(rectangleEClass, RECTANGLE___IS_POINT_INSIDE__POINT);
 
 		dimensionEClass = createEClass(DIMENSION);
 		createEAttribute(dimensionEClass, DIMENSION__WIDTH);
 		createEAttribute(dimensionEClass, DIMENSION__HEIGHT);
-
-		matrixEClass = createEClass(MATRIX);
-		createEAttribute(matrixEClass, MATRIX__A);
-		createEAttribute(matrixEClass, MATRIX__B);
-		createEAttribute(matrixEClass, MATRIX__C);
-		createEAttribute(matrixEClass, MATRIX__D);
-		createEAttribute(matrixEClass, MATRIX__E);
-		createEAttribute(matrixEClass, MATRIX__F);
 	}
 
 	/**
@@ -645,7 +566,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEClass(rectangleEClass, Rectangle.class, "Rectangle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRectangle_Origin(), this.getPoint(), null, "origin", null, 1, 1, Rectangle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRectangle_Size(), this.getDimension(), null, "size", null, 1, 1, Rectangle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRectangle_Transformation(), this.getMatrix(), null, "transformation", null, 1, 1, Rectangle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRectangle_InverseMatrix(), ecorePackage.getEDouble(), "inverseMatrix", "0.0", 0, 8, Rectangle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		EOperation op = initEOperation(getRectangle__IsPointInside__Point(), ecorePackage.getEBoolean(), "isPointInside", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getPoint(), "point", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -653,14 +574,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEClass(dimensionEClass, Dimension.class, "Dimension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDimension_Width(), ecorePackage.getEDouble(), "width", null, 0, 1, Dimension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDimension_Height(), ecorePackage.getEDouble(), "height", null, 0, 1, Dimension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(matrixEClass, Matrix.class, "Matrix", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getMatrix_A(), ecorePackage.getEDouble(), "a", null, 0, 1, Matrix.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMatrix_B(), ecorePackage.getEDouble(), "b", null, 0, 1, Matrix.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMatrix_C(), ecorePackage.getEDouble(), "c", null, 0, 1, Matrix.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMatrix_D(), ecorePackage.getEDouble(), "d", null, 0, 1, Matrix.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMatrix_E(), ecorePackage.getEDouble(), "e", null, 0, 1, Matrix.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMatrix_F(), ecorePackage.getEDouble(), "f", null, 0, 1, Matrix.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

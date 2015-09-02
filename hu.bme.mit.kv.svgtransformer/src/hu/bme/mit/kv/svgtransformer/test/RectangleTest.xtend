@@ -44,4 +44,20 @@ class RectangleTest {
 		point.y = 10
 		assertFalse(turnout1.rectangle.isPointInside(point));
 	}
+	
+	@Test
+	def void testOutside3() {
+		val point = ModelFactory.eINSTANCE.createPoint
+		point.x = 85
+		point.y = 19
+		assertFalse(turnout1.rectangle.isPointInside(point));
+	}
+	
+	@Test
+	def void testOutside4() {
+		val point = ModelFactory.eINSTANCE.createPoint
+		point.x = 80
+		point.y = 0
+		assertFalse(turnout1.rectangle.isPointInside(point));
+	}
 }

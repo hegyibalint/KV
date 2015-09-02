@@ -469,7 +469,6 @@ public interface ModelPackage extends EPackage {
 	 */
 	int SECTION_MODEL_OPERATION_COUNT = 0;
 
-
 	/**
 	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl <em>Rectangle</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -499,13 +498,13 @@ public interface ModelPackage extends EPackage {
 	int RECTANGLE__SIZE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Transformation</b></em>' containment reference.
+	 * The feature id for the '<em><b>Inverse Matrix</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RECTANGLE__TRANSFORMATION = 2;
+	int RECTANGLE__INVERSE_MATRIX = 2;
 
 	/**
 	 * The number of structural features of the '<em>Rectangle</em>' class.
@@ -579,88 +578,6 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int DIMENSION_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.MatrixImpl <em>Matrix</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.MatrixImpl
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getMatrix()
-	 * @generated
-	 */
-	int MATRIX = 9;
-
-	/**
-	 * The feature id for the '<em><b>A</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATRIX__A = 0;
-
-	/**
-	 * The feature id for the '<em><b>B</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATRIX__B = 1;
-
-	/**
-	 * The feature id for the '<em><b>C</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATRIX__C = 2;
-
-	/**
-	 * The feature id for the '<em><b>D</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATRIX__D = 3;
-
-	/**
-	 * The feature id for the '<em><b>E</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATRIX__E = 4;
-
-	/**
-	 * The feature id for the '<em><b>F</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATRIX__F = 5;
-
-	/**
-	 * The number of structural features of the '<em>Matrix</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATRIX_FEATURE_COUNT = 6;
-
-	/**
-	 * The number of operations of the '<em>Matrix</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MATRIX_OPERATION_COUNT = 0;
 
 
 	/**
@@ -942,15 +859,15 @@ public interface ModelPackage extends EPackage {
 	EReference getRectangle_Size();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getTransformation <em>Transformation</em>}'.
+	 * Returns the meta object for the attribute list '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getInverseMatrix <em>Inverse Matrix</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Transformation</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Rectangle#getTransformation()
+	 * @return the meta object for the attribute list '<em>Inverse Matrix</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rectangle#getInverseMatrix()
 	 * @see #getRectangle()
 	 * @generated
 	 */
-	EReference getRectangle_Transformation();
+	EAttribute getRectangle_InverseMatrix();
 
 	/**
 	 * Returns the meta object for the '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#isPointInside(hu.bme.mit.kv.model.railroadmodel.Point) <em>Is Point Inside</em>}' operation.
@@ -993,82 +910,6 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getDimension_Height();
-
-	/**
-	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Matrix <em>Matrix</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Matrix</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Matrix
-	 * @generated
-	 */
-	EClass getMatrix();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Matrix#getA <em>A</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>A</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Matrix#getA()
-	 * @see #getMatrix()
-	 * @generated
-	 */
-	EAttribute getMatrix_A();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Matrix#getB <em>B</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>B</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Matrix#getB()
-	 * @see #getMatrix()
-	 * @generated
-	 */
-	EAttribute getMatrix_B();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Matrix#getC <em>C</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>C</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Matrix#getC()
-	 * @see #getMatrix()
-	 * @generated
-	 */
-	EAttribute getMatrix_C();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Matrix#getD <em>D</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>D</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Matrix#getD()
-	 * @see #getMatrix()
-	 * @generated
-	 */
-	EAttribute getMatrix_D();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Matrix#getE <em>E</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>E</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Matrix#getE()
-	 * @see #getMatrix()
-	 * @generated
-	 */
-	EAttribute getMatrix_E();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Matrix#getF <em>F</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>F</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Matrix#getF()
-	 * @see #getMatrix()
-	 * @generated
-	 */
-	EAttribute getMatrix_F();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1318,12 +1159,12 @@ public interface ModelPackage extends EPackage {
 		EReference RECTANGLE__SIZE = eINSTANCE.getRectangle_Size();
 
 		/**
-		 * The meta object literal for the '<em><b>Transformation</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Inverse Matrix</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RECTANGLE__TRANSFORMATION = eINSTANCE.getRectangle_Transformation();
+		EAttribute RECTANGLE__INVERSE_MATRIX = eINSTANCE.getRectangle_InverseMatrix();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Point Inside</b></em>' operation.
@@ -1358,64 +1199,6 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute DIMENSION__HEIGHT = eINSTANCE.getDimension_Height();
-
-		/**
-		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.MatrixImpl <em>Matrix</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.MatrixImpl
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getMatrix()
-		 * @generated
-		 */
-		EClass MATRIX = eINSTANCE.getMatrix();
-
-		/**
-		 * The meta object literal for the '<em><b>A</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MATRIX__A = eINSTANCE.getMatrix_A();
-
-		/**
-		 * The meta object literal for the '<em><b>B</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MATRIX__B = eINSTANCE.getMatrix_B();
-
-		/**
-		 * The meta object literal for the '<em><b>C</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MATRIX__C = eINSTANCE.getMatrix_C();
-
-		/**
-		 * The meta object literal for the '<em><b>D</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MATRIX__D = eINSTANCE.getMatrix_D();
-
-		/**
-		 * The meta object literal for the '<em><b>E</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MATRIX__E = eINSTANCE.getMatrix_E();
-
-		/**
-		 * The meta object literal for the '<em><b>F</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MATRIX__F = eINSTANCE.getMatrix_F();
 
 	}
 

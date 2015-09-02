@@ -2,24 +2,23 @@
  */
 package hu.bme.mit.kv.model.railroadmodel.impl;
 
-import hu.bme.mit.kv.model.railroadmodel.Dimension;
-import hu.bme.mit.kv.model.railroadmodel.Matrix;
-import hu.bme.mit.kv.model.railroadmodel.ModelPackage;
-import hu.bme.mit.kv.model.railroadmodel.Point;
-import hu.bme.mit.kv.model.railroadmodel.Rectangle;
-
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
+
+import hu.bme.mit.kv.model.railroadmodel.Dimension;
+import hu.bme.mit.kv.model.railroadmodel.ModelFactory;
+import hu.bme.mit.kv.model.railroadmodel.ModelPackage;
+import hu.bme.mit.kv.model.railroadmodel.Point;
+import hu.bme.mit.kv.model.railroadmodel.Rectangle;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,7 +30,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <ul>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl#getOrigin <em>Origin</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl#getSize <em>Size</em>}</li>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl#getTransformation <em>Transformation</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl#getInverseMatrix <em>Inverse Matrix</em>}</li>
  * </ul>
  *
  * @generated
@@ -58,14 +57,14 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	protected Dimension size;
 
 	/**
-	 * The cached value of the '{@link #getTransformation() <em>Transformation</em>}' containment reference.
+	 * The cached value of the '{@link #getInverseMatrix() <em>Inverse Matrix</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getTransformation()
+	 * @see #getInverseMatrix()
 	 * @generated
 	 * @ordered
 	 */
-	protected Matrix transformation;
+	protected EList<Double> inverseMatrix;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -177,8 +176,11 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Matrix getTransformation() {
-		return transformation;
+	public EList<Double> getInverseMatrix() {
+		if (inverseMatrix == null) {
+			inverseMatrix = new EDataTypeEList<Double>(Double.class, this, ModelPackage.RECTANGLE__INVERSE_MATRIX);
+		}
+		return inverseMatrix;
 	}
 
 	/**
@@ -186,46 +188,14 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetTransformation(Matrix newTransformation, NotificationChain msgs) {
-		Matrix oldTransformation = transformation;
-		transformation = newTransformation;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.RECTANGLE__TRANSFORMATION, oldTransformation, newTransformation);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTransformation(Matrix newTransformation) {
-		if (newTransformation != transformation) {
-			NotificationChain msgs = null;
-			if (transformation != null)
-				msgs = ((InternalEObject)transformation).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.RECTANGLE__TRANSFORMATION, null, msgs);
-			if (newTransformation != null)
-				msgs = ((InternalEObject)newTransformation).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.RECTANGLE__TRANSFORMATION, null, msgs);
-			msgs = basicSetTransformation(newTransformation, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.RECTANGLE__TRANSFORMATION, newTransformation, newTransformation));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public boolean isPointInside(Point point) {
-		double x = transformation.getA() * point.getX() + transformation.getC() + point.getY() + transformation.getE();
-		double y = transformation.getB() * point.getX() + transformation.getD() + point.getY() + transformation.getF();
+	public boolean isPointInside(Point p) {
+		Point invp = ModelFactory.eINSTANCE.createPoint();
 		
-		if (origin.getX() < x && x < origin.getX() + size.getWidth()  && 
-			origin.getY() < y && y < origin.getY() + size.getHeight()) {
+		invp.setX(inverseMatrix.get(0) * p.getX() + inverseMatrix.get(1) * p.getY() + inverseMatrix.get(2));
+		invp.setY(inverseMatrix.get(3) * p.getX() + inverseMatrix.get(4) * p.getY() + inverseMatrix.get(5));
+		
+		if (origin.getX() < p.getX() && p.getX() < origin.getX() + size.getWidth() &&
+			origin.getY() < p.getY() && p.getY() < origin.getY() + size.getHeight()) {
 			return true;
 		}
 		
@@ -244,8 +214,6 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 				return basicSetOrigin(null, msgs);
 			case ModelPackage.RECTANGLE__SIZE:
 				return basicSetSize(null, msgs);
-			case ModelPackage.RECTANGLE__TRANSFORMATION:
-				return basicSetTransformation(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -262,8 +230,8 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 				return getOrigin();
 			case ModelPackage.RECTANGLE__SIZE:
 				return getSize();
-			case ModelPackage.RECTANGLE__TRANSFORMATION:
-				return getTransformation();
+			case ModelPackage.RECTANGLE__INVERSE_MATRIX:
+				return getInverseMatrix();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -273,6 +241,7 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -282,8 +251,9 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 			case ModelPackage.RECTANGLE__SIZE:
 				setSize((Dimension)newValue);
 				return;
-			case ModelPackage.RECTANGLE__TRANSFORMATION:
-				setTransformation((Matrix)newValue);
+			case ModelPackage.RECTANGLE__INVERSE_MATRIX:
+				getInverseMatrix().clear();
+				getInverseMatrix().addAll((Collection<? extends Double>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -303,8 +273,8 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 			case ModelPackage.RECTANGLE__SIZE:
 				setSize((Dimension)null);
 				return;
-			case ModelPackage.RECTANGLE__TRANSFORMATION:
-				setTransformation((Matrix)null);
+			case ModelPackage.RECTANGLE__INVERSE_MATRIX:
+				getInverseMatrix().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -322,8 +292,8 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 				return origin != null;
 			case ModelPackage.RECTANGLE__SIZE:
 				return size != null;
-			case ModelPackage.RECTANGLE__TRANSFORMATION:
-				return transformation != null;
+			case ModelPackage.RECTANGLE__INVERSE_MATRIX:
+				return inverseMatrix != null && !inverseMatrix.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -340,6 +310,22 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 				return isPointInside((Point)arguments.get(0));
 		}
 		return super.eInvoke(operationID, arguments);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (inverseMatrix: ");
+		result.append(inverseMatrix);
+		result.append(')');
+		return result.toString();
 	}
 
 } //RectangleImpl

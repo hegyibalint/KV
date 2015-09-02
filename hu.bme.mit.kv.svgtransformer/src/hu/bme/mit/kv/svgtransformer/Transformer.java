@@ -25,7 +25,6 @@ import org.w3c.dom.svg.SVGMatrix;
 
 import hu.bme.mit.kv.model.modelutil.ModelUtil;
 import hu.bme.mit.kv.model.railroadmodel.Dimension;
-import hu.bme.mit.kv.model.railroadmodel.Matrix;
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory;
 import hu.bme.mit.kv.model.railroadmodel.Point;
 import hu.bme.mit.kv.model.railroadmodel.Rectangle;
@@ -78,19 +77,20 @@ public class Transformer {
 		size.setWidth(rectElement.getWidth().getBaseVal().getValue());
 		size.setHeight(rectElement.getHeight().getBaseVal().getValue());
 		
-		Matrix matrix = ModelFactory.eINSTANCE.createMatrix();
 		SVGMatrix ctm = rectElement.getCTM();
-		matrix.setA(ctm.getA());
-		matrix.setB(ctm.getB());
-		matrix.setC(ctm.getC());
-		matrix.setD(ctm.getD());
-		matrix.setE(ctm.getE());
-		matrix.setF(ctm.getF());
+		double[][] array = {{ctm.getA(), ctm.getC(), ctm.getE()}, {ctm.getB(), ctm.getD(), ctm.getF()}, {0.0, 0.0, 1.0}};
+		Jama.Matrix mtx = new Jama.Matrix(array);
+		Jama.Matrix inv = mtx.inverse();
 		
 		Rectangle rect = ModelFactory.eINSTANCE.createRectangle();
+		rect.getInverseMatrix().add(inv.get(0, 0));
+		rect.getInverseMatrix().add(inv.get(0, 1));
+		rect.getInverseMatrix().add(inv.get(0, 2));
+		rect.getInverseMatrix().add(inv.get(1, 0));
+		rect.getInverseMatrix().add(inv.get(1, 1));
+		rect.getInverseMatrix().add(inv.get(1, 2));
 		rect.setOrigin(origin);
 		rect.setSize(size);
-		rect.setTransformation(matrix);
 		
 		turnout.setRectangle(rect);
 	}
