@@ -124,8 +124,9 @@ class Main {
 			val packet = new DatagramPacket(buffer, buffer.length);
 			socket.receive(packet);
 			val trimmed = new String(packet.data).trim
+//			println(trimmed);
 			val data = JsonObject.readFrom(trimmed)
-			
+			val timestamp = data.get("timestamp").asLong
 			val trains = data.get("trains").asArray
 			for(i : trains){
 				val train = i.asObject
@@ -134,15 +135,14 @@ class Main {
 				val posY = train.get("y").asDouble
 				val speed = train.get("speed").asDouble
 				val direction = train.get("dir").asString
+
 				
-				println("ID = " + id +"\tX = " + posX + "\tY = " + posY + "\tspeed = " + speed + "\tdirection = " + direction)
 				val modelTrain = trainModel.trains.filter[t | t.id == id].head
 				modelTrain.x = posX
 				modelTrain.y = posY
 //				modelTrain.speed = speed
 				modelTrain.goingClockwise = (direction.equals("CW"))
-				
-				println(ModelUtil.toHexa(findClosestSection(modelTrain, sectionModel).id))
+				println(timestamp + "#:\tID = " + id +"\tX = " + posX + "\tY = " + posY + "\tspeed = " + speed + "\tdirection = " + direction + "\tsection = 0x"+ModelUtil.toHexa(findClosestSection(modelTrain, sectionModel).id))
 
 			}
 			

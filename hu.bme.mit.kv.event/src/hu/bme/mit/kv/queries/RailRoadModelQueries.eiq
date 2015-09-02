@@ -86,21 +86,21 @@ pattern inSameRailroadPart(section : Section, someSection : Section){
 	section != someSection;
 }
 
-pattern turnoutAtTheEndOfTheRailroadPart(section : Section, turnout : Turnout) //XXX & do we need this?
-{
-	find inSameRailroadPart(section, sectionNearTheTurnout);
-	Section.clockwise(sectionNearTheTurnout, turnout);
-} or
-{
-	find inSameRailroadPart(section, sectionNearTheTurnout);
-	Section.counterClockwise(sectionNearTheTurnout, turnout);
-} or
-{
-	Section.clockwise(section, turnout);
-} or
-{
-	Section.counterClockwise(section, turnout);
-}
+//pattern turnoutAtTheEndOfTheRailroadPart(section : Section, turnout : Turnout) //XXX & do we need this?
+//{
+//	find inSameRailroadPart(section, sectionNearTheTurnout);
+//	Section.clockwise(sectionNearTheTurnout, turnout);
+//} or
+//{
+//	find inSameRailroadPart(section, sectionNearTheTurnout);
+//	Section.counterClockwise(sectionNearTheTurnout, turnout);
+//} or
+//{
+//	Section.clockwise(section, turnout);
+//} or
+//{
+//	Section.counterClockwise(section, turnout);
+//}
 
 pattern trainsInSameRailroadPart(train1 : Train, train2 : Train){
 	Train.currentlyOn(train1, section1);
@@ -133,6 +133,19 @@ pattern turnoutWithTwoTrainsComingTowards(turnout : Turnout, train1 : Train, tra
 	find trainsNextTurnout(train1, turnout);
 	find trainsNextTurnout(train2, turnout);
 	
+}
+
+pattern rename(turnout : Turnout, train1 : Train, train2 : Train ){//FIXME rename
+	find turnoutWithTwoTrainsComingTowards(turnout, train1, train2);
+	Train.goingClockwise(train1, direction1);
+	Train.goingClockwise(train2, direction2);
+	check(direction1 != direction2);
+	
+}
+
+pattern trainGoingToCutTheTurnout(train : Train, turnout : Turnout){
+	find trainsNextTurnout(train, turnout);
+	Train.goingClockwise(train,true);
 }
 
 pattern nextSectionInClockwise(from : Section, to : Section){
