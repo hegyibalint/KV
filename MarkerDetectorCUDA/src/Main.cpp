@@ -218,9 +218,11 @@ Board detectBoard(VideoCapture vid) {
     Mat undistorted;
     cv::undistort(raw, undistorted, cameraMatrix, distCoeffs);
 
+    /*
     cv::resize(undistorted, undistorted, undistorted.size() / 3 * 2);
     imshow("1", undistorted);
     waitKey(0);
+    */
     
     Point2i decPoint = raw.size() / 2;
     
@@ -283,6 +285,9 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
     vid >> raw;
     auto timestamp = std::chrono::high_resolution_clock::now();
     
+    Mat undistortedMat;
+    cv::undistort(raw, undistortedMat, cameraMatrix, distCoeffs);
+    
     static GpuMat trainCircle = createCirclePattern(raw.size(), 10, 8, 4);
     static Mat contour;
     contour = convolve(raw, trainCircle, 0.6);
@@ -341,12 +346,12 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
             std::cout << trains[id].getCoordinate() << std::endl;
             std::cout << trains[id].getSpeed() << " cm/s" << std::endl;
             
-            cv::circle(raw, Train::getCorrectedToCamera(Train::getCorrectedCenter(center, board), board), 4, Scalar(0, 0, 255), -1);
-            cv::circle(raw, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
+            cv::circle(undistortedMat, Train::getCorrectedToCamera(Train::getCorrectedCenter(center, board), board), 4, Scalar(0, 0, 255), -1);
+            cv::circle(undistortedMat, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
             json.addTrain(trains[id]);
         }
         
-        cv::line(raw, start, end, Scalar(255, 0, 0));
+        cv::line(undistortedMat, start, end, Scalar(255, 0, 0));
         
         /*
         Mat_<Point2f> src(1, static_cast<int>(trains.size()));
@@ -376,8 +381,8 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
     
     sendData(json);
     
-    cv::resize(raw, raw, raw.size() / 3 * 2);
-    imshow("1", raw);
+    cv::resize(undistortedMat, undistortedMat, raw.size() / 3 * 2);
+    imshow("1", undistortedMat);
     waitKey(1);
 }
 
@@ -396,6 +401,8 @@ int main(int argc, char** argv)
     fs["Camera_Matrix"] >> cameraMatrix;
 
     Board board = detectBoard(vid);
+    std::cout << board.topLeft;
+    
     while (true) {
         detectTrains(vid, board, trains);
         std::cout << "-----------" << std::endl;
