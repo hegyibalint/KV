@@ -105,7 +105,7 @@ class ModelUtil {
 		var train1 = createTrain
 		var train2 = createTrain
 		train1.id = 1
-		train2.id = 2
+		train2.id = 0
 		
 		train1.currentlyOn = getSectionByID(sectionModel,0x15); // TODO remove this
 		train1.goingClockwise = true

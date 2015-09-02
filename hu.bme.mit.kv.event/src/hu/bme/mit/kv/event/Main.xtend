@@ -1,8 +1,11 @@
 package hu.bme.mit.kv.event
 
 import hu.bme.mit.kv.event.mapping.QueryEngine2ViatraCep
+import hu.bme.mit.kv.json.JsonObject
 import hu.bme.mit.kv.model.modelutil.ModelUtil
+import hu.bme.mit.kv.model.railroadmodel.Section
 import hu.bme.mit.kv.model.railroadmodel.SectionModel
+import hu.bme.mit.kv.model.railroadmodel.Train
 import hu.bme.mit.kv.model.railroadmodel.TrainModel
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -11,12 +14,14 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.viatra.cep.core.api.engine.CEPEngine
 import org.eclipse.viatra.cep.core.metamodels.automaton.EventContext
 import org.eclipse.viatra.cep.examples.sosym.tests.internal.DefaultRealm
 import org.junit.Before
 import org.junit.Test
-import hu.bme.mit.kv.json.JsonObject
+import hu.bme.mit.kv.model.railroadmodel.Point
 
 class Main {
 	extension CepFactory factory = CepFactory.instance
@@ -26,7 +31,8 @@ class Main {
 	var QueryEngine2ViatraCep mapping
 	var Resource resource
 	var ResourceSet resourceSet
-	var CEPEngine engine
+	var CEPEngine eventEngine
+	var IncQueryEngine queryEngine
 
 	var SectionModel sectionModel // root of the runtime EMF model
 	var TrainModel trainModel
@@ -35,7 +41,7 @@ class Main {
 	def void setUp() {
 		realm = new DefaultRealm;
 
-		engine = CEPEngine.newEngine().eventContext(EventContext.CHRONICLE).rules(allRules).prepare(); 
+		eventEngine = CEPEngine.newEngine().eventContext(EventContext.CHRONICLE).rules(allRules).prepare(); 
 
 		sectionModel = ModelUtil.loadReadySectionModel
 		trainModel = ModelUtil.createReadyTrainModel(sectionModel)
@@ -49,16 +55,18 @@ class Main {
 		resource.getContents().add(sectionModel)
 		resource.getContents().add(trainModel)
 		
+		queryEngine = IncQueryEngine.on(new EMFScope(resourceSet))
+		
 
-		mapping = QueryEngine2ViatraCep.register(resourceSet, engine.streamManager.newEventStream)
+		mapping = QueryEngine2ViatraCep.register(resourceSet, eventEngine.streamManager.newEventStream)
 
 	}
 	 
 	@Test
 	def void testFunction(){
 		println("=================================")	
-		//var asd = ResetTransformations.toGraphViz(engine.internalModel)
-		//println(asd)
+//		var asd = ResetTransformations.toGraphViz(engine.internalModel)
+//		println(asd)
 //		var eventStream = engine.getStreamManager().newEventStream();
 //		eventStream.push(createA_Event)
 //		eventStream.push(createB_Event)
@@ -74,6 +82,37 @@ class Main {
 		sectionModel.sections.forEach[ firstSection | sectionModel.sections.forEach[ secondSection | println('''==============''') println(''''Train1 : «firstSection.id»; Train2 : «secondSection.id»''') train1.currentlyOn = firstSection; train2.currentlyOn = secondSection  ] ]
 	}
 	
+		
+	
+	
+	def findClosestPoint(Train t, Section s) {
+		var minValue = Double.MAX_VALUE
+		
+		for (Point p : s.points) {
+			var dist = (t.x - p.x)*(t.x - p.x) +  (t.y - p.y)*(t.y - p.y)
+			if (minValue > dist) {
+				minValue = dist
+			}
+		}
+		
+		return minValue
+	}
+	
+	def findClosestSection(Train t, SectionModel sm) {
+		var Section minSec
+		var minDist = Double.MAX_VALUE
+		
+		for (Section s : sm.sections) {
+			var dist = findClosestPoint(t, s)
+			if (minDist > dist) {
+				minDist = dist
+				minSec = s 
+			}
+		}
+		
+		return minSec
+	}
+	
 	@Test
 	def void networkTest(){
 		val DatagramSocket socket = new DatagramSocket(24000)
@@ -86,6 +125,7 @@ class Main {
 			socket.receive(packet);
 			val trimmed = new String(packet.data).trim
 			val data = JsonObject.readFrom(trimmed)
+			
 			val trains = data.get("trains").asArray
 			for(i : trains){
 				val train = i.asObject
@@ -96,7 +136,16 @@ class Main {
 				val direction = train.get("dir").asString
 				
 				println("ID = " + id +"\tX = " + posX + "\tY = " + posY + "\tspeed = " + speed + "\tdirection = " + direction)
+				val modelTrain = trainModel.trains.filter[t | t.id == id].head
+				modelTrain.x = posX
+				modelTrain.y = posY
+//				modelTrain.speed = speed
+				modelTrain.goingClockwise = (direction.equals("CW"))
+				
+				println(ModelUtil.toHexa(findClosestSection(modelTrain, sectionModel).id))
+
 			}
+			
 		}
 	}
 } 

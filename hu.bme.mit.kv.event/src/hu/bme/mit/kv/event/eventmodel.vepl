@@ -8,17 +8,17 @@ QueryResultChangeEvent safe(){
 }
 
 QueryResultChangeEvent onSame(){
-	query: sameSection
+	query: twoTrainsInSameSection
 	resultChangeType: NEW_MATCH_FOUND
 }
 
 QueryResultChangeEvent zeroBetween(){
-	query: zeroBetween
+	query: twoTrainsWithZeroSectionsBetweenThem
 	resultChangeType: NEW_MATCH_FOUND
 }
 
 QueryResultChangeEvent oneBetween(){
-	query: oneBetween
+	query: twoTrainsWithOneSectionsBetweenThem
 	resultChangeType: NEW_MATCH_FOUND
 }
 
@@ -31,7 +31,8 @@ Rule debugRule{
 
 
 
-/*
+ /*
+ 
 AtomicEvent A
 AtomicEvent B
 

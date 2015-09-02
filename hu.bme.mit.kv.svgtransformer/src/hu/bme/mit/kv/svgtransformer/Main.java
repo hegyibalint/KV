@@ -63,7 +63,7 @@ public class Main {
 		SVGOMPathElement pathElement = (SVGOMPathElement)doc.getElementById(id);
 		SVGPathContext pathCtx = (SVGPathContext)pathElement.getSVGContext();
 		
-		for (float i = 0; i < pathCtx.getTotalLength(); i += 1.0) {
+		for (float i = 0; i < pathCtx.getTotalLength(); i += 3.0) {
 			Point point = ModelFactory.eINSTANCE.createPoint();
 			java.awt.geom.Point2D.Float pointAtLength = (java.awt.geom.Point2D.Float)pathCtx.getPointAtLength(i);
 			point.setX(pointAtLength.getX());

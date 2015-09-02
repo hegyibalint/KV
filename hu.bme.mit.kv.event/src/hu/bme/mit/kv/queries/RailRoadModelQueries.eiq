@@ -2,27 +2,153 @@ package hu.bme.mit.kv.queries
 
 import "http://hu.bme.mit.kv.railroadmodel"
 
-pattern pointIsFurtherAway(t : Train, p1 : Point, p2 : Point){
-	p1 != p2;
-	Train.x(t,tx);
-	Train.y(t,ty);
-	Point.x(p1,p1x);
-	Point.y(p1,p1y);
-	Point.x(p2,p2x);
-	Point.y(p2,p2y);
+//
+////Patterns for finding the section by coordinates
+//
+//pattern pointIsFurtherAwayInSameSection(t : Train, p1 : Point, p2 : Point, s : Section){
+//	Section.points(s,p1);
+//	Section.points(s,p2);
+//	p1 != p2;
+//	Train.x(t,tx);
+//	Train.y(t,ty);
+//	Point.x(p1,p1x);
+//	Point.y(p1,p1y);
+//	Point.x(p2,p2x);
+//	Point.y(p2,p2y);
+//	
+//	check( ((tx-p1x)*(tx-p1x) + (ty-p1y)*(ty-p1y)) < ((tx-p2x)*(tx-p2x) + (ty-p2y)*(ty-p2y)));
+//}
+//
+//pattern closestPointToTrain2(t : Train, p : Point, s : Section){
+//	neg find pointIsFurtherAwayInSameSection(t, _, p, s);
+//}
+//
+//pattern sectionIsCloserToTrain(t : Train, s1 : Section, s2 : Section){
+//	s1 != s2;
+//	find closestPointToTrain2(t, p1, s1);
+//	find closestPointToTrain2(t, p2, s2);
+//	Point.x(p1, p1x);
+//	Point.y(p1, p1y);
+//	Point.x(p2, p2x);
+//	Point.y(p2, p2y);
+//	Train.x(t, tx);
+//	Train.y(t, ty);
+//	check( ((tx-p1x)*(tx-p1x) + (ty-p1y)*(ty-p1y)) < ((tx-p2x)*(tx-p2x) + (ty-p2y)*(ty-p2y)));
+//}
+//
+//pattern ClosestSectionToTrain2(t : Train, s :  Section){
+//	neg find sectionIsCloserToTrain(t, s , _);
+//}
+//
+//
+//// Old patterns
+//
+//pattern pointIsFurtherAway(t : Train, p1 : Point, p2 : Point){
+//	p1 != p2;
+//	Train.x(t,tx);
+//	Train.y(t,ty);
+//	Point.x(p1,p1x);
+//	Point.y(p1,p1y);
+//	Point.x(p2,p2x);
+//	Point.y(p2,p2y);
+//	
+//	check( ((tx-p1x)*(tx-p1x) + (ty-p1y)*(ty-p1y)) < ((tx-p2x)*(tx-p2x) + (ty-p2y)*(ty-p2y)));
+//}
+//
+//pattern closestPointToTrain(t : Train, p : Point){
+//	neg find pointIsFurtherAway(t, _, p);
+//}
+//
+//pattern closestSectionToTrain(t : Train, s : Section){
+//	Point(p);
+//	find closestPointToTrain(t, p);
+//	Section.points(s, p);
+//}
+
+//Pattern to find basic relations between trains
+
+pattern turnout(turnout : Turnout){
+	Turnout(turnout);
+}
+
+pattern sectionNeighbor(s1 : Section, s2 : Section){
+	neg find turnout(s1);
+	neg find turnout(s2);
+	Section.clockwise(s1,s2);
+} or {
+	neg find turnout(s1);
+	neg find turnout(s2);
+	Section.counterClockwise(s1,s2);
+}
+
+pattern inSameRailroadPart(section : Section, someSection : Section){
+	find sectionNeighbor+(section, someSection);
+	section != someSection;
+}
+
+pattern turnoutAtTheEndOfTheRailroadPart(section : Section, turnout : Turnout) //XXX & do we need this?
+{
+	find inSameRailroadPart(section, sectionNearTheTurnout);
+	Section.clockwise(sectionNearTheTurnout, turnout);
+} or
+{
+	find inSameRailroadPart(section, sectionNearTheTurnout);
+	Section.counterClockwise(sectionNearTheTurnout, turnout);
+} or
+{
+	Section.clockwise(section, turnout);
+} or
+{
+	Section.counterClockwise(section, turnout);
+}
+
+pattern trainsInSameRailroadPart(train1 : Train, train2 : Train){
+	Train.currentlyOn(train1, section1);
+	Train.currentlyOn(train2, section2);
+	find inSameRailroadPart(section1,section2);
+}
+
+//pattern nextSectionWithTrain(t : Train, section1 : Section, section2 : Section){
+//	Train.goingClockwise(t, true);
+//	Section.clockwise(section1, section2);
+//} or {
+//	Train.goingClockwise(t, false);
+//	Section.counterClockwise(section1, section2);
+//}
+
+pattern trainsNextTurnout(train : Train, turnout : Turnout){
+	Train.goingClockwise(train,true);
+	Train.currentlyOn(train, trainSection);
+	Section.clockwise(sectionNextToTurnout, turnout);
+	find inSameRailroadPart(trainSection, sectionNextToTurnout);
+} or {
+	Train.goingClockwise(train,false);
+	Train.currentlyOn(train, trainSection);
+	Section.counterClockwise(sectionNextToTurnout, turnout);
+	find inSameRailroadPart(trainSection, sectionNextToTurnout);
+}
+
+pattern turnoutWithTwoTrainsComingTowards(turnout : Turnout, train1 : Train, train2 : Train ){
+	train1 != train2;
+	find trainsNextTurnout(train1, turnout);
+	find trainsNextTurnout(train2, turnout);
 	
-	check( ((tx-p1x)*(tx-p1x) + (ty-p1y)*(ty-p1y)) < ((tx-p2x)*(tx-p2x) + (ty-p2y)*(ty-p2y)));
 }
 
-pattern closestPointToTrain(t : Train, p : Point){
-	neg find pointIsFurtherAway(t, _, p);
+pattern nextSectionInClockwise(from : Section, to : Section){
+	Section.clockwise(from,to);
 }
 
-pattern closestSectionToTrain(t : Train, s : Section){
-	Point(p);
-	find closestPointToTrain(t, p);
-	Section.points(s, p);
+pattern nextSectionInCounterClockwise(from : Section, to : Section){
+	Section.counterClockwise(from,to);
 }
+
+
+pattern inTheForwardPath(t : Train, s : Section){
+	find sectionBeforeTrain(t,s); 
+}
+
+//Patterns to find which section is the next one for each train
 
 pattern sectionBeforeClockwiseTrain(t: Train, s: Section) {
 	Train.goingClockwise(t, true);
@@ -42,19 +168,19 @@ pattern sectionBeforeTrain(t : Train, s : Section){
 	find sectionBeforeClockwiseTrain(t,s);
 }
 
-pattern sameSection(t1 : Train, t2 : Train){
+pattern twoTrainsInSameSection(t1 : Train, t2 : Train){
 	t1 != t2;
 	Train.currentlyOn(t1, section);
 	Train.currentlyOn(t2, section);
 }
 
-pattern zeroBetween(t1 : Train, t2 : Train){
+pattern twoTrainsWithZeroSectionsBetweenThem(t1 : Train, t2 : Train){
 	t1 != t2; //Feel free to remove this when the turner has been implemented
 	Train.currentlyOn(t1, section);
 	find sectionBeforeTrain(t2, section);
 }
 
-pattern oneBetween(t1 : Train, t2 : Train){
+pattern twoTrainsWithOneSectionsBetweenThem(t1 : Train, t2 : Train){
 	t1 != t2;//Feel free to remove this when the turner has been implemented
 	find sectionBeforeTrain(t1, section);
 	find sectionBeforeTrain(t2, section);
@@ -62,8 +188,8 @@ pattern oneBetween(t1 : Train, t2 : Train){
 
 pattern safe(t1: Train, t2: Train){
 	t1 != t2;
-	0 == count find sameSection(t1, t2);
-	0 == count find zeroBetween(t1,t2);
-	0 == count find oneBetween(t1,t2);
+	0 == count find twoTrainsInSameSection(t1, t2);
+	0 == count find twoTrainsWithZeroSectionsBetweenThem(t1,t2);
+	0 == count find twoTrainsWithOneSectionsBetweenThem(t1,t2);
 
 }
