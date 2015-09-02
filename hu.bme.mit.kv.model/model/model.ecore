@@ -22,14 +22,16 @@
         eType="#//Section"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         iD="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="points" upperBound="-1"
-        eType="#//Point" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="points" lowerBound="2"
+        upperBound="-1" eType="#//Point" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Turnout" eSuperTypes="#//Section">
     <eStructuralFeatures xsi:type="ecore:EReference" name="notConnectedSection" lowerBound="1"
         eType="#//Section"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="twoSectionsInClockwiseDirection"
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rectangle" lowerBound="1"
+        eType="#//Rectangle" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Turn" eSuperTypes="#//Section"/>
   <eClassifiers xsi:type="ecore:EClass" name="Point">
@@ -39,5 +41,28 @@
   <eClassifiers xsi:type="ecore:EClass" name="SectionModel">
     <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
         eType="#//Section" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rectangle">
+    <eOperations name="isPointInside" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="point" eType="#//Point"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="origin" lowerBound="1"
+        eType="#//Point" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="size" lowerBound="1" eType="#//Dimension"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformation" lowerBound="1"
+        eType="#//Matrix" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dimension">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Matrix">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="c" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="d" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="e" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="f" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
 </ecore:EPackage>

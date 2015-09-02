@@ -85,6 +85,33 @@ public interface ModelFactory extends EFactory {
 	SectionModel createSectionModel();
 
 	/**
+	 * Returns a new object of class '<em>Rectangle</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Rectangle</em>'.
+	 * @generated
+	 */
+	Rectangle createRectangle();
+
+	/**
+	 * Returns a new object of class '<em>Dimension</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Dimension</em>'.
+	 * @generated
+	 */
+	Dimension createDimension();
+
+	/**
+	 * Returns a new object of class '<em>Matrix</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Matrix</em>'.
+	 * @generated
+	 */
+	Matrix createMatrix();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -285,9 +285,6 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
     vid >> raw;
     auto timestamp = std::chrono::high_resolution_clock::now();
     
-    Mat undistortedMat;
-    cv::undistort(raw, undistortedMat, cameraMatrix, distCoeffs);
-    
     static GpuMat trainCircle = createCirclePattern(raw.size(), 10, 8, 4);
     static Mat contour;
     contour = convolve(raw, trainCircle, 0.6);
@@ -346,12 +343,12 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
             std::cout << trains[id].getCoordinate() << std::endl;
             std::cout << trains[id].getSpeed() << " cm/s" << std::endl;
             
-            cv::circle(undistortedMat, Train::getCorrectedToCamera(Train::getCorrectedCenter(center, board), board), 4, Scalar(0, 0, 255), -1);
-            cv::circle(undistortedMat, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
+            cv::circle(raw, Train::getCorrectedToCamera(Train::getCorrectedCenter(center, board), board), 4, Scalar(0, 0, 255), -1);
+            cv::circle(raw, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
             json.addTrain(trains[id]);
         }
         
-        cv::line(undistortedMat, start, end, Scalar(255, 0, 0));
+        cv::line(raw, start, end, Scalar(255, 0, 0));
         
         /*
         Mat_<Point2f> src(1, static_cast<int>(trains.size()));
@@ -381,8 +378,8 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
     
     sendData(json);
     
-    cv::resize(undistortedMat, undistortedMat, raw.size() / 3 * 2);
-    imshow("1", undistortedMat);
+    cv::resize(raw, raw, raw.size() / 3 * 2);
+    imshow("1", raw);
     waitKey(1);
 }
 

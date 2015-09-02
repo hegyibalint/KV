@@ -26,6 +26,7 @@
     <genClasses ecoreClass="model.ecore#//Turnout">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/notConnectedSection"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Turnout/twoSectionsInClockwiseDirection"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/rectangle"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Turn"/>
     <genClasses ecoreClass="model.ecore#//Point">
@@ -34,6 +35,26 @@
     </genClasses>
     <genClasses ecoreClass="model.ecore#//SectionModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//SectionModel/sections"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Rectangle">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/origin"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/size"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/transformation"/>
+      <genOperations ecoreOperation="model.ecore#//Rectangle/isPointInside">
+        <genParameters ecoreParameter="model.ecore#//Rectangle/isPointInside/point"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Dimension">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Dimension/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Dimension/height"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Matrix">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Matrix/a"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Matrix/b"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Matrix/c"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Matrix/d"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Matrix/e"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Matrix/f"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
