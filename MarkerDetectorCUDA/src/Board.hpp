@@ -41,6 +41,11 @@ struct Board {
         this->inverseTrans = trans.inv();
     }
     
+    cv::Rect getBoundingBox() {
+        std::vector<cv::Point> points = { topLeft, topRight, bottomLeft, bottomRight };
+        return cv::boundingRect(points);
+    }
+    
     Point2f getCenter() {
         return Point2f(BOARD_WIDTH / 2, BOARD_HEIGHT / 2);
     }

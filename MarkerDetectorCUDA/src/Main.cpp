@@ -36,9 +36,11 @@ void sendData(TrainJSON& trainJSON) {
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(24000);
-    addr.sin_addr.s_addr = inet_addr("152.66.157.105");
+    addr.sin_addr.s_addr = inet_addr("152.66.158.186");
     
     std::string data = trainJSON.generateJSON();
+    sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
+    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
 }
 
@@ -378,9 +380,16 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
     
     sendData(json);
     
+    auto end = std::chrono::high_resolution_clock::now();
+    auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - timestamp).count();
+    
+    std::cout << "Fps: " << 1000.0 / dur << std::endl;
+    
+    /*
     cv::resize(raw, raw, raw.size() / 3 * 2);
     imshow("1", raw);
     waitKey(1);
+    */
 }
 
 int main(int argc, char** argv)
