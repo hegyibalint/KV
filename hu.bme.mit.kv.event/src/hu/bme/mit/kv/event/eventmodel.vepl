@@ -2,25 +2,25 @@ package hu.bme.mit.kv.event
 
 import-queries hu.bme.mit.kv.queries.*
 
-QueryResultChangeEvent safe(){
-	query: safe
-	resultChangeType: NEW_MATCH_FOUND
-}
+//QueryResultChangeEvent safe(){
+//	query: safe
+//	resultChangeType: NEW_MATCH_FOUND
+//}
 
 QueryResultChangeEvent onSame(){
 	query: twoTrainsInSameSection
 	resultChangeType: NEW_MATCH_FOUND
 }
-
-QueryResultChangeEvent zeroBetween(){
-	query: twoTrainsWithZeroSectionsBetweenThem
-	resultChangeType: NEW_MATCH_FOUND
-}
-
-QueryResultChangeEvent oneBetween(){
-	query: twoTrainsWithOneSectionsBetweenThem
-	resultChangeType: NEW_MATCH_FOUND
-}
+//
+//QueryResultChangeEvent zeroBetween(){
+//	query: twoTrainsWithZeroSectionsBetweenThem
+//	resultChangeType: NEW_MATCH_FOUND
+//}
+//
+//QueryResultChangeEvent oneBetween(){
+//	query: twoTrainsWithOneSectionsBetweenThem
+//	resultChangeType: NEW_MATCH_FOUND
+//}
 
 QueryResultChangeEvent cut(){
 	query: trainGoingToCutTheTurnout
@@ -28,7 +28,7 @@ QueryResultChangeEvent cut(){
 }
 
 Rule debugRule{
-	events: safe, onSame, zeroBetween, oneBetween, cut
+	events: onSame, cut//, zeroBetween, oneBetween, safe, 
 	action{
 		println(ruleInstance.atom.observedEventPatternId.split("\\.").last.split("_pattern").head)
 	}

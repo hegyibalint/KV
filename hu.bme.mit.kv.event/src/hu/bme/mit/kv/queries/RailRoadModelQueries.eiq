@@ -114,22 +114,33 @@ pattern twoTrainsInSameSection(t1 : Train, t2 : Train){
 	Train.currentlyOn(t2, section);
 }
 
-pattern twoTrainsWithZeroSectionsBetweenThem(t1 : Train, t2 : Train){
-	t1 != t2; //Feel free to remove this when the turner has been implemented
-	Train.currentlyOn(t1, section);
-	find sectionBeforeTrain(t2, section);
+pattern trainIsGoingToHit(t1: Train, t2 : Train){
+	Train.goingClockwise(t1, true);
+	Train.currentlyOn.clockwise(t1,nextSection);
+	Train.currentlyOn(t2, nextSection);
+} or {
+	Train.goingClockwise(t1, false);
+	Train.currentlyOn.counterClockwise(t1,nextSection);
+	Train.currentlyOn(t2, nextSection);
+	
 }
 
-pattern twoTrainsWithOneSectionsBetweenThem(t1 : Train, t2 : Train){
-	t1 != t2;//Feel free to remove this when the turner has been implemented
-	find sectionBeforeTrain(t1, section);
-	find sectionBeforeTrain(t2, section);
-}
-
-pattern safe(t1: Train, t2: Train){
-	t1 != t2;
-	0 == count find twoTrainsInSameSection(t1, t2);
-	0 == count find twoTrainsWithZeroSectionsBetweenThem(t1,t2);
-	0 == count find twoTrainsWithOneSectionsBetweenThem(t1,t2);
-
-}
+//pattern twoTrainsWithZeroSectionsBetweenThem(t1 : Train, t2 : Train){
+//	t1 != t2; //Feel free to remove this when the turner has been implemented
+//	Train.currentlyOn(t1, section);
+//	find sectionBeforeTrain(t2, section);
+//}
+//
+//pattern twoTrainsWithOneSectionsBetweenThem(t1 : Train, t2 : Train){
+//	t1 != t2;//Feel free to remove this when the turner has been implemented
+//	find sectionBeforeTrain(t1, section);
+//	find sectionBeforeTrain(t2, section);
+//}
+//
+//pattern safe(t1: Train, t2: Train){
+//	t1 != t2;
+//	0 == count find twoTrainsInSameSection(t1, t2);
+//	0 == count find twoTrainsWithZeroSectionsBetweenThem(t1,t2);
+//	0 == count find twoTrainsWithOneSectionsBetweenThem(t1,t2);
+//
+//}
