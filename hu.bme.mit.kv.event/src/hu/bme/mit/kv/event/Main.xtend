@@ -35,7 +35,7 @@ import org.junit.Test
 
 class Main {
 	extension CepFactory factory = CepFactory.instance
-	
+
 	val Object lock = new Object;
 	var DefaultRealm realm;
 
@@ -47,12 +47,12 @@ class Main {
 
 	var SectionModel sectionModel // root of the runtime EMF model
 	var TrainModel trainModel
-	
+
 	@Before
 	def void setUp() {
 		realm = new DefaultRealm;
 
-		eventEngine = CEPEngine.newEngine().eventContext(EventContext.CHRONICLE).rules(allRules).prepare(); 
+		eventEngine = CEPEngine.newEngine().eventContext(EventContext.CHRONICLE).rules(allRules).prepare();
 
 		sectionModel = ModelUtil.loadReadySectionModel
 		trainModel = ModelUtil.createReadyTrainModel(sectionModel)
@@ -65,17 +65,16 @@ class Main {
 		resource = resourceSet.createResource(URI.createURI("railroad.model"))
 		resource.getContents().add(sectionModel)
 		resource.getContents().add(trainModel)
-		
+
 		queryEngine = IncQueryEngine.on(new EMFScope(resourceSet))
-		
 
 		mapping = QueryEngine2ViatraCep.register(resourceSet, eventEngine.streamManager.newEventStream)
 
 	}
-	 
+
 	@Test
-	def void testFunction(){
-		println("=================================")	
+	def void testFunction() {
+		println("=================================")
 //		var asd = ResetTransformations.toGraphViz(engine.internalModel)
 //		println(asd)
 //		var eventStream = engine.getStreamManager().newEventStream();
@@ -84,17 +83,24 @@ class Main {
 //		eventStream.push(createA_Event)
 //		eventStream.push(createB_Event)
 	}
-	
+
 	@Test
-	def void modelTest(){
+	def void modelTest() {
 		val train1 = trainModel.trains.get(0);
 		val train2 = trainModel.trains.get(1);
-		
-		sectionModel.sections.forEach[ firstSection | sectionModel.sections.forEach[ secondSection | println('''==============''') println(''''Train1 : «firstSection.id»; Train2 : «secondSection.id»''') train1.currentlyOn = firstSection; train2.currentlyOn = secondSection  ] ]
+
+		sectionModel.sections.forEach [ firstSection |
+			sectionModel.sections.forEach [ secondSection |
+				println('''==============''')
+				println(''''Train1 : «firstSection.id»; Train2 : «secondSection.id»''')
+				train1.currentlyOn = firstSection;
+				train2.currentlyOn = secondSection
+			]
+		]
 	}
-	
+
 	@Test
-	def void serverTest(){
+	def void serverTest() {
 		AbstractRequest.defaultPort = 8080
 		val sender = new SectionStateRequestSender;
 //		sender.disableSection(22);
@@ -102,124 +108,119 @@ class Main {
 //		Thread.sleep(500);
 //		
 //		sender.enableSection(22);
-		
-		
-		sectionModel.sections.forEach[section |  sender.disableSection(section.id) Thread.sleep(250)]
-		
+		sectionModel.sections.forEach[section|sender.disableSection(section.id) Thread.sleep(250)]
+
 		Thread.sleep(2000)
-		sectionModel.sections.forEach[section |  sender.enableSection(section.id) Thread.sleep(250)]
-		
+		sectionModel.sections.forEach[section|sender.enableSection(section.id) Thread.sleep(250)]
+
 	}
-		
+
 	def Turnout findOccupiedTurnout(Train t, SectionModel sm) {
 		val p = ModelFactory.eINSTANCE.createPoint
 		p.x = t.x
 		p.y = t.y
-		
-		val filtered = sm.sections.filter[section | section instanceof Turnout]
+
+		val filtered = sm.sections.filter[section|section instanceof Turnout]
 		for (Section s : filtered) {
 			val turnout = s as Turnout
 			if (turnout.rectangle.isPointInside(p)) {
 				return turnout
 			}
 		}
-		
+
 		return null
 	}
-	
+
 	def findClosestPoint(Train t, Section s) {
 		var minValue = Double.MAX_VALUE
-		
+
 		for (Point p : s.points) {
-			var dist = (t.x - p.x)*(t.x - p.x) +  (t.y - p.y)*(t.y - p.y)
+			var dist = (t.x - p.x) * (t.x - p.x) + (t.y - p.y) * (t.y - p.y)
 			if (minValue > dist) {
 				minValue = dist
 			}
 		}
-		
+
 		return minValue
 	}
-	
+
 	def findClosestSection(Train t, SectionModel sm) {
 		var Section minSec
 		var minDist = Double.MAX_VALUE
-		
+
 		for (Section s : sm.sections) {
 			var dist = findClosestPoint(t, s)
 			if (minDist > dist) {
 				minDist = dist
-				minSec = s 
+				minSec = s
 			}
 		}
-		
+
 		return minSec
 	}
-	
+
 	@Test
-	def void turnoutReaderTest(){
+	def void turnoutReaderTest() {
 		AbstractRequest.defaultPort = 8080
 		val sender = new TurnoutDirectionRequestSender
-		var turnoutIds = #[0x81,0x82,0x83,0x84,0x85];
-		while(true){
-			for(id : turnoutIds){
+		var turnoutIds = #[0x81, 0x82, 0x83, 0x84, 0x85];
+		while (true) {
+			for (id : turnoutIds) {
 				println(id + "switch state = " + sender.isTurnoutStraight(id))
 			}
 			Thread.sleep(10000)
-		}		
-		
+		}
+
 	}
-	
+
 	@Test
-	def void patternTest(){
+	def void patternTest() {
 //		var reader = new TurnoutReader(sectionModel)
 //		var thread = new Thread(reader);
 //		thread.run
-		
-		
 		Thread.sleep(500)
-		
-		var train = trainModel.trains.findFirst[t | t.id == 1]
+
+		var train = trainModel.trains.findFirst[t|t.id == 1]
 		train.currentlyOn = ModelUtil.getSectionByID(sectionModel, 0xB);
 		train.goingClockwise = true
-		
-		for(match : TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches){
+
+		for (match : TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches) {
 			println("CUT")
 //			var sender = new SectionStateRequestSender
 //			sender.disableSection(match.train.currentlyOn.id); 
 		}
-		
-		for(match : TrainsNextTurnoutMatcher.on(queryEngine).allMatches){
+
+		for (match : TrainsNextTurnoutMatcher.on(queryEngine).allMatches) {
 			println("train " + match.train.id + " next turnout = " + match.turnout.id)
 		}
-		
-		for(match : SectionsInSameRailroadPartAsTrainMatcher.on(queryEngine).allMatches) {
+
+		for (match : SectionsInSameRailroadPartAsTrainMatcher.on(queryEngine).allMatches) {
 			println("train " + match.train.id + " is in the same part as seciton " + match.section.id)
-		} 
-		
-		for (match : InSameRailroadPartMatcher.on(queryEngine).allMatches){
+		}
+
+		for (match : InSameRailroadPartMatcher.on(queryEngine).allMatches) {
 			println("works?")
 		}
-		
-		for (match : SectionNeighborMatcher.on(queryEngine).allMatches){
+
+		for (match : SectionNeighborMatcher.on(queryEngine).allMatches) {
 			println("asd = " + match.s1.id + " asd = " + match.s2.id)
 		}
 	}
-	
-	
+
 	@Test
-	def void networkTest(){
+	def void networkTest() {
 		var reader = new TurnoutReader(sectionModel, lock)
 		var thread = new Thread(reader);
 		thread.start
-		
+
 		val DatagramSocket socket = new DatagramSocket(24000)
 		var boolean flag = true
-		
-		while(flag){
-			val buffer = newByteArrayOfSize(1024*16)
+
+		while (flag) {
+			val buffer = newByteArrayOfSize(1024 * 16)
 			var sender = new SectionStateRequestSender
 			val packet = new DatagramPacket(buffer, buffer.length)
-			
+
 //			println("Recieving a packet!")
 			socket.receive(packet);
 //			println("Packet recieved")
@@ -229,54 +230,55 @@ class Main {
 			val timestamp = data.get("timestamp").asLong
 			val trains = data.get("trains").asArray
 			synchronized (lock) {
-				for(i : trains){
+				for (i : trains) {
 					val jsonTrain = i.asObject
 					val id = jsonTrain.get("id").asInt
 					val posX = jsonTrain.get("x").asDouble
 					val posY = jsonTrain.get("y").asDouble
 					val speed = jsonTrain.get("speed").asDouble
 					val direction = jsonTrain.get("dir").asString
-	
-					
-					val modelTrain = trainModel.trains.findFirst[t | t.id == id]
+
+					val modelTrain = trainModel.trains.findFirst[t|t.id == id]
 					modelTrain.x = posX
 					modelTrain.y = posY
-	//				modelTrain.speed = speed
-					modelTrain.goingClockwise = (direction.equals("CW"))
-					
+//				modelTrain.speed = speed
+					if (!direction.toUpperCase.equals("NONE")) {
+						modelTrain.goingClockwise = (direction.equals("CW"))
+					}
+
 					var occupied = findOccupiedTurnout(modelTrain, sectionModel) as Section
 					if (occupied == null) {
 						occupied = findClosestSection(modelTrain, sectionModel)
 					}
-					
-					println(timestamp + "#:\tID = " + modelTrain.id +"\tX = " +  modelTrain.x + "\tY = " +  modelTrain.y + "\tspeed = " + speed + "\tdirection = " +  modelTrain.isGoingClockwise + "\tsection = 0x"+ModelUtil.toHexa(occupied.id))
+
+					println(timestamp + "#:\tID = " + modelTrain.id + "\tX = " + modelTrain.x + "\tY = " + modelTrain.y + "\tspeed = " + speed + "\tdirection = " + modelTrain.isGoingClockwise + "\tsection = 0x" + ModelUtil.toHexa(occupied.id))
+
 					modelTrain.currentlyOn = occupied
-					
+
 					val cutMatches = TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches
 					if (cutMatches.size == 0) {
-						sender.enableSection(modelTrain.currentlyOn.id); 
+						sender.enableSection(modelTrain.currentlyOn.id);
 						println("No cut")
 					} else {
-						for(match : cutMatches) {
+						for (match : cutMatches) {
 							println("CUT")
-							println("TurnoutStats cw = " + match.turnout.clockwise.id + "\tccw = " + match.turnout.counterClockwise.id + "\tnot = " + match.turnout.notConnectedSection.id)
-							sender.disableSection(match.train.currentlyOn.id); 
+							println("TurnoutStats cw = " + match.turnout.clockwise.id + "\tccw = " + match.turnout.counterClockwise.id + "\tnot = " + match.turnout.notConnectedSection.id) 
+								sender.disableSection(match.train.currentlyOn.id);
+								}
+							}
+
+							var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
+							if (matches.size == 0) {
+								println("I don't see the next turnout")
+							}
+							for (match : matches) {
+								println("train " + match.train.id + " next turnout = " + match.turnout.id)
+							}
+						// for(match : InSameRailroadPartMatcher.on(queryEngine).allMatches){
+						//
+						// }
 						}
 					}
-					
-					var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
-					if(matches.size == 0){
-						println("I don't see the next turnout")
-					}
-					for(match : matches){
-						println("train " + match.train.id + " next turnout = " + match.turnout.id)
-					}
-	//				for(match : InSameRailroadPartMatcher.on(queryEngine).allMatches){
-	//					
-	//				}
 				}
 			}
-			
-		}
-	}
-} 
+		} 
