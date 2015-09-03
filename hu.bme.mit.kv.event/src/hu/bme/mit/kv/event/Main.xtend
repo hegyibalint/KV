@@ -16,12 +16,6 @@ import hu.bme.mit.kv.queries.SectionsInSameRailroadPartAsTrainMatcher
 import hu.bme.mit.kv.queries.TrainGoingToCutTheTurnoutMatcher
 import hu.bme.mit.kv.queries.TrainIsGoingToHitMatcher
 import hu.bme.mit.kv.queries.TrainsNextTurnoutMatcher
-import hu.bme.mit.kv.model.railroadmodel.Turnout
-import hu.bme.mit.kv.queries.InSameRailroadPartMatcher
-import hu.bme.mit.kv.queries.SectionNeighborMatcher
-import hu.bme.mit.kv.queries.SectionsInSameRailroadPartAsTrainMatcher
-import hu.bme.mit.kv.queries.TrainGoingToCutTheTurnoutMatcher
-import hu.bme.mit.kv.queries.TrainsNextTurnoutMatcher
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import kvcontrol.requests.AbstractRequest
@@ -296,23 +290,23 @@ class Main {
 						// }
 						}
 					}
-				}
-				
-				var trainNextTurnoutMatches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
-				if(trainNextTurnoutMatches.size == 0){
-					println("I don't see the next turnout")
-				}
-				for(match : trainNextTurnoutMatches){
-					println("train " + match.train.id + " next turnout = " + match.turnout.id)
-				}
-				
-				var trainHitMatchers = TrainIsGoingToHitMatcher.on(queryEngine).allMatches
-				if(trainHitMatchers.size == 0){
-					println("No train is going to hit the other");
-				}
-				for(match : trainHitMatchers){
-					println("Train #" + match.t1.id + " is going to hit train #" + match.t2.id)
-					sender.disableSection(match.t1.currentlyOn.id); 
+					
+					var trainNextTurnoutMatches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
+					if(trainNextTurnoutMatches.size == 0){
+						println("I don't see the next turnout")
+					}
+					for(match : trainNextTurnoutMatches){
+						println("train " + match.train.id + " next turnout = " + match.turnout.id)
+					}
+					
+					var trainHitMatchers = TrainIsGoingToHitMatcher.on(queryEngine).allMatches
+					if(trainHitMatchers.size == 0){
+						println("No train is going to hit the other");
+					}
+					for(match : trainHitMatchers){
+						println("Train #" + match.t1.id + " is going to hit train #" + match.t2.id)
+						sender.disableSection(match.t1.currentlyOn.id); 
+					}
 				}
 			}
 		} 

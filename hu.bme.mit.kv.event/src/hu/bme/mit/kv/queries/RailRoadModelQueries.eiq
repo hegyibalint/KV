@@ -116,11 +116,11 @@ pattern twoTrainsInSameSection(t1 : Train, t2 : Train){
 
 pattern trainIsGoingToHit(t1: Train, t2 : Train){
 	Train.goingClockwise(t1, true);
-	Train.currentlyOn.clockwise(t1,nextSection);
+	Train.currentlyOn.clockwise.clockwise(t1,nextSection);
 	Train.currentlyOn(t2, nextSection);
 } or {
 	Train.goingClockwise(t1, false);
-	Train.currentlyOn.counterClockwise(t1,nextSection);
+	Train.currentlyOn.counterClockwise.counterClockwise(t1,nextSection);
 	Train.currentlyOn(t2, nextSection);
 	
 }

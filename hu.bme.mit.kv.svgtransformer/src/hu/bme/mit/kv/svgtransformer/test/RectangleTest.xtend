@@ -3,11 +3,10 @@ package hu.bme.mit.kv.svgtransformer.test
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory
 import hu.bme.mit.kv.model.railroadmodel.Turnout
 import hu.bme.mit.kv.svgtransformer.Transformer
+import org.junit.Before
 import org.junit.Test
 
-import static org.junit.Assert.*;
-import hu.bme.mit.kv.model.railroadmodel.SectionModel
-import org.junit.Before
+import static org.junit.Assert.*
 
 class RectangleTest {
 	var Turnout turnout1
