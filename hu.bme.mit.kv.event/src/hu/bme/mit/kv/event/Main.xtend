@@ -3,12 +3,23 @@ package hu.bme.mit.kv.event
 import hu.bme.mit.kv.event.mapping.QueryEngine2ViatraCep
 import hu.bme.mit.kv.json.JsonObject
 import hu.bme.mit.kv.model.modelutil.ModelUtil
+import hu.bme.mit.kv.model.railroadmodel.ModelFactory
+import hu.bme.mit.kv.model.railroadmodel.Point
 import hu.bme.mit.kv.model.railroadmodel.Section
 import hu.bme.mit.kv.model.railroadmodel.SectionModel
 import hu.bme.mit.kv.model.railroadmodel.Train
 import hu.bme.mit.kv.model.railroadmodel.TrainModel
+import hu.bme.mit.kv.model.railroadmodel.Turnout
+import hu.bme.mit.kv.queries.InSameRailroadPartMatcher
+import hu.bme.mit.kv.queries.SectionNeighborMatcher
+import hu.bme.mit.kv.queries.SectionsInSameRailroadPartAsTrainMatcher
+import hu.bme.mit.kv.queries.TrainGoingToCutTheTurnoutMatcher
+import hu.bme.mit.kv.queries.TrainsNextTurnoutMatcher
 import java.net.DatagramPacket
 import java.net.DatagramSocket
+import kvcontrol.requests.AbstractRequest
+import kvcontrol.senders.SectionStateRequestSender
+import kvcontrol.senders.TurnoutDirectionRequestSender
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -21,22 +32,11 @@ import org.eclipse.viatra.cep.core.metamodels.automaton.EventContext
 import org.eclipse.viatra.cep.examples.sosym.tests.internal.DefaultRealm
 import org.junit.Before
 import org.junit.Test
-import hu.bme.mit.kv.model.railroadmodel.Point
-import kvcontrol.senders.SectionStateRequestSender
-import kvcontrol.requests.AbstractRequest
-import kvcontrol.senders.TurnoutDirectionRequestSender
-import hu.bme.mit.kv.queries.TrainGoingToCutTheTurnoutMatch
-import hu.bme.mit.kv.queries.TrainGoingToCutTheTurnoutMatcher
-import hu.bme.mit.kv.queries.TrainsNextTurnoutMatcher
-import hu.bme.mit.kv.queries.InSameRailroadPartMatcher
-import hu.bme.mit.kv.queries.SectionsInSameRailroadPartAsTrainMatcher
-import hu.bme.mit.kv.queries.SectionNeighborMatcher
-import hu.bme.mit.kv.model.railroadmodel.Turnout
-import hu.bme.mit.kv.model.railroadmodel.ModelFactory
 
 class Main {
 	extension CepFactory factory = CepFactory.instance
 	
+	val Object lock = new Object;
 	var DefaultRealm realm;
 
 	var QueryEngine2ViatraCep mapping
@@ -208,7 +208,7 @@ class Main {
 	
 	@Test
 	def void networkTest(){
-		var reader = new TurnoutReader(sectionModel)
+		var reader = new TurnoutReader(sectionModel, lock)
 		var thread = new Thread(reader);
 		thread.start
 		
@@ -228,53 +228,53 @@ class Main {
 			val data = JsonObject.readFrom(trimmed)
 			val timestamp = data.get("timestamp").asLong
 			val trains = data.get("trains").asArray
-			for(i : trains){
-				val jsonTrain = i.asObject
-				val id = jsonTrain.get("id").asInt
-				val posX = jsonTrain.get("x").asDouble
-				val posY = jsonTrain.get("y").asDouble
-				val speed = jsonTrain.get("speed").asDouble
-				val direction = jsonTrain.get("dir").asString
-
-				
-				val modelTrain = trainModel.trains.findFirst[t | t.id == id]
-				modelTrain.x = posX
-				modelTrain.y = posY
-//				modelTrain.speed = speed
-				modelTrain.goingClockwise = (direction.equals("CW"))
-				
-				var occupied = findOccupiedTurnout(modelTrain, sectionModel) as Section
-				if (occupied == null) {
-					occupied = findClosestSection(modelTrain, sectionModel)
-				}
-				
-				println(timestamp + "#:\tID = " + modelTrain.id +"\tX = " +  modelTrain.x + "\tY = " +  modelTrain.y + "\tspeed = " + speed + "\tdirection = " +  modelTrain.isGoingClockwise + "\tsection = 0x"+ModelUtil.toHexa(occupied.id))
-				modelTrain.currentlyOn = occupied
-				
-				val cutMatches = TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches
-				if (cutMatches.size == 0) {
-					sender.enableSection(modelTrain.currentlyOn.id); 
-					println("No cut")
-				} else {
-					for(match : cutMatches) {
-						println("CUT")
-						println("TurnoutStats cw = " + match.turnout.clockwise.id + "\tccw = " + match.turnout.counterClockwise.id + "\tnot = " + match.turnout.notConnectedSection.id)
-						sender.disableSection(match.train.currentlyOn.id); 
+			synchronized (lock) {
+				for(i : trains){
+					val jsonTrain = i.asObject
+					val id = jsonTrain.get("id").asInt
+					val posX = jsonTrain.get("x").asDouble
+					val posY = jsonTrain.get("y").asDouble
+					val speed = jsonTrain.get("speed").asDouble
+					val direction = jsonTrain.get("dir").asString
+	
+					
+					val modelTrain = trainModel.trains.findFirst[t | t.id == id]
+					modelTrain.x = posX
+					modelTrain.y = posY
+	//				modelTrain.speed = speed
+					modelTrain.goingClockwise = (direction.equals("CW"))
+					
+					var occupied = findOccupiedTurnout(modelTrain, sectionModel) as Section
+					if (occupied == null) {
+						occupied = findClosestSection(modelTrain, sectionModel)
 					}
+					
+					println(timestamp + "#:\tID = " + modelTrain.id +"\tX = " +  modelTrain.x + "\tY = " +  modelTrain.y + "\tspeed = " + speed + "\tdirection = " +  modelTrain.isGoingClockwise + "\tsection = 0x"+ModelUtil.toHexa(occupied.id))
+					modelTrain.currentlyOn = occupied
+					
+					val cutMatches = TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches
+					if (cutMatches.size == 0) {
+						sender.enableSection(modelTrain.currentlyOn.id); 
+						println("No cut")
+					} else {
+						for(match : cutMatches) {
+							println("CUT")
+							println("TurnoutStats cw = " + match.turnout.clockwise.id + "\tccw = " + match.turnout.counterClockwise.id + "\tnot = " + match.turnout.notConnectedSection.id)
+							sender.disableSection(match.train.currentlyOn.id); 
+						}
+					}
+					
+					var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
+					if(matches.size == 0){
+						println("I don't see the next turnout")
+					}
+					for(match : matches){
+						println("train " + match.train.id + " next turnout = " + match.turnout.id)
+					}
+	//				for(match : InSameRailroadPartMatcher.on(queryEngine).allMatches){
+	//					
+	//				}
 				}
-				
-				var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
-				if(matches.size == 0){
-					println("I don't see the next turnout")
-				}
-				for(match : matches){
-					println("train " + match.train.id + " next turnout = " + match.turnout.id)
-				}
-//				for(match : InSameRailroadPartMatcher.on(queryEngine).allMatches){
-//					
-//				}
-				
-				
 			}
 			
 		}
