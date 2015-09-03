@@ -58,4 +58,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnglishTurnout" eSuperTypes="#//Turnout">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notConnectedClockwiseSection"
+        lowerBound="1" eType="#//Section"/>
+  </eClassifiers>
 </ecore:EPackage>

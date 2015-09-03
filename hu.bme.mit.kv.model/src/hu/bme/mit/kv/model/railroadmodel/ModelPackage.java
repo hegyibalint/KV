@@ -581,6 +581,107 @@ public interface ModelPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.EnglishTurnoutImpl <em>English Turnout</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.EnglishTurnoutImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getEnglishTurnout()
+	 * @generated
+	 */
+	int ENGLISH_TURNOUT = 9;
+
+	/**
+	 * The feature id for the '<em><b>Clockwise</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENGLISH_TURNOUT__CLOCKWISE = TURNOUT__CLOCKWISE;
+
+	/**
+	 * The feature id for the '<em><b>Counter Clockwise</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENGLISH_TURNOUT__COUNTER_CLOCKWISE = TURNOUT__COUNTER_CLOCKWISE;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENGLISH_TURNOUT__ID = TURNOUT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Points</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENGLISH_TURNOUT__POINTS = TURNOUT__POINTS;
+
+	/**
+	 * The feature id for the '<em><b>Not Connected Section</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENGLISH_TURNOUT__NOT_CONNECTED_SECTION = TURNOUT__NOT_CONNECTED_SECTION;
+
+	/**
+	 * The feature id for the '<em><b>Two Sections In Clockwise Direction</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENGLISH_TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION = TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION;
+
+	/**
+	 * The feature id for the '<em><b>Rectangle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENGLISH_TURNOUT__RECTANGLE = TURNOUT__RECTANGLE;
+
+	/**
+	 * The feature id for the '<em><b>Not Connected Clockwise Section</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENGLISH_TURNOUT__NOT_CONNECTED_CLOCKWISE_SECTION = TURNOUT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>English Turnout</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENGLISH_TURNOUT_FEATURE_COUNT = TURNOUT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>English Turnout</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENGLISH_TURNOUT_OPERATION_COUNT = TURNOUT_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.TrainModel <em>Train Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -912,6 +1013,27 @@ public interface ModelPackage extends EPackage {
 	EAttribute getDimension_Height();
 
 	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.EnglishTurnout <em>English Turnout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>English Turnout</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.EnglishTurnout
+	 * @generated
+	 */
+	EClass getEnglishTurnout();
+
+	/**
+	 * Returns the meta object for the reference '{@link hu.bme.mit.kv.model.railroadmodel.EnglishTurnout#getNotConnectedClockwiseSection <em>Not Connected Clockwise Section</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Not Connected Clockwise Section</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.EnglishTurnout#getNotConnectedClockwiseSection()
+	 * @see #getEnglishTurnout()
+	 * @generated
+	 */
+	EReference getEnglishTurnout_NotConnectedClockwiseSection();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1199,6 +1321,24 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute DIMENSION__HEIGHT = eINSTANCE.getDimension_Height();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.EnglishTurnoutImpl <em>English Turnout</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.EnglishTurnoutImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getEnglishTurnout()
+		 * @generated
+		 */
+		EClass ENGLISH_TURNOUT = eINSTANCE.getEnglishTurnout();
+
+		/**
+		 * The meta object literal for the '<em><b>Not Connected Clockwise Section</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ENGLISH_TURNOUT__NOT_CONNECTED_CLOCKWISE_SECTION = eINSTANCE.getEnglishTurnout_NotConnectedClockwiseSection();
 
 	}
 

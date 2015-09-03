@@ -35,6 +35,7 @@ import org.junit.Before
 import org.junit.Test
 
 import static kvcontrol.requests.AbstractRequest.*
+import org.eclipse.viatra.cep.core.api.engine.ResetTransformations
 
 class Main {
 	extension CepFactory factory = CepFactory.instance
@@ -78,8 +79,8 @@ class Main {
 	@Test
 	def void testFunction() {
 		println("=================================")
-//		var asd = ResetTransformations.toGraphViz(engine.internalModel)
-//		println(asd)
+		var asd = ResetTransformations.toGraphViz(eventEngine.internalModel)
+		println(asd)
 //		var eventStream = engine.getStreamManager().newEventStream();
 //		eventStream.push(createA_Event)
 //		eventStream.push(createB_Event)
@@ -166,12 +167,14 @@ class Main {
 	def void turnoutReaderTest() {
 		AbstractRequest.defaultPort = 8080
 		val sender = new TurnoutDirectionRequestSender
-		var turnoutIds = #[0x81, 0x82, 0x83, 0x84, 0x85];
+//		var turnoutIds = #[0x81, 0x82, 0x83, 0x84, 0x85];
+		
+		var turnoutIds = #[0x86, 0x87];
 		while (true) {
 			for (id : turnoutIds) {
 				println(id + "switch state = " + sender.isTurnoutStraight(id))
 			}
-			Thread.sleep(10000)
+			Thread.sleep(1000)
 		}
 
 	}
@@ -180,7 +183,7 @@ class Main {
 	def void patternTest() {
 //		var reader = new TurnoutReader(sectionModel)
 //		var thread = new Thread(reader);
-//		thread.run
+//		thread.start
 		Thread.sleep(500)
 
 		var train = trainModel.trains.findFirst[t|t.id == 1]
@@ -189,8 +192,6 @@ class Main {
 
 		for (match : TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches) {
 			println("CUT")
-//			var sender = new SectionStateRequestSender
-//			sender.disableSection(match.train.currentlyOn.id); 
 		}
 
 		for (match : TrainsNextTurnoutMatcher.on(queryEngine).allMatches) {
@@ -272,7 +273,7 @@ class Main {
 						println("No cut")
 					} else {
 						for (match : cutMatches) {
-							println("CUT")
+							println("CUT on turnout #" + match.turnout.id + " with train #" + match.train.id)
 							println("TurnoutStats cw = " + match.turnout.clockwise.id + "\tccw = " + match.turnout.counterClockwise.id + "\tnot = " + match.turnout.notConnectedSection.id) 
 								sender.disableSection(match.train.currentlyOn.id);
 								}
@@ -285,9 +286,6 @@ class Main {
 							for (match : matches) {
 								println("train " + match.train.id + " next turnout = " + match.turnout.id)
 							}
-						// for(match : InSameRailroadPartMatcher.on(queryEngine).allMatches){
-						//
-						// }
 						}
 					}
 					

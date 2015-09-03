@@ -3,6 +3,7 @@
 package hu.bme.mit.kv.model.railroadmodel.impl;
 
 import hu.bme.mit.kv.model.railroadmodel.Dimension;
+import hu.bme.mit.kv.model.railroadmodel.EnglishTurnout;
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory;
 import hu.bme.mit.kv.model.railroadmodel.ModelPackage;
 import hu.bme.mit.kv.model.railroadmodel.Point;
@@ -91,6 +92,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass dimensionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass englishTurnoutEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -437,6 +445,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getEnglishTurnout() {
+		return englishTurnoutEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEnglishTurnout_NotConnectedClockwiseSection() {
+		return (EReference)englishTurnoutEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ModelFactory getModelFactory() {
 		return (ModelFactory)getEFactoryInstance();
 	}
@@ -499,6 +525,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		dimensionEClass = createEClass(DIMENSION);
 		createEAttribute(dimensionEClass, DIMENSION__WIDTH);
 		createEAttribute(dimensionEClass, DIMENSION__HEIGHT);
+
+		englishTurnoutEClass = createEClass(ENGLISH_TURNOUT);
+		createEReference(englishTurnoutEClass, ENGLISH_TURNOUT__NOT_CONNECTED_CLOCKWISE_SECTION);
 	}
 
 	/**
@@ -531,6 +560,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		// Add supertypes to classes
 		turnoutEClass.getESuperTypes().add(this.getSection());
 		turnEClass.getESuperTypes().add(this.getSection());
+		englishTurnoutEClass.getESuperTypes().add(this.getTurnout());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(trainModelEClass, TrainModel.class, "TrainModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -574,6 +604,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEClass(dimensionEClass, Dimension.class, "Dimension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDimension_Width(), ecorePackage.getEDouble(), "width", null, 0, 1, Dimension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDimension_Height(), ecorePackage.getEDouble(), "height", null, 0, 1, Dimension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(englishTurnoutEClass, EnglishTurnout.class, "EnglishTurnout", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getEnglishTurnout_NotConnectedClockwiseSection(), this.getSection(), null, "notConnectedClockwiseSection", null, 1, 1, EnglishTurnout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

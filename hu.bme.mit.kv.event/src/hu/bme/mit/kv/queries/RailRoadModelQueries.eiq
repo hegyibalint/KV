@@ -27,14 +27,6 @@ pattern trainsInSameRailroadPart(train1 : Train, train2 : Train){
 	find inSameRailroadPart(section1,section2);
 }
 
-//pattern nextSectionWithTrain(t : Train, section1 : Section, section2 : Section){
-//	Train.goingClockwise(t, true);
-//	Section.clockwise(section1, section2);
-//} or {
-//	Train.goingClockwise(t, false);
-//	Section.counterClockwise(section1, section2);
-//}
-
 pattern trainsNextTurnout(train : Train, turnout : Turnout){
 	Train.goingClockwise(train,true);
 	Train.currentlyOn(train, trainSection);
@@ -82,30 +74,14 @@ pattern trainGoingToCutTheTurnout(train : Train, turnout : Turnout){
 	Turnout.notConnectedSection(turnout, sectionNearTheTurnout);
 	Train.currentlyOn(train, trainSection);
 	find inSameRailroadPart(trainSection, sectionNearTheTurnout);
-}
-
-pattern inTheForwardPath(t : Train, s : Section){
-	find sectionBeforeTrain(t,s); 
-}
-
-//Patterns to find which section is the next one for each train
-
-pattern sectionBeforeClockwiseTrain(t: Train, s: Section) {
-	Train.goingClockwise(t, true);
-	Train.currentlyOn(t, currentSection);
-	Section.clockwise(currentSection, s);
-}
-
-pattern sectionBeforeCounterClockwiseTrain(t : Train, s : Section) { //TODO tina turner
-	Train.goingClockwise(t, false);
-	Train.currentlyOn(t, currentSection);
-	Section.counterClockwise(currentSection, s);
-}
-
-pattern sectionBeforeTrain(t : Train, s : Section){
-	find sectionBeforeCounterClockwiseTrain(t, s);
 } or {
-	find sectionBeforeClockwiseTrain(t,s);
+	EnglishTurnout(turnout);
+	find trainsNextTurnout(train, turnout);
+	Train.goingClockwise(train,false);
+	Section.counterClockwise(sectionNearTheTurnout, turnout);
+	EnglishTurnout.notConnectedClockwiseSection(turnout, sectionNearTheTurnout); // TODO there has to be a more elegant way
+	Train.currentlyOn(train, trainSection);
+	find inSameRailroadPart(trainSection, sectionNearTheTurnout);
 }
 
 pattern twoTrainsInSameSection(t1 : Train, t2 : Train){
@@ -114,7 +90,7 @@ pattern twoTrainsInSameSection(t1 : Train, t2 : Train){
 	Train.currentlyOn(t2, section);
 }
 
-pattern trainIsGoingToHit(t1: Train, t2 : Train){
+pattern trainIsGoingToHitNextAfterNext(t1: Train, t2 : Train){
 	Train.goingClockwise(t1, true);
 	Train.currentlyOn.clockwise.clockwise(t1,nextSection);
 	Train.currentlyOn(t2, nextSection);
@@ -122,8 +98,24 @@ pattern trainIsGoingToHit(t1: Train, t2 : Train){
 	Train.goingClockwise(t1, false);
 	Train.currentlyOn.counterClockwise.counterClockwise(t1,nextSection);
 	Train.currentlyOn(t2, nextSection);
-	
 }
+
+pattern trainIsGoingToHitNext(t1: Train, t2 : Train){
+	Train.goingClockwise(t1, true);
+	Train.currentlyOn.clockwise(t1,nextSection);
+	Train.currentlyOn(t2, nextSection);
+} or {
+	Train.goingClockwise(t1, false);
+	Train.currentlyOn.counterClockwise(t1,nextSection);
+	Train.currentlyOn(t2, nextSection);
+}
+
+pattern trainIsGoingToHit(t1 : Train, t2 : Train){
+	find trainIsGoingToHitNextAfterNext(t1,t2);
+} or {
+	find trainIsGoingToHitNext(t1,t2);
+}
+
 
 //pattern twoTrainsWithZeroSectionsBetweenThem(t1 : Train, t2 : Train){
 //	t1 != t2; //Feel free to remove this when the turner has been implemented

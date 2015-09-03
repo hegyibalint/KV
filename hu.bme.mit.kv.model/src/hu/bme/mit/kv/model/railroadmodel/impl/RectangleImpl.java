@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 import hu.bme.mit.kv.model.railroadmodel.Dimension;
-import hu.bme.mit.kv.model.railroadmodel.ModelFactory;
 import hu.bme.mit.kv.model.railroadmodel.ModelPackage;
 import hu.bme.mit.kv.model.railroadmodel.Point;
 import hu.bme.mit.kv.model.railroadmodel.Rectangle;
@@ -188,18 +187,10 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isPointInside(Point p) {
-		Point invp = ModelFactory.eINSTANCE.createPoint();
-		
-		invp.setX(inverseMatrix.get(0) * p.getX() + inverseMatrix.get(1) * p.getY() + inverseMatrix.get(2));
-		invp.setY(inverseMatrix.get(3) * p.getX() + inverseMatrix.get(4) * p.getY() + inverseMatrix.get(5));
-		
-		if (origin.getX() < p.getX() && p.getX() < origin.getX() + size.getWidth() &&
-			origin.getY() < p.getY() && p.getY() < origin.getY() + size.getHeight()) {
-			return true;
-		}
-		
-		return false;
+	public boolean isPointInside(Point point) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**

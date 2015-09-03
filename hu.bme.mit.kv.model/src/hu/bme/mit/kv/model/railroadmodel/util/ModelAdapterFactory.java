@@ -104,6 +104,10 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createDimensionAdapter();
 			}
 			@Override
+			public Adapter caseEnglishTurnout(EnglishTurnout object) {
+				return createEnglishTurnoutAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -246,6 +250,20 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDimensionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.kv.model.railroadmodel.EnglishTurnout <em>English Turnout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.kv.model.railroadmodel.EnglishTurnout
+	 * @generated
+	 */
+	public Adapter createEnglishTurnoutAdapter() {
 		return null;
 	}
 

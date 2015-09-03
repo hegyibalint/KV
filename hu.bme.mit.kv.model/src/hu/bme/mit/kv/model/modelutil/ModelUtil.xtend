@@ -32,9 +32,11 @@ class ModelUtil {
 	def static createReadySectionModel() {
 		var sectionModel = createSectionModel
 		for (var i = 1; i != 8; i++) {
-			var turnout = createTurnout
-			turnout.id = i
-			sectionModel.sections.add(turnout)
+			if(i!=4 || i!=7){
+				var turnout = createTurnout
+				turnout.id = i
+				sectionModel.sections.add(turnout)
+			}
 		}
 
 		for (var i = 8; i != 24; i++) {
@@ -54,32 +56,50 @@ class ModelUtil {
 		
 		
 		// English turnout
-		var turnout4 = getTurnoutByID(sectionModel, 0x4)
-		var turnout7 = getTurnoutByID(sectionModel, 0x7)
+//		var turnout4 = getTurnoutByID(sectionModel, 0x4)
+//		var turnout7 = getTurnoutByID(sectionModel, 0x7)
+//		var section15 = getSectionByID(sectionModel, 0x15)
+//		var section10 = getSectionByID(sectionModel, 0x10)
+//		var sectionE = getSectionByID(sectionModel, 0xE)
+//		var section16 = getSectionByID(sectionModel, 0x16)
+//
+//		turnout4.clockwise = turnout7
+//		turnout7.counterClockwise = turnout4
+//		turnout4.counterClockwise = section15
+//		turnout4.notConnectedSection = section10
+//		turnout7.clockwise = sectionE
+//		turnout7.notConnectedSection = section16
+//
+//		section15.clockwise = turnout4
+//		section10.clockwise = turnout4
+//		sectionE.counterClockwise = turnout7
+//		section16.counterClockwise = turnout7
+
+		//English Turnout
+		var englishTurnout = createEnglishTurnout
+		englishTurnout.id = 4;
 		var section15 = getSectionByID(sectionModel, 0x15)
 		var section10 = getSectionByID(sectionModel, 0x10)
 		var sectionE = getSectionByID(sectionModel, 0xE)
 		var section16 = getSectionByID(sectionModel, 0x16)
+		
+		englishTurnout.clockwise = section16
+		section16.counterClockwise = englishTurnout
+		
+		englishTurnout.counterClockwise = section15
+		section15.clockwise = englishTurnout
+		
+		englishTurnout.notConnectedClockwiseSection = sectionE
+		sectionE.counterClockwise = englishTurnout
+		
+		englishTurnout.notConnectedSection = section10
+		section10.clockwise = englishTurnout
+		
+		englishTurnout.twoSectionsInClockwiseDirection = false		
 
-		turnout4.clockwise = turnout7
-		turnout7.counterClockwise = turnout4
-		turnout4.counterClockwise = section15
-		turnout4.notConnectedSection = section10
-		turnout7.clockwise = sectionE
-		turnout7.notConnectedSection = section16
+		sectionModel.sections.add(englishTurnout)
 
-		section15.clockwise = turnout4
-		section10.clockwise = turnout4
-		sectionE.counterClockwise = turnout7
-		section16.counterClockwise = turnout7
-
-		// Standard turnouts
-//		connectSectionToTurnout(sectionModel, 0x1, 0xE, 0xD, 0x9, true) // fordit
-//		connectSectionToTurnout(sectionModel, 0x2, 0xC, 0x16, 0xF, false) // jo
-//		connectSectionToTurnout(sectionModel, 0x3, 0x8, 0x17, 0xB, true) // fordit
-//		connectSectionToTurnout(sectionModel, 0x5, 0x10, 0x11, 0xA, false) // fordit
-//		connectSectionToTurnout(sectionModel, 0x6, 0x15, 0x13, 0x14, false) // jo
-
+		//Standard turnouts				
 		connectSectionToTurnout(sectionModel, 0x1, 0xE, 0x9, 0xD, true)
 		connectSectionToTurnout(sectionModel, 0x2, 0xC, 0x16, 0xF, false)
 		connectSectionToTurnout(sectionModel, 0x3, 0x8, 0xB, 0x17, true)

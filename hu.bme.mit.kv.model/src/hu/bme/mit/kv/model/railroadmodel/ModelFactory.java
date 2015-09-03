@@ -103,6 +103,15 @@ public interface ModelFactory extends EFactory {
 	Dimension createDimension();
 
 	/**
+	 * Returns a new object of class '<em>English Turnout</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>English Turnout</em>'.
+	 * @generated
+	 */
+	EnglishTurnout createEnglishTurnout();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
