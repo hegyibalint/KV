@@ -283,6 +283,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSection_Enabled() {
+		return (EAttribute)sectionEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTurnout() {
 		return turnoutEClass;
 	}
@@ -501,6 +510,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEReference(sectionEClass, SECTION__COUNTER_CLOCKWISE);
 		createEAttribute(sectionEClass, SECTION__ID);
 		createEReference(sectionEClass, SECTION__POINTS);
+		createEAttribute(sectionEClass, SECTION__ENABLED);
 
 		turnoutEClass = createEClass(TURNOUT);
 		createEReference(turnoutEClass, TURNOUT__NOT_CONNECTED_SECTION);
@@ -578,6 +588,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEReference(getSection_CounterClockwise(), this.getSection(), null, "counterClockwise", null, 1, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSection_Id(), ecorePackage.getEInt(), "id", null, 1, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSection_Points(), this.getPoint(), null, "points", null, 2, -1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSection_Enabled(), ecorePackage.getEBoolean(), "enabled", "true", 0, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(turnoutEClass, Turnout.class, "Turnout", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTurnout_NotConnectedSection(), this.getSection(), null, "notConnectedSection", null, 1, 1, Turnout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

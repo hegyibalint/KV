@@ -18,7 +18,7 @@ class TurnoutReader implements Runnable {
 	}
 
 	override run() {
-		var turnoutIds = #[1, 2, 3, 5, 6]; // TODO add the turnouts list to the model 
+		var turnoutIds = #[1, 2, 4, 3, 5, 6, 7]; // TODO add the turnouts list to the model 
 
 		AbstractRequest.defaultPort = 8080
 		val sender = new TurnoutDirectionRequestSender
@@ -32,8 +32,18 @@ class TurnoutReader implements Runnable {
 				for (id : turnoutIds) {
 					var isTrue = sender.isTurnoutStraight(id.toPhysicalID);
 					if (isTrue != turnoutStates.get(id)) {
+
 						println("Switch" + id + "changed") // TODO remove this println
-						ModelUtil.switchTurnout(ModelUtil.getTurnoutByID(sectionmodel, id));
+						if(id == 7){
+							var englishTurnout = ModelUtil.getEnglishTurnout(sectionmodel)
+							var temp = englishTurnout.clockwise
+							englishTurnout.clockwise = englishTurnout.notConnectedClockwiseSection
+							englishTurnout.notConnectedClockwiseSection = temp
+						}else{
+							ModelUtil.switchTurnout(ModelUtil.getTurnoutByID(sectionmodel, id));
+							
+						}
+						
 						turnoutStates.set(id, isTrue);
 					}
 				}
@@ -47,8 +57,10 @@ class TurnoutReader implements Runnable {
 			case 1: 0x81
 			case 2: 0x82
 			case 3: 0x83
+			case 4: 0x86
 			case 5: 0x84
 			case 6: 0x85
+			case 7: 0x87
 		}
 
 	}

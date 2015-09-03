@@ -19,13 +19,22 @@ pattern sectionNeighbor(s1 : Section, s2 : Section){
 pattern inSameRailroadPart(section : Section, someSection : Section){
 	find sectionNeighbor+(section, someSection);
 //	section != someSection;
+} or {
+	find kulonPattern(section);
+	find kulonPattern(someSection);
+	section == someSection;
 }
 
-pattern trainsInSameRailroadPart(train1 : Train, train2 : Train){
-	Train.currentlyOn(train1, section1);
-	Train.currentlyOn(train2, section2);
-	find inSameRailroadPart(section1,section2);
+pattern kulonPattern(section: Section){
+	Section.clockwise(section, turnout1);
+	Section.counterClockwise(section, turnout2);
+	Turnout(turnout1);
+	Turnout(turnout2);
+} or {
+	Section.id(section, 9); //TODO generalize
 }
+
+
 
 pattern trainsNextTurnout(train : Train, turnout : Turnout){
 	Train.goingClockwise(train,true);
@@ -51,13 +60,6 @@ pattern trainsNextTurnout(train : Train, turnout : Turnout){
 pattern sectionsInSameRailroadPartAsTrain(train : Train, section : Section){
 	Train.currentlyOn(train, trainSection);
 	find inSameRailroadPart(trainSection, section);
-}
-
-pattern turnoutWithTwoTrainsComingTowards(turnout : Turnout, train1 : Train, train2 : Train ){
-	train1 != train2;
-	find trainsNextTurnout(train1, turnout);
-	find trainsNextTurnout(train2, turnout);
-	
 }
 
 pattern trainGoingToCutTheTurnout(train : Train, turnout : Turnout){
@@ -91,13 +93,21 @@ pattern twoTrainsInSameSection(t1 : Train, t2 : Train){
 }
 
 pattern trainIsGoingToHitNextAfterNext(t1: Train, t2 : Train){
+	t1 != t2;
 	Train.goingClockwise(t1, true);
-	Train.currentlyOn.clockwise.clockwise(t1,nextSection);
-	Train.currentlyOn(t2, nextSection);
+//	Train.currentlyOn.clockwise.clockwise(t1,nextSection);
+	Train.currentlyOn(t1, trainSection);
+	Section.clockwise(trainSection, nearTrainSection);
+	Section.clockwise(nearTrainSection, notSoNearTheFuckinTrainSection);
+	Train.currentlyOn(t2, notSoNearTheFuckinTrainSection);
 } or {
+	t1 != t2;
 	Train.goingClockwise(t1, false);
-	Train.currentlyOn.counterClockwise.counterClockwise(t1,nextSection);
-	Train.currentlyOn(t2, nextSection);
+//	Train.currentlyOn.counterClockwise.counterClockwise(t1,nextSection);
+	Train.currentlyOn(t1, trainSection);
+	Section.counterClockwise(trainSection, nearTrainSection);
+	Section.counterClockwise(nearTrainSection, notSoNearTheFuckinTrainSection);
+	Train.currentlyOn(t2, notSoNearTheFuckinTrainSection);
 }
 
 pattern trainIsGoingToHitNext(t1: Train, t2 : Train){
@@ -114,6 +124,8 @@ pattern trainIsGoingToHit(t1 : Train, t2 : Train){
 	find trainIsGoingToHitNextAfterNext(t1,t2);
 } or {
 	find trainIsGoingToHitNext(t1,t2);
+} or {
+	find twoTrainsInSameSection(t1,t2);
 }
 
 

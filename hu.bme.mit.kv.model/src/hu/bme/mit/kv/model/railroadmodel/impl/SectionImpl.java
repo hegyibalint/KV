@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl#getCounterClockwise <em>Counter Clockwise</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl#getId <em>Id</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl#getPoints <em>Points</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl#isEnabled <em>Enabled</em>}</li>
  * </ul>
  *
  * @generated
@@ -88,6 +89,26 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 	 * @ordered
 	 */
 	protected EList<Point> points;
+
+	/**
+	 * The default value of the '{@link #isEnabled() <em>Enabled</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isEnabled()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ENABLED_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isEnabled() <em>Enabled</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isEnabled()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean enabled = ENABLED_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -222,6 +243,27 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEnabled(boolean newEnabled) {
+		boolean oldEnabled = enabled;
+		enabled = newEnabled;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.SECTION__ENABLED, oldEnabled, enabled));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -249,6 +291,8 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 				return getId();
 			case ModelPackage.SECTION__POINTS:
 				return getPoints();
+			case ModelPackage.SECTION__ENABLED:
+				return isEnabled();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -275,6 +319,9 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 				getPoints().clear();
 				getPoints().addAll((Collection<? extends Point>)newValue);
 				return;
+			case ModelPackage.SECTION__ENABLED:
+				setEnabled((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -299,6 +346,9 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 			case ModelPackage.SECTION__POINTS:
 				getPoints().clear();
 				return;
+			case ModelPackage.SECTION__ENABLED:
+				setEnabled(ENABLED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -319,6 +369,8 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 				return id != ID_EDEFAULT;
 			case ModelPackage.SECTION__POINTS:
 				return points != null && !points.isEmpty();
+			case ModelPackage.SECTION__ENABLED:
+				return enabled != ENABLED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -335,6 +387,8 @@ public class SectionImpl extends MinimalEObjectImpl.Container implements Section
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (id: ");
 		result.append(id);
+		result.append(", enabled: ");
+		result.append(enabled);
 		result.append(')');
 		return result.toString();
 	}

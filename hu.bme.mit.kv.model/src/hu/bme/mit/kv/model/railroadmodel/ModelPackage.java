@@ -214,13 +214,22 @@ public interface ModelPackage extends EPackage {
 	int SECTION__POINTS = 3;
 
 	/**
+	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SECTION__ENABLED = 4;
+
+	/**
 	 * The number of structural features of the '<em>Section</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SECTION_FEATURE_COUNT = 4;
+	int SECTION_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Section</em>' class.
@@ -276,6 +285,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int TURNOUT__POINTS = SECTION__POINTS;
+
+	/**
+	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TURNOUT__ENABLED = SECTION__ENABLED;
 
 	/**
 	 * The feature id for the '<em><b>Not Connected Section</b></em>' reference.
@@ -367,6 +385,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int TURN__POINTS = SECTION__POINTS;
+
+	/**
+	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TURN__ENABLED = SECTION__ENABLED;
 
 	/**
 	 * The number of structural features of the '<em>Turn</em>' class.
@@ -627,6 +654,15 @@ public interface ModelPackage extends EPackage {
 	int ENGLISH_TURNOUT__POINTS = TURNOUT__POINTS;
 
 	/**
+	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENGLISH_TURNOUT__ENABLED = TURNOUT__ENABLED;
+
+	/**
 	 * The feature id for the '<em><b>Not Connected Section</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -820,6 +856,17 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSection_Points();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Section#isEnabled <em>Enabled</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Enabled</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Section#isEnabled()
+	 * @see #getSection()
+	 * @generated
+	 */
+	EAttribute getSection_Enabled();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Turnout <em>Turnout</em>}'.
@@ -1165,6 +1212,14 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SECTION__POINTS = eINSTANCE.getSection_Points();
+
+		/**
+		 * The meta object literal for the '<em><b>Enabled</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SECTION__ENABLED = eINSTANCE.getSection_Enabled();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl <em>Turnout</em>}' class.

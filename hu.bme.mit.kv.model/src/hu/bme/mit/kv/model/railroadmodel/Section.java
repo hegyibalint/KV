@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Section#getCounterClockwise <em>Counter Clockwise</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Section#getId <em>Id</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Section#getPoints <em>Points</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Section#isEnabled <em>Enabled</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getSection()
@@ -119,5 +120,32 @@ public interface Section extends EObject {
 	 * @generated
 	 */
 	EList<Point> getPoints();
+
+	/**
+	 * Returns the value of the '<em><b>Enabled</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Enabled</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Enabled</em>' attribute.
+	 * @see #setEnabled(boolean)
+	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getSection_Enabled()
+	 * @model default="true"
+	 * @generated
+	 */
+	boolean isEnabled();
+
+	/**
+	 * Sets the value of the '{@link hu.bme.mit.kv.model.railroadmodel.Section#isEnabled <em>Enabled</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Enabled</em>' attribute.
+	 * @see #isEnabled()
+	 * @generated
+	 */
+	void setEnabled(boolean value);
 
 } // Section

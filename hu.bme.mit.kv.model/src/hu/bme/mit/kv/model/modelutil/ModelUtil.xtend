@@ -7,6 +7,7 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import hu.bme.mit.kv.model.railroadmodel.EnglishTurnout
 
 class ModelUtil {
 	static extension ModelFactory factory = ModelFactory.eINSTANCE
@@ -20,19 +21,13 @@ class ModelUtil {
     	val resource = resSet.getResource(URI.createURI("platform:/plugin/hu.bme.mit.kv.event/res/SectionModel.kv"), true)
     	
     	val sectionModel = resource.contents.head as SectionModel
-//    	//HACK :(
-//    	getTurnoutByID(sectionModel, 0x01 ).switchTurnout
-//    	getTurnoutByID(sectionModel, 0x03 ).switchTurnout
-//    	getTurnoutByID(sectionModel, 0x05 ).switchTurnout
-//    	
-    	
     	return sectionModel
 	}
 
 	def static createReadySectionModel() {
 		var sectionModel = createSectionModel
-		for (var i = 1; i != 8; i++) {
-			if(i!=4 || i!=7){
+		for (var i = 1; i != 7; i++) {
+			if(i!=4){
 				var turnout = createTurnout
 				turnout.id = i
 				sectionModel.sections.add(turnout)
@@ -195,11 +190,11 @@ class ModelUtil {
 	}
 
 	def static getSectionByID(SectionModel model, int id) {
-		model.sections.filter[sec|sec.id == id].head
+		model.sections.findFirst[sec|sec.id == id]
 	}
 
 	def static getTurnoutByID(SectionModel model, int id) {
-		model.sections.filter[sec|sec.id == id].head as Turnout
+		model.sections.findFirst[sec|sec.id == id] as Turnout
 	}
 
 	def static connectSectionToSection(SectionModel model, int clockwise, int counterClockwise) {
@@ -219,6 +214,10 @@ class ModelUtil {
 			t.counterClockwise = t.notConnectedSection
 			t.notConnectedSection = ccw
 		}
+	}
+	
+	def static getEnglishTurnout(SectionModel model) {
+		return model.sections.findFirst[sec| sec.id == 4] as EnglishTurnout
 	}
 
 }
