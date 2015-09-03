@@ -241,7 +241,9 @@ class Main {
 				modelTrain.x = posX
 				modelTrain.y = posY
 //				modelTrain.speed = speed
-				modelTrain.goingClockwise = (direction.equals("CW"))
+				if(!direction.toUpperCase.equals("NONE")){
+					modelTrain.goingClockwise = (direction.equals("CW"))	
+				}
 				
 				var occupied = findOccupiedTurnout(modelTrain, sectionModel) as Section
 				if (occupied == null) {
