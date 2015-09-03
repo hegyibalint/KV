@@ -26,7 +26,7 @@ class TurnoutReader implements Runnable {
 			turnoutStates.add(true);
 		}
 		while(true){
-			println("Polling the turnouts")
+//			println("Polling the turnouts")
 			for(id : turnoutIds){
 				var isTrue = sender.isTurnoutStraight(id.toPhysicalID);
 				if(isTrue != turnoutStates.get(id)){

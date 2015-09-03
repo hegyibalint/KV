@@ -31,6 +31,8 @@ import hu.bme.mit.kv.queries.TrainsNextTurnoutMatcher
 import hu.bme.mit.kv.queries.InSameRailroadPartMatcher
 import hu.bme.mit.kv.queries.SectionsInSameRailroadPartAsTrainMatcher
 import hu.bme.mit.kv.queries.SectionNeighborMatcher
+import hu.bme.mit.kv.model.railroadmodel.Turnout
+import hu.bme.mit.kv.model.railroadmodel.ModelFactory
 
 class Main {
 	extension CepFactory factory = CepFactory.instance
@@ -109,7 +111,21 @@ class Main {
 		
 	}
 		
-	
+	def Turnout findOccupiedTurnout(Train t, SectionModel sm) {
+		val p = ModelFactory.eINSTANCE.createPoint
+		p.x = t.x
+		p.y = t.y
+		
+		val filtered = sm.sections.filter[section | section instanceof Turnout]
+		for (Section s : filtered) {
+			val turnout = s as Turnout
+			if (turnout.rectangle.isPointInside(p)) {
+				return turnout
+			}
+		}
+		
+		return null
+	}
 	
 	def findClosestPoint(Train t, Section s) {
 		var minValue = Double.MAX_VALUE
@@ -155,7 +171,7 @@ class Main {
 	
 	@Test
 	def void patternTest(){
-//		var reader = new TurnoutReader(sectionModel) //TODO this kills the CV
+//		var reader = new TurnoutReader(sectionModel)
 //		var thread = new Thread(reader);
 //		thread.run
 		
@@ -192,33 +208,33 @@ class Main {
 	
 	@Test
 	def void networkTest(){
-//		var reader = new TurnoutReader(sectionModel) //TODO this kills the CV
-//		var thread = new Thread(reader);
-//		thread.run
+		var reader = new TurnoutReader(sectionModel)
+		var thread = new Thread(reader);
+		thread.start
 		
 		val DatagramSocket socket = new DatagramSocket(24000)
 		var boolean flag = true
 		
 		while(flag){
-			val buffer = newByteArrayOfSize(1024*16);
-		
-			val packet = new DatagramPacket(buffer, buffer.length);
+			val buffer = newByteArrayOfSize(1024*16)
+			var sender = new SectionStateRequestSender
+			val packet = new DatagramPacket(buffer, buffer.length)
 			
-			println("Recieving a packet!")
+//			println("Recieving a packet!")
 			socket.receive(packet);
-			println("Packet recieved")
+//			println("Packet recieved")
 			val trimmed = new String(packet.data).trim
 //			println(trimmed);
 			val data = JsonObject.readFrom(trimmed)
 			val timestamp = data.get("timestamp").asLong
 			val trains = data.get("trains").asArray
 			for(i : trains){
-				val train = i.asObject
-				val id = train.get("id").asInt
-				val posX = train.get("x").asDouble
-				val posY = train.get("y").asDouble
-				val speed = train.get("speed").asDouble
-				val direction = train.get("dir").asString
+				val jsonTrain = i.asObject
+				val id = jsonTrain.get("id").asInt
+				val posX = jsonTrain.get("x").asDouble
+				val posY = jsonTrain.get("y").asDouble
+				val speed = jsonTrain.get("speed").asDouble
+				val direction = jsonTrain.get("dir").asString
 
 				
 				val modelTrain = trainModel.trains.findFirst[t | t.id == id]
@@ -226,22 +242,37 @@ class Main {
 				modelTrain.y = posY
 //				modelTrain.speed = speed
 				modelTrain.goingClockwise = (direction.equals("CW"))
-				var closestSection = findClosestSection(modelTrain, sectionModel).id
-				println(timestamp + "#:\tID = " + modelTrain.id +"\tX = " +  modelTrain.x + "\tY = " +  modelTrain.y + "\tspeed = " + speed + "\tdirection = " +  modelTrain.isGoingClockwise + "\tsection = 0x"+ModelUtil.toHexa(closestSection))
-				modelTrain.currentlyOn = ModelUtil.getSectionByID(sectionModel, closestSection)
 				
-				for(match : TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches){
-					println("CUT")
-					var sender = new SectionStateRequestSender
-					sender.disableSection(match.train.currentlyOn.id); 
+				var occupied = findOccupiedTurnout(modelTrain, sectionModel) as Section
+				if (occupied == null) {
+					occupied = findClosestSection(modelTrain, sectionModel)
 				}
 				
-				for(match : TrainsNextTurnoutMatcher.on(queryEngine).allMatches){
+				println(timestamp + "#:\tID = " + modelTrain.id +"\tX = " +  modelTrain.x + "\tY = " +  modelTrain.y + "\tspeed = " + speed + "\tdirection = " +  modelTrain.isGoingClockwise + "\tsection = 0x"+ModelUtil.toHexa(occupied.id))
+				modelTrain.currentlyOn = occupied
+				
+				val cutMatches = TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches
+				if (cutMatches.size == 0) {
+					sender.enableSection(modelTrain.currentlyOn.id); 
+					println("No cut")
+				} else {
+					for(match : cutMatches) {
+						println("CUT")
+						println("TurnoutStats cw = " + match.turnout.clockwise.id + "\tccw = " + match.turnout.counterClockwise.id + "\tnot = " + match.turnout.notConnectedSection.id)
+						sender.disableSection(match.train.currentlyOn.id); 
+					}
+				}
+				
+				var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
+				if(matches.size == 0){
+					println("I don't see the next turnout")
+				}
+				for(match : matches){
 					println("train " + match.train.id + " next turnout = " + match.turnout.id)
 				}
-				for(match : InSameRailroadPartMatcher.on(queryEngine).allMatches){
-					
-				}
+//				for(match : InSameRailroadPartMatcher.on(queryEngine).allMatches){
+//					
+//				}
 				
 				
 			}

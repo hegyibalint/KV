@@ -3,6 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Event
 Bundle-SymbolicName: hu.bme.mit.kv.event;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: dep/KVControlRequestSender.jar,
+ .
 Export-Package: hu.bme.mit.kv.event,
  hu.bme.mit.kv.event.events.queryresult,
  hu.bme.mit.kv.event.jobs,

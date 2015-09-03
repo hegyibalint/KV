@@ -20,11 +20,11 @@ class ModelUtil {
     	val resource = resSet.getResource(URI.createURI("platform:/plugin/hu.bme.mit.kv.event/res/SectionModel.kv"), true)
     	
     	val sectionModel = resource.contents.head as SectionModel
-    	//HACK :(
-    	getTurnoutByID(sectionModel, 0x01 ).switchTurnout
-    	getTurnoutByID(sectionModel, 0x03 ).switchTurnout
-    	getTurnoutByID(sectionModel, 0x05 ).switchTurnout
-    	
+//    	//HACK :(
+//    	getTurnoutByID(sectionModel, 0x01 ).switchTurnout
+//    	getTurnoutByID(sectionModel, 0x03 ).switchTurnout
+//    	getTurnoutByID(sectionModel, 0x05 ).switchTurnout
+//    	
     	
     	return sectionModel
 	}
@@ -74,10 +74,16 @@ class ModelUtil {
 		section16.counterClockwise = turnout7
 
 		// Standard turnouts
-		connectSectionToTurnout(sectionModel, 0x1, 0xE, 0xD, 0x9, true)
+//		connectSectionToTurnout(sectionModel, 0x1, 0xE, 0xD, 0x9, true) // fordit
+//		connectSectionToTurnout(sectionModel, 0x2, 0xC, 0x16, 0xF, false) // jo
+//		connectSectionToTurnout(sectionModel, 0x3, 0x8, 0x17, 0xB, true) // fordit
+//		connectSectionToTurnout(sectionModel, 0x5, 0x10, 0x11, 0xA, false) // fordit
+//		connectSectionToTurnout(sectionModel, 0x6, 0x15, 0x13, 0x14, false) // jo
+
+		connectSectionToTurnout(sectionModel, 0x1, 0xE, 0x9, 0xD, true)
 		connectSectionToTurnout(sectionModel, 0x2, 0xC, 0x16, 0xF, false)
-		connectSectionToTurnout(sectionModel, 0x3, 0x8, 0x17, 0xB, true)
-		connectSectionToTurnout(sectionModel, 0x5, 0x10, 0x11, 0xA, false)
+		connectSectionToTurnout(sectionModel, 0x3, 0x8, 0xB, 0x17, true)
+		connectSectionToTurnout(sectionModel, 0x5, 0x10, 0xA, 0x11, false)
 		connectSectionToTurnout(sectionModel, 0x6, 0x15, 0x13, 0x14, false)
 
 		// Other sections
@@ -113,12 +119,6 @@ class ModelUtil {
 		train1.id = 1
 		train2.id = 0
 		
-		train1.currentlyOn = getSectionByID(sectionModel,0x15); // TODO remove this
-		train1.goingClockwise = true
-	
-		train2.currentlyOn = getSectionByID(sectionModel,0x8); // TODO remove this
-		train2.goingClockwise = true	
-		
 		trainModel.trains.add(train1)
 		trainModel.trains.add(train2)
 
@@ -147,29 +147,29 @@ class ModelUtil {
 		String.format("%X", a)
 	}
 
-	def static connectSectionToTurnout(SectionModel model, int turnoutID, int onlySection, int oneOfTwoSections,
-		int secondOfTwoSections, boolean twoSectionsInClockwiseDirection) {
+	def static connectSectionToTurnout(SectionModel model, int turnoutID, int onlySection, int straightSection,
+		int divergentsection, boolean twoSectionsInClockwiseDirection) {
 		var turnout = getTurnoutByID(model, turnoutID)
 		var onlyConnection = getSectionByID(model, onlySection)
-		var first = getSectionByID(model, oneOfTwoSections);
-		var second = getSectionByID(model, secondOfTwoSections)
+		var straight = getSectionByID(model, straightSection);
+		var divergent = getSectionByID(model, divergentsection)
 
 		turnout.twoSectionsInClockwiseDirection = twoSectionsInClockwiseDirection
 
 		if (twoSectionsInClockwiseDirection) {
 			turnout.counterClockwise = onlyConnection
 			onlyConnection.clockwise = turnout
-			turnout.clockwise = first
-			first.counterClockwise = turnout
-			turnout.notConnectedSection = second
-			second.counterClockwise = turnout
+			turnout.clockwise = straight
+			straight.counterClockwise = turnout
+			turnout.notConnectedSection = divergent
+			divergent.counterClockwise = turnout
 		} else {
 			turnout.clockwise = onlyConnection
 			onlyConnection.counterClockwise = turnout
-			turnout.counterClockwise = first
-			first.clockwise = turnout
-			turnout.notConnectedSection = second
-			second.clockwise = turnout
+			turnout.counterClockwise = straight
+			straight.clockwise = turnout
+			turnout.notConnectedSection = divergent
+			divergent.clockwise = turnout
 		}
 
 	}
