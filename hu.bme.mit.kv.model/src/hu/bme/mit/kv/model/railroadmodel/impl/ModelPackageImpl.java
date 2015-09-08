@@ -2,6 +2,7 @@
  */
 package hu.bme.mit.kv.model.railroadmodel.impl;
 
+import hu.bme.mit.kv.model.railroadmodel.BlindTrack;
 import hu.bme.mit.kv.model.railroadmodel.Dimension;
 import hu.bme.mit.kv.model.railroadmodel.EnglishTurnout;
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory;
@@ -99,6 +100,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass englishTurnoutEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass blindTrackEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -472,6 +480,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getBlindTrack() {
+		return blindTrackEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ModelFactory getModelFactory() {
 		return (ModelFactory)getEFactoryInstance();
 	}
@@ -538,6 +555,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		englishTurnoutEClass = createEClass(ENGLISH_TURNOUT);
 		createEReference(englishTurnoutEClass, ENGLISH_TURNOUT__NOT_CONNECTED_CLOCKWISE_SECTION);
+
+		blindTrackEClass = createEClass(BLIND_TRACK);
 	}
 
 	/**
@@ -571,6 +590,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		turnoutEClass.getESuperTypes().add(this.getSection());
 		turnEClass.getESuperTypes().add(this.getSection());
 		englishTurnoutEClass.getESuperTypes().add(this.getTurnout());
+		blindTrackEClass.getESuperTypes().add(this.getSection());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(trainModelEClass, TrainModel.class, "TrainModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -588,7 +608,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEReference(getSection_CounterClockwise(), this.getSection(), null, "counterClockwise", null, 1, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSection_Id(), ecorePackage.getEInt(), "id", null, 1, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSection_Points(), this.getPoint(), null, "points", null, 2, -1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSection_Enabled(), ecorePackage.getEBoolean(), "enabled", "true", 0, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSection_Enabled(), ecorePackage.getEBoolean(), "enabled", "true", 1, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(turnoutEClass, Turnout.class, "Turnout", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTurnout_NotConnectedSection(), this.getSection(), null, "notConnectedSection", null, 1, 1, Turnout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -618,6 +638,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		initEClass(englishTurnoutEClass, EnglishTurnout.class, "EnglishTurnout", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEnglishTurnout_NotConnectedClockwiseSection(), this.getSection(), null, "notConnectedClockwiseSection", null, 1, 1, EnglishTurnout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(blindTrackEClass, BlindTrack.class, "BlindTrack", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -108,6 +108,10 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createEnglishTurnoutAdapter();
 			}
 			@Override
+			public Adapter caseBlindTrack(BlindTrack object) {
+				return createBlindTrackAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -264,6 +268,20 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEnglishTurnoutAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.kv.model.railroadmodel.BlindTrack <em>Blind Track</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.kv.model.railroadmodel.BlindTrack
+	 * @generated
+	 */
+	public Adapter createBlindTrackAdapter() {
 		return null;
 	}
 

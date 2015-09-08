@@ -204,6 +204,19 @@ class Main {
 			println("Section = " + match.s1.id + " is the neighbor of section = " + match.s2.id)
 		}
 	}
+	
+	@Test
+	def void englishTurnoutTest(){
+		var reader = new TurnoutReader(sectionModel, lock)
+		var thread = new Thread(reader);
+		thread.start
+		
+		var englishTurnout = ModelUtil.getEnglishTurnout(sectionModel)
+		while(true){
+			println("cw = " + ModelUtil.toHexa(englishTurnout.clockwise.id) + "\tccw = " + ModelUtil.toHexa(englishTurnout.counterClockwise.id) + "\tnot = " + ModelUtil.toHexa(englishTurnout.notConnectedSection.id) + "\tnotcw = " + ModelUtil.toHexa(englishTurnout.notConnectedClockwiseSection.id))
+			Thread.sleep(1000)
+		}
+	}
 
 	@Test
 	def void networkTest() {
@@ -262,13 +275,7 @@ class Main {
 
 					println(timestamp + "#:\tID = " + modelTrain.id + "\tX = " + modelTrain.x + "\tY = " + modelTrain.y + "\tspeed = " + speed + "\tdirection = " + modelTrain.isGoingClockwise + "\tsection = 0x" + ModelUtil.toHexa(occupied.id))
 					modelTrain.currentlyOn = occupied
-//					println("CurrentlyOn.cw.cw" + modelTrain.currentlyOn.clockwise.clockwise.id)
-//					println("CurrentlyOn.ccw.ccw" + modelTrain.currentlyOn.counterClockwise.counterClockwise.id)
-
-
 				}
-
-
 
 				var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
 				if(matches.size == 0) {
@@ -293,6 +300,7 @@ class Main {
 				if(trainHitMatchers.size == 0) {
 					println("No train is going to hit the other");
 				}
+				
 				for (match : trainHitMatchers) {
 					println("Train #" + match.t1.id + " is going to hit train #" + match.t2.id)
 					match.t1.currentlyOn.enabled = false

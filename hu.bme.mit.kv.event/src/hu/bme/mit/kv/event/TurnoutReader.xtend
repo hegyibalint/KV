@@ -6,6 +6,8 @@ import kvcontrol.senders.TurnoutDirectionRequestSender
 import hu.bme.mit.kv.model.railroadmodel.SectionModel
 import hu.bme.mit.kv.model.modelutil.ModelUtil
 import java.util.ArrayList
+import java.util.Map
+import java.util.HashMap
 
 class TurnoutReader implements Runnable {
 
@@ -18,7 +20,10 @@ class TurnoutReader implements Runnable {
 	}
 
 	override run() {
-		var turnoutIds = #[1, 2, 4, 3, 5, 6, 7]; // TODO add the turnouts list to the model 
+		var turnoutIds = #[1, 2, 4, 3, 5, 6, 7]; // TODO add the turnouts list to the model
+		
+		var Map<Integer, Integer> englishTurnoutMap = new HashMap<Integer,Integer>
+		englishTurnoutMap.put(7,4); //TODO add this mapping to the model? 
 
 		AbstractRequest.defaultPort = 8080
 		val sender = new TurnoutDirectionRequestSender
@@ -33,12 +38,11 @@ class TurnoutReader implements Runnable {
 					var isTrue = sender.isTurnoutStraight(id.toPhysicalID);
 					if (isTrue != turnoutStates.get(id)) {
 
-						println("Switch" + id + "changed") // TODO remove this println
-						if(id == 7){
-							var englishTurnout = ModelUtil.getEnglishTurnout(sectionmodel)
-							var temp = englishTurnout.clockwise
-							englishTurnout.clockwise = englishTurnout.notConnectedClockwiseSection
-							englishTurnout.notConnectedClockwiseSection = temp
+						println("Switch" + id + "changed")
+						if(englishTurnoutMap.keySet.contains(id)){
+							var remappedId = englishTurnoutMap.get(id);
+							ModelUtil.switchEnglishTurnout(ModelUtil.getTurnoutByID(sectionmodel, remappedId));
+
 						}else{
 							ModelUtil.switchTurnout(ModelUtil.getTurnoutByID(sectionmodel, id));
 							

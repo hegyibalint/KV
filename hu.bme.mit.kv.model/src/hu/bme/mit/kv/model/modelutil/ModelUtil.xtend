@@ -14,20 +14,20 @@ class ModelUtil {
 
 	def static loadReadySectionModel() {
 		val reg = Resource.Factory.Registry.INSTANCE
-    	val m = reg.getExtensionToFactoryMap()
-    	m.put("kv", new XMIResourceFactoryImpl())
-    	
-    	val resSet = new ResourceSetImpl()
-    	val resource = resSet.getResource(URI.createURI("platform:/plugin/hu.bme.mit.kv.event/res/SectionModel.kv"), true)
-    	
-    	val sectionModel = resource.contents.head as SectionModel
-    	return sectionModel
+		val m = reg.getExtensionToFactoryMap()
+		m.put("kv", new XMIResourceFactoryImpl())
+
+		val resSet = new ResourceSetImpl()
+		val resource = resSet.getResource(URI.createURI("platform:/plugin/hu.bme.mit.kv.event/res/SectionModel.kv"), true)
+
+		val sectionModel = resource.contents.head as SectionModel
+		return sectionModel
 	}
 
 	def static createReadySectionModel() {
 		var sectionModel = createSectionModel
 		for (var i = 1; i != 7; i++) {
-			if(i!=4){
+			if(i != 4 && i!= 9) { // 4 is the english turnout, and 9 is the blind track
 				var turnout = createTurnout
 				turnout.id = i
 				sectionModel.sections.add(turnout)
@@ -35,12 +35,18 @@ class ModelUtil {
 		}
 
 		for (var i = 8; i != 24; i++) {
-			if (i != 0x12 && i != 0xF && i != 0x11) {
+			if(i != 0x12 && i != 0xF && i != 0x11) {
 				var section = createSection
 				section.id = i
 				sectionModel.sections.add(section)
 			}
 		}
+
+		//Blind track
+		var blindTrack = createBlindTrack
+		blindTrack.id = 9
+		sectionModel.sections.add(blindTrack)
+		
 		
 		var turnerF = createTurn
 		turnerF.id = 0xF
@@ -48,8 +54,7 @@ class ModelUtil {
 		turner11.id = 0x11
 		sectionModel.sections.add(turnerF)
 		sectionModel.sections.add(turner11)
-		
-		
+
 		// English turnout
 //		var turnout4 = getTurnoutByID(sectionModel, 0x4)
 //		var turnout7 = getTurnoutByID(sectionModel, 0x7)
@@ -69,32 +74,31 @@ class ModelUtil {
 //		section10.clockwise = turnout4
 //		sectionE.counterClockwise = turnout7
 //		section16.counterClockwise = turnout7
-
-		//English Turnout
+		// English Turnout
 		var englishTurnout = createEnglishTurnout
 		englishTurnout.id = 4;
 		var section15 = getSectionByID(sectionModel, 0x15)
 		var section10 = getSectionByID(sectionModel, 0x10)
 		var sectionE = getSectionByID(sectionModel, 0xE)
 		var section16 = getSectionByID(sectionModel, 0x16)
-		
+
 		englishTurnout.clockwise = section16
 		section16.counterClockwise = englishTurnout
-		
+
 		englishTurnout.counterClockwise = section15
 		section15.clockwise = englishTurnout
-		
+
 		englishTurnout.notConnectedClockwiseSection = sectionE
 		sectionE.counterClockwise = englishTurnout
-		
+
 		englishTurnout.notConnectedSection = section10
 		section10.clockwise = englishTurnout
-		
-		englishTurnout.twoSectionsInClockwiseDirection = false		
+
+		englishTurnout.twoSectionsInClockwiseDirection = false
 
 		sectionModel.sections.add(englishTurnout)
 
-		//Standard turnouts				
+		// Standard turnouts				
 		connectSectionToTurnout(sectionModel, 0x1, 0xE, 0x9, 0xD, true)
 		connectSectionToTurnout(sectionModel, 0x2, 0xC, 0x16, 0xF, false)
 		connectSectionToTurnout(sectionModel, 0x3, 0x8, 0xB, 0x17, true)
@@ -107,54 +111,51 @@ class ModelUtil {
 		connectSectionToSection(sectionModel, 0x17, 0x14)
 		connectSectionToSection(sectionModel, 0xB, 0x13)
 
-		//Turner part
-		var sec11 = getSectionByID(sectionModel,0x11)
-		var secF = getSectionByID(sectionModel,0xF)
-		
+		// Turner part
+		var sec11 = getSectionByID(sectionModel, 0x11)
+		var secF = getSectionByID(sectionModel, 0xF)
+
 		sec11.counterClockwise = secF
 		secF.counterClockwise = sec11
 
 		// Check for model consistency
 //		root.sections.filter[sec|sec.clockwise == null].forEach[sec|println("Clockwise is missing: " + sec.id.toHexa)]
 //		root.sections.filter[sec|sec.counterClockwise == null].forEach [ sec |	println("Counterclockwise is missing: " + sec.id.toHexa)]
-
 		// Print the newly generated map
 //		println(root.toGraphViz)
-
 		return sectionModel
 	}
-		
-		
+
 	def static createReadyTrainModel(SectionModel sectionModel) {
 		var trainModel = createTrainModel
-		
-		//Add the trains
+
+		// Add the trains
 		var train1 = createTrain
 		var train2 = createTrain
 		train1.id = 1
 		train2.id = 0
-		
+
 		trainModel.trains.add(train1)
 		trainModel.trains.add(train2)
 
 		return trainModel;
 	}
-	
-	def static String toGraphViz(SectionModel root){
+
+	def static String toGraphViz(SectionModel root) {
 		'''
-		digraph{
-			«FOR sec : root.sections»
-			«sec.id.toHexa» -> «sec.clockwise?.id.toHexa»[label="clockwise"];
-			«sec.id.toHexa» -> «sec.counterClockwise?.id.toHexa»[label="counterClockwise"];
-			«IF sec instanceof Turnout»
-				«IF sec.isTwoSectionsInClockwiseDirection»
-					«sec.id.toHexa» -> «sec.notConnectedSection.id.toHexa»[label="currentlyNotConnectedClockwise"]
-				«ELSE»
-					«sec.id.toHexa» -> «sec.notConnectedSection.id.toHexa»[label="currentlyNotConnectedCounterclockwise"]
-				«ENDIF»
-			«ENDIF»
-			«ENDFOR»
-		}
+			digraph{
+				«FOR sec : root.sections»
+					«sec.id.toHexa» -> «sec.clockwise?.id.toHexa»[label="clockwise"];
+					«sec.id.toHexa» -> «sec.counterClockwise?.id.toHexa»[label="counterClockwise"];
+					«IF sec instanceof Turnout»
+						«IF sec.isTwoSectionsInClockwiseDirection»
+							«sec.id.toHexa» -> «sec.notConnectedSection.id.toHexa»[label="currentlyNotConnectedClockwise"]
+						«ELSE»
+							«sec.id.toHexa» -> «sec.notConnectedSection.id.toHexa»[label="currentlyNotConnectedCounterclockwise"]
+						«ENDIF»
+					«ENDIF»
+				«ENDFOR»
+			}
 		'''
 	}
 
@@ -162,8 +163,7 @@ class ModelUtil {
 		String.format("%X", a)
 	}
 
-	def static connectSectionToTurnout(SectionModel model, int turnoutID, int onlySection, int straightSection,
-		int divergentsection, boolean twoSectionsInClockwiseDirection) {
+	def static connectSectionToTurnout(SectionModel model, int turnoutID, int onlySection, int straightSection, int divergentsection, boolean twoSectionsInClockwiseDirection) {
 		var turnout = getTurnoutByID(model, turnoutID)
 		var onlyConnection = getSectionByID(model, onlySection)
 		var straight = getSectionByID(model, straightSection);
@@ -171,7 +171,7 @@ class ModelUtil {
 
 		turnout.twoSectionsInClockwiseDirection = twoSectionsInClockwiseDirection
 
-		if (twoSectionsInClockwiseDirection) {
+		if(twoSectionsInClockwiseDirection) {
 			turnout.counterClockwise = onlyConnection
 			onlyConnection.clockwise = turnout
 			turnout.clockwise = straight
@@ -205,7 +205,7 @@ class ModelUtil {
 	}
 
 	def static switchTurnout(Turnout t) {
-		if (t.twoSectionsInClockwiseDirection) {
+		if(t.twoSectionsInClockwiseDirection) {
 			var cw = t.clockwise
 			t.clockwise = t.notConnectedSection
 			t.notConnectedSection = cw
@@ -215,9 +215,16 @@ class ModelUtil {
 			t.notConnectedSection = ccw
 		}
 	}
-	
+
 	def static getEnglishTurnout(SectionModel model) {
-		return model.sections.findFirst[sec| sec.id == 4] as EnglishTurnout
+		return model.sections.findFirst[sec|sec.id == 4] as EnglishTurnout
+	}
+
+	def static switchEnglishTurnout(hu.bme.mit.kv.model.railroadmodel.Turnout turnout) {
+		var englishTurnout = turnout as EnglishTurnout
+		var temp = englishTurnout.clockwise
+		englishTurnout.clockwise = englishTurnout.notConnectedClockwiseSection
+		englishTurnout.notConnectedClockwiseSection = temp
 	}
 
 }

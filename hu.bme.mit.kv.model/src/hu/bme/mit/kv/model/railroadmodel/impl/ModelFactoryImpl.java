@@ -66,6 +66,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 			case ModelPackage.RECTANGLE: return createRectangle();
 			case ModelPackage.DIMENSION: return createDimension();
 			case ModelPackage.ENGLISH_TURNOUT: return createEnglishTurnout();
+			case ModelPackage.BLIND_TRACK: return createBlindTrack();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -169,6 +170,16 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public EnglishTurnout createEnglishTurnout() {
 		EnglishTurnoutImpl englishTurnout = new EnglishTurnoutImpl();
 		return englishTurnout;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BlindTrack createBlindTrack() {
+		BlindTrackImpl blindTrack = new BlindTrackImpl();
+		return blindTrack;
 	}
 
 	/**

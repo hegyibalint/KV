@@ -133,7 +133,7 @@ public interface Section extends EObject {
 	 * @return the value of the '<em>Enabled</em>' attribute.
 	 * @see #setEnabled(boolean)
 	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getSection_Enabled()
-	 * @model default="true"
+	 * @model default="true" required="true"
 	 * @generated
 	 */
 	boolean isEnabled();

@@ -24,8 +24,8 @@
         iD="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="points" lowerBound="2"
         upperBound="-1" eType="#//Point" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Turnout" eSuperTypes="#//Section">
     <eStructuralFeatures xsi:type="ecore:EReference" name="notConnectedSection" lowerBound="1"
@@ -64,4 +64,5 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="notConnectedClockwiseSection"
         lowerBound="1" eType="#//Section"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BlindTrack" eSuperTypes="#//Section"/>
 </ecore:EPackage>

@@ -718,6 +718,80 @@ public interface ModelPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.BlindTrackImpl <em>Blind Track</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.BlindTrackImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getBlindTrack()
+	 * @generated
+	 */
+	int BLIND_TRACK = 10;
+
+	/**
+	 * The feature id for the '<em><b>Clockwise</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BLIND_TRACK__CLOCKWISE = SECTION__CLOCKWISE;
+
+	/**
+	 * The feature id for the '<em><b>Counter Clockwise</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BLIND_TRACK__COUNTER_CLOCKWISE = SECTION__COUNTER_CLOCKWISE;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BLIND_TRACK__ID = SECTION__ID;
+
+	/**
+	 * The feature id for the '<em><b>Points</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BLIND_TRACK__POINTS = SECTION__POINTS;
+
+	/**
+	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BLIND_TRACK__ENABLED = SECTION__ENABLED;
+
+	/**
+	 * The number of structural features of the '<em>Blind Track</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BLIND_TRACK_FEATURE_COUNT = SECTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Blind Track</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BLIND_TRACK_OPERATION_COUNT = SECTION_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.TrainModel <em>Train Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1081,6 +1155,16 @@ public interface ModelPackage extends EPackage {
 	EReference getEnglishTurnout_NotConnectedClockwiseSection();
 
 	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.BlindTrack <em>Blind Track</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Blind Track</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.BlindTrack
+	 * @generated
+	 */
+	EClass getBlindTrack();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1394,6 +1478,16 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ENGLISH_TURNOUT__NOT_CONNECTED_CLOCKWISE_SECTION = eINSTANCE.getEnglishTurnout_NotConnectedClockwiseSection();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.BlindTrackImpl <em>Blind Track</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.BlindTrackImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getBlindTrack()
+		 * @generated
+		 */
+		EClass BLIND_TRACK = eINSTANCE.getBlindTrack();
 
 	}
 

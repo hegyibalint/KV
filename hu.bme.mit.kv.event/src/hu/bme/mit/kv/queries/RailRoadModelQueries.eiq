@@ -25,13 +25,13 @@ pattern inSameRailroadPart(section : Section, someSection : Section){
 	section == someSection;
 }
 
-pattern kulonPattern(section: Section){
+pattern kulonPattern(section: Section){ //XXX rename
 	Section.clockwise(section, turnout1);
 	Section.counterClockwise(section, turnout2);
 	Turnout(turnout1);
 	Turnout(turnout2);
 } or {
-	Section.id(section, 9); //TODO generalize
+	BlindTrack(section);
 }
 
 
@@ -81,7 +81,7 @@ pattern trainGoingToCutTheTurnout(train : Train, turnout : Turnout){
 	find trainsNextTurnout(train, turnout);
 	Train.goingClockwise(train,false);
 	Section.counterClockwise(sectionNearTheTurnout, turnout);
-	EnglishTurnout.notConnectedClockwiseSection(turnout, sectionNearTheTurnout); // TODO there has to be a more elegant way
+	EnglishTurnout.notConnectedClockwiseSection(turnout, sectionNearTheTurnout); // XXX there has to be a more elegant way
 	Train.currentlyOn(train, trainSection);
 	find inSameRailroadPart(trainSection, sectionNearTheTurnout);
 }

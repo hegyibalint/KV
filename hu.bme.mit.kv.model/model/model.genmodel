@@ -52,5 +52,6 @@
     <genClasses ecoreClass="model.ecore#//EnglishTurnout">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//EnglishTurnout/notConnectedClockwiseSection"/>
     </genClasses>
+    <genClasses ecoreClass="model.ecore#//BlindTrack"/>
   </genPackages>
 </genmodel:GenModel>
