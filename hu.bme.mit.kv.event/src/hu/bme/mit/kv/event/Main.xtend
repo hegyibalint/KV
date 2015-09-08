@@ -77,15 +77,10 @@ class Main {
 	}
 
 	@Test
-	def void testFunction() {
+	def void visualizeGraph() {
 		println("=================================")
 		var asd = ResetTransformations.toGraphViz(eventEngine.internalModel)
 		println(asd)
-//		var eventStream = engine.getStreamManager().newEventStream();
-//		eventStream.push(createA_Event)
-//		eventStream.push(createB_Event)
-//		eventStream.push(createA_Event)
-//		eventStream.push(createB_Event)
 	}
 
 	@Test
@@ -107,11 +102,7 @@ class Main {
 	def void serverTest() {
 		AbstractRequest.defaultPort = 8080
 		val sender = new SectionStateRequestSender;
-//		sender.disableSection(22);
-//		
-//		Thread.sleep(500);
-//		
-//		sender.enableSection(22);
+
 		sectionModel.sections.forEach[section|sender.disableSection(section.id) Thread.sleep(250)]
 
 		Thread.sleep(2000)
@@ -180,9 +171,13 @@ class Main {
 
 	@Test
 	def void patternTest() {
-//		var train = trainModel.trains.findFirst[t|t.id == 1]
-//		train.currentlyOn = ModelUtil.getSectionByID(sectionModel, 0xB);
-//		train.goingClockwise = true
+		var train1 = trainModel.trains.findFirst[t|t.id == 1]
+		train1.currentlyOn = ModelUtil.getSectionByID(sectionModel, 0xB);
+		train1.goingClockwise = true
+		
+		var train0 = trainModel.trains.findFirst[t|t.id == 0]
+		train0.currentlyOn = ModelUtil.getSectionByID(sectionModel, 0xB);
+		train1.goingClockwise = false;
 
 		for (match : TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches) {
 			println("CUT")

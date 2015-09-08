@@ -18,14 +18,13 @@ pattern sectionNeighbor(s1 : Section, s2 : Section){
 
 pattern inSameRailroadPart(section : Section, someSection : Section){
 	find sectionNeighbor+(section, someSection);
-//	section != someSection;
 } or {
-	find kulonPattern(section);
-	find kulonPattern(someSection);
+	find soloSection(section);
+	find soloSection(someSection);
 	section == someSection;
 }
 
-pattern kulonPattern(section: Section){ //XXX rename
+pattern soloSection(section: Section){
 	Section.clockwise(section, turnout1);
 	Section.counterClockwise(section, turnout2);
 	Turnout(turnout1);
@@ -33,8 +32,6 @@ pattern kulonPattern(section: Section){ //XXX rename
 } or {
 	BlindTrack(section);
 }
-
-
 
 pattern trainsNextTurnout(train : Train, turnout : Turnout){
 	Train.goingClockwise(train,true);
@@ -48,14 +45,7 @@ pattern trainsNextTurnout(train : Train, turnout : Turnout){
 	find inSameRailroadPart(trainSection, sectionNextToTurnout);
 } or {
 	Train.currentlyOn(train, turnout);
-} 
-//or {
-//	Train.goingClockwise(train, true);
-//	Train.currentlyOn.clockwise(train, turnout);
-//} or {
-//	Train.goingClockwise(train, false);
-//	Train.currentlyOn.counterClockwise(train, turnout);
-//}
+}
 
 pattern sectionsInSameRailroadPartAsTrain(train : Train, section : Section){
 	Train.currentlyOn(train, trainSection);
@@ -81,7 +71,7 @@ pattern trainGoingToCutTheTurnout(train : Train, turnout : Turnout){
 	find trainsNextTurnout(train, turnout);
 	Train.goingClockwise(train,false);
 	Section.counterClockwise(sectionNearTheTurnout, turnout);
-	EnglishTurnout.notConnectedClockwiseSection(turnout, sectionNearTheTurnout); // XXX there has to be a more elegant way
+	EnglishTurnout.notConnectedClockwiseSection(turnout, sectionNearTheTurnout);
 	Train.currentlyOn(train, trainSection);
 	find inSameRailroadPart(trainSection, sectionNearTheTurnout);
 }
@@ -128,23 +118,3 @@ pattern trainIsGoingToHit(t1 : Train, t2 : Train){
 	find twoTrainsInSameSection(t1,t2);
 }
 
-
-//pattern twoTrainsWithZeroSectionsBetweenThem(t1 : Train, t2 : Train){
-//	t1 != t2; //Feel free to remove this when the turner has been implemented
-//	Train.currentlyOn(t1, section);
-//	find sectionBeforeTrain(t2, section);
-//}
-//
-//pattern twoTrainsWithOneSectionsBetweenThem(t1 : Train, t2 : Train){
-//	t1 != t2;//Feel free to remove this when the turner has been implemented
-//	find sectionBeforeTrain(t1, section);
-//	find sectionBeforeTrain(t2, section);
-//}
-//
-//pattern safe(t1: Train, t2: Train){
-//	t1 != t2;
-//	0 == count find twoTrainsInSameSection(t1, t2);
-//	0 == count find twoTrainsWithZeroSectionsBetweenThem(t1,t2);
-//	0 == count find twoTrainsWithOneSectionsBetweenThem(t1,t2);
-//
-//}

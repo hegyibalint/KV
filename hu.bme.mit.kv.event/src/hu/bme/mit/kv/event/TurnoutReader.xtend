@@ -20,10 +20,10 @@ class TurnoutReader implements Runnable {
 	}
 
 	override run() {
-		var turnoutIds = #[1, 2, 4, 3, 5, 6, 7]; // TODO add the turnouts list to the model
+		var turnoutIds = #[1, 2, 4, 3, 5, 6, 7]; // XXX add the turnouts list to the model
 		
 		var Map<Integer, Integer> englishTurnoutMap = new HashMap<Integer,Integer>
-		englishTurnoutMap.put(7,4); //TODO add this mapping to the model? 
+		englishTurnoutMap.put(7,4); //XXX add this mapping to the model? 
 
 		AbstractRequest.defaultPort = 8080
 		val sender = new TurnoutDirectionRequestSender
@@ -56,7 +56,7 @@ class TurnoutReader implements Runnable {
 		}
 	}
 
-	def toPhysicalID(Integer integer) {
+	def toPhysicalID(Integer integer) { //XXX This should be in the model too
 		switch integer {
 			case 1: 0x81
 			case 2: 0x82
