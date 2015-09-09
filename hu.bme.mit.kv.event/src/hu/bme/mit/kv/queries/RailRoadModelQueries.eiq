@@ -24,14 +24,21 @@ pattern inSameRailroadPart(section : Section, someSection : Section){
 	section == someSection;
 }
 
-pattern soloSection(section: Section){
-	Section.clockwise(section, turnout1);
+pattern soloSection(section: Section){ 
+	Section.clockwise(section, turnout1); // It has two neighbors, which are both turnouts
 	Section.counterClockwise(section, turnout2);
 	Turnout(turnout1);
 	Turnout(turnout2);
 } or {
+	BlindTrack(section); //it's a blind turnout with only one connection; which is a turnout
+	Section.clockwise(section, turnout);
+	Turnout(turnout);
+} or {
 	BlindTrack(section);
+	Section.counterClockwise(section,turnout);
+	Turnout(turnout);
 }
+
 
 pattern trainsNextTurnout(train : Train, turnout : Turnout){
 	Train.goingClockwise(train,true);
