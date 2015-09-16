@@ -15,6 +15,9 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 
+// OpenGL
+#include <opengl/gl.h>
+
 // User
 #include "Board.hpp"
 #include "Train.hpp"
@@ -24,7 +27,6 @@ using namespace cv;
 using namespace cv::cuda;
 
 Mat distCoeffs, cameraMatrix;
-
 
 int sockhandler;
 
@@ -36,7 +38,7 @@ void sendData(TrainJSON& trainJSON) {
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(24000);
-    addr.sin_addr.s_addr = inet_addr("152.66.158.186");
+    addr.sin_addr.s_addr = inet_addr("152.66.156.190");
     
     std::string data = trainJSON.generateJSON();
     sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
@@ -104,7 +106,7 @@ Mat convolve(Mat raw, GpuMat circleSpectrumGPU, float thresold) {
     
     magnitudeGPU.download(magnitude);
     magnitude.convertTo(contour, CV_8U, 255);
-    
+	
     return contour;
 }
 
@@ -282,6 +284,81 @@ Board detectBoard(VideoCapture vid) {
     return board;
 }
 
+void drawTrainMarker(Mat& raw, Train& train, Point2f start, Point2f end, Point2f center) {
+	const int ARROWS = 15;
+	
+	const float HEIGHT = 0.3;
+	const float A_HEIGHT = 0.2;
+	
+	const float H_DIST = 0.85;
+	const float L_DIST = 0.60;
+	
+	const float A_DIST = 0.95;
+	const float A_BACK = 0.1;
+	const float A_PLUS = 0.2;
+	
+	cv::line(raw, start, end, Scalar(255, 0, 0));
+	
+	Point2f v0 = end - start;
+	Point2f v1 = {v0.y, -v0.x};
+	
+	if (train.lastSpeed > 0) {
+		Point2f speedVector = train.positions[train.positions.size()].coordinate - train.positions[0].coordinate;
+		float dotProduct = v0.dot(speedVector);
+		
+		if (dotProduct < 0) {
+			v0 = -v0;
+		}
+	}
+	
+	auto convert = [&](float a, float b) {
+		return center + (v0 * a) + (b * v1);
+	};
+	/*
+	auto draw = [](Point2f point) {
+		glVertex2f(point.x, point.y);
+	};
+	*/
+	auto drawLine = [&](Point2f start, Point2f end, Scalar color, float thickness) {
+		line(raw,
+			 start,
+			 end,
+			 color, thickness / 2, CV_AA);
+	};
+	auto drawLines = [&](std::vector<std::pair<Point2f, Point2f>> pairs, Scalar color = Scalar(0, 0, 255), float thickness = 4) {
+		for(auto& pair : pairs) {
+			drawLine(pair.first, pair.second, Scalar(0, 0, 0), thickness + 4);
+		}
+		for(auto& pair : pairs) {
+			drawLine(pair.first, pair.second, color, thickness);
+		}
+	};
+	
+	drawLines({
+		{convert(H_DIST, -HEIGHT),  convert(H_DIST, HEIGHT)},
+		{convert(-H_DIST, -HEIGHT), convert(-H_DIST, +HEIGHT)},
+		{convert(-H_DIST, -HEIGHT), convert(-L_DIST, -HEIGHT)},
+		{convert(-H_DIST, +HEIGHT), convert(-L_DIST, +HEIGHT)},
+		{convert(+H_DIST, -HEIGHT), convert(+L_DIST, -HEIGHT)},
+		{convert(+H_DIST, +HEIGHT), convert(+L_DIST, +HEIGHT)}
+	}, Scalar(0, 0, 255), 6);
+	
+	if (train.lastSpeed > 0) {
+		for (int i = 0; i < train.lastSpeed; ++i) {
+			Scalar color(
+				0,
+				255 - 255 / ARROWS * train.lastSpeed,
+				255 / ARROWS * train.lastSpeed
+			);
+			
+			drawLines({
+				{convert(A_DIST + A_PLUS * (i+1) - A_BACK, +A_HEIGHT), convert(A_DIST + A_PLUS * (i+1), 0)},
+				{convert(A_DIST + A_PLUS * (i+1) - A_BACK, -A_HEIGHT), convert(A_DIST + A_PLUS * (i+1), 0)}
+			}, color, 6);
+		}
+	}
+}
+
 void detectTrains(VideoCapture vid, Board board, Train* trains) {
     static Mat raw;
     vid >> raw;
@@ -345,12 +422,12 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
             std::cout << trains[id].getCoordinate() << std::endl;
             std::cout << trains[id].getSpeed() << " cm/s" << std::endl;
             
-            cv::circle(raw, Train::getCorrectedToCamera(Train::getCorrectedCenter(center, board), board), 4, Scalar(0, 0, 255), -1);
-            cv::circle(raw, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
+            //cv::circle(raw, Train::getCorrectedToCamera(Train::getCorrectedCenter(center, board), board), 4, Scalar(0, 0, 255), -1);
+            //cv::circle(raw, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
             json.addTrain(trains[id]);
         }
-        
-        cv::line(raw, start, end, Scalar(255, 0, 0));
+		
+		drawTrainMarker(raw, trains[id], start, end, center);
         
         /*
         Mat_<Point2f> src(1, static_cast<int>(trains.size()));
@@ -385,18 +462,17 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
     
     std::cout << "Fps: " << 1000.0 / dur << std::endl;
     
-    /*
     cv::resize(raw, raw, raw.size() / 3 * 2);
-    imshow("1", raw);
+    imshow("Train", raw);
     waitKey(1);
-    */
 }
 
 int main(int argc, char** argv)
 {
     initSocket();
     
-    VideoCapture vid(1);
+    VideoCapture vid("Test1.mov");
+	
     Train trains[] = {
         Train(MARKER_C),
         Train(MARKER_M)
@@ -408,7 +484,9 @@ int main(int argc, char** argv)
 
     Board board = detectBoard(vid);
     std::cout << board.topLeft;
-    
+	
+	cv::namedWindow("Train", WINDOW_AUTOSIZE | WINDOW_OPENGL);
+	
     while (true) {
         detectTrains(vid, board, trains);
         std::cout << "-----------" << std::endl;

@@ -14,6 +14,9 @@ public:
     void addTrain(Train& train) {
         std::stringstream ss;
         
+        if (train.getSpeed() > 100)
+            return;
+        
         Point2f c = train.getCoordinate();
         ss << "{ \"id\": " << train.identifier << ", \"x\": " << c.x << ", \"y\": " << c.y << ", \"speed\": " << train.getSpeed() << ", \"dir\": \"" << train.getDir() << "\" }";
         

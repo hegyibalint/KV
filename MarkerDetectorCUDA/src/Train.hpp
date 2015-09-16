@@ -6,16 +6,17 @@
 #include "Constants.hpp"
 
 struct Train {
+    const int BUFFER_SIZE = 5;
+	
     int identifier;
-    bool detected;
     int dir = DIR_NONE;
+    bool detected = false;
     float lastSpeed = 0.0;
     std::vector<Position> positions;
     
     Train(int identifier) : identifier(identifier) { }
     
     void setCurrentPosition(Position pos) {
-        static int BUFFER_SIZE = 5;
         
         if (positions.size() < BUFFER_SIZE) {
             positions.push_back(pos);
