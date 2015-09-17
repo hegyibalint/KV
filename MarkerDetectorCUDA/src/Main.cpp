@@ -15,8 +15,8 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 
-// OpenGL
-#include <opengl/gl.h>
+// Mosquitto
+#include <mosquittopp.h>
 
 // User
 #include "Board.hpp"
@@ -25,13 +25,19 @@
 
 using namespace cv;
 using namespace cv::cuda;
+using namespace mosqpp;
 
 Mat distCoeffs, cameraMatrix;
 
 int sockhandler;
+mosquittopp mqtt("opencv");
 
 void initSocket() {
     sockhandler = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+}
+
+void initMQTT() {
+	mqtt.connect("localhost");
 }
 
 void sendData(TrainJSON& trainJSON) {
@@ -44,6 +50,8 @@ void sendData(TrainJSON& trainJSON) {
     sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
     addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
+	
+	mqtt.publish(NULL, "cv", static_cast<int>(data.length()), data.data());
 }
 
 void drawMarkerToMat(Mat& marker, int x, int y, int outer, int ring, int inner) {
@@ -60,54 +68,45 @@ GpuMat createCirclePattern(Size vidsize, int outer, int ring, int inner) {
     drawMarkerToMat(circle, vidsize.width, vidsize.height, outer, ring, inner);
     
     cv::GaussianBlur(circle, circle, Size(3, 3), 2);
-    Mat planes[2] = {
-        Mat_<float>(circle),
-        Mat::zeros(circle.size(), CV_32F)
-    };
-    
-    Mat merged;
-    cv::merge(planes, 2, merged);
-    GpuMat mergedGPU(merged);
-    
+	
     GpuMat circleSpectrum;
-    cuda::dft(merged, circleSpectrum, merged.size());
+	circleSpectrum.upload(circle);
+	
+    cuda::dft(circle, circleSpectrum, circle.size());
     return circleSpectrum;
 }
 
-Mat convolve(Mat raw, GpuMat circleSpectrumGPU, float thresold) {
-    static Mat gray;
-    static Mat planes[2];
-    static Mat merged;
-    
-    static GpuMat mergedGPU;
-    static GpuMat imageSpectrumGPU;
-    static GpuMat inverseGPU;
-    static GpuMat magnitudeGPU;
-    
-    static Mat magnitude;
-    static Mat contour;
-    
-    cv::cvtColor(raw, gray, CV_BGR2GRAY);
-    //cv::equalizeHist(gray, gray);
-    
-    gray.convertTo(planes[0], CV_32F, 1/255.0);
-    planes[1] = Mat::zeros(raw.size(), CV_32F);
-    
-    cv::merge(planes, 2, merged);
-    
-    mergedGPU.upload(merged);
-    cuda::dft(mergedGPU, imageSpectrumGPU, mergedGPU.size());
-    cuda::mulSpectrums(imageSpectrumGPU, circleSpectrumGPU, imageSpectrumGPU, 0);
-    cuda::dft(imageSpectrumGPU, inverseGPU, imageSpectrumGPU.size(), DFT_INVERSE);
-    
-    cuda::magnitude(inverseGPU, magnitudeGPU);
-    cuda::normalize(magnitudeGPU, magnitudeGPU, 0, 1, NORM_MINMAX, CV_32F);
-    cuda::threshold(magnitudeGPU, magnitudeGPU, thresold, 1, CV_THRESH_BINARY);
-    
-    magnitudeGPU.download(magnitude);
-    magnitude.convertTo(contour, CV_8U, 255);
+Mat convolve(Mat raw, GpuMat circleSpectrum, float thresold) {
+	static Mat gray;
+	cv::cvtColor(raw, gray, CV_BGR2GRAY);
 	
-    return contour;
+	Rect2i srcRoi(Point(0, 28), Size(1920, 1024));
+	Rect2i dstRoi(Point(64, 0), Size(1920, 1024));
+	
+	static Mat grayPadded = Mat::zeros(1024, 2048, CV_32F);
+	gray(srcRoi).convertTo(grayPadded(dstRoi), CV_32F, 1/255.0);
+	
+	static cuda::Stream stream;
+
+	static GpuMat spectrum;
+	spectrum.upload(grayPadded, stream);
+
+	cuda::dft(spectrum, spectrum, grayPadded.size(), 0, stream);
+	cuda::mulSpectrums(spectrum, circleSpectrum, spectrum, 0, stream);
+	cuda::dft(spectrum, spectrum, grayPadded.size(), DFT_INVERSE | DFT_REAL_OUTPUT, stream);
+	
+	//cuda::magnitude(spectrum, spectrum, stream);
+	cuda::normalize(spectrum, spectrum, 0, 1, NORM_MINMAX, CV_32F, noArray(), stream);
+	cuda::threshold(spectrum, spectrum, thresold, 1, CV_THRESH_BINARY, stream);
+	
+	static GpuMat spectrumByte;
+	spectrum.convertTo(spectrumByte, CV_8U, 255);
+
+	static Mat contour = Mat::zeros(1080, 1920, CV_8U);
+	spectrumByte(dstRoi).download(contour(srcRoi), stream);
+	
+	stream.waitForCompletion();
+	return contour;
 }
 
 bool isMarkerNear(std::vector<Point2f> points, Point2f loc, double e, std::vector<int>& deletionVector) {
@@ -227,10 +226,9 @@ Board detectBoard(VideoCapture vid) {
     imshow("1", undistorted);
     waitKey(0);
     */
-    
+	
     Point2i decPoint = raw.size() / 2;
-    
-    GpuMat boardCicle = createCirclePattern(raw.size(), 25, 20, 10);
+    GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 25, 20, 10);
     
     std::cout << "Searching board..." << std::endl;
     
@@ -334,6 +332,18 @@ void drawTrainMarker(Mat& raw, Train& train, Point2f start, Point2f end, Point2f
 		}
 	};
 	
+	Scalar color;
+	switch (train.identifier) {
+		case MARKER_C:
+			color = Scalar(255, 255, 0);
+			break;
+		case MARKER_M:
+			color = Scalar(255, 0, 255);
+			break;
+		default:
+			Scalar(0, 0, 0);
+	}
+	
 	drawLines({
 		{convert(H_DIST, -HEIGHT),  convert(H_DIST, HEIGHT)},
 		{convert(-H_DIST, -HEIGHT), convert(-H_DIST, +HEIGHT)},
@@ -341,7 +351,7 @@ void drawTrainMarker(Mat& raw, Train& train, Point2f start, Point2f end, Point2f
 		{convert(-H_DIST, +HEIGHT), convert(-L_DIST, +HEIGHT)},
 		{convert(+H_DIST, -HEIGHT), convert(+L_DIST, -HEIGHT)},
 		{convert(+H_DIST, +HEIGHT), convert(+L_DIST, +HEIGHT)}
-	}, Scalar(0, 0, 255), 6);
+	}, color, 6);
 	
 	if (train.lastSpeed > 0) {
 		for (int i = 0; i < train.lastSpeed; ++i) {
@@ -364,7 +374,7 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
     vid >> raw;
     auto timestamp = std::chrono::high_resolution_clock::now();
     
-    static GpuMat trainCircle = createCirclePattern(raw.size(), 10, 8, 4);
+    static GpuMat trainCircle = createCirclePattern(Size(2048, 1024), 10, 8, 4);
     static Mat contour;
     contour = convolve(raw, trainCircle, 0.6);
     
@@ -461,7 +471,7 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
     auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - timestamp).count();
     
     std::cout << "Fps: " << 1000.0 / dur << std::endl;
-    
+	
     cv::resize(raw, raw, raw.size() / 3 * 2);
     imshow("Train", raw);
     waitKey(1);
@@ -470,6 +480,7 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
 int main(int argc, char** argv)
 {
     initSocket();
+	initMQTT();
     
     VideoCapture vid("Test1.mov");
 	
@@ -483,9 +494,9 @@ int main(int argc, char** argv)
     fs["Camera_Matrix"] >> cameraMatrix;
 
     Board board = detectBoard(vid);
-    std::cout << board.topLeft;
+    //std::cout << board.topLeft;
 	
-	cv::namedWindow("Train", WINDOW_AUTOSIZE | WINDOW_OPENGL);
+	cv::namedWindow("Train");
 	
     while (true) {
         detectTrains(vid, board, trains);
