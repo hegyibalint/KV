@@ -14,7 +14,6 @@ import hu.bme.mit.kv.queries.InSameRailroadPartMatcher
 import hu.bme.mit.kv.queries.SectionNeighborMatcher
 import hu.bme.mit.kv.queries.SectionsInSameRailroadPartAsTrainMatcher
 import hu.bme.mit.kv.queries.TrainGoingToCutTheTurnoutMatcher
-import hu.bme.mit.kv.queries.TrainIsGoingToHitMatcher
 import hu.bme.mit.kv.queries.TrainsNextTurnoutMatcher
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -29,13 +28,14 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.viatra.cep.core.api.engine.CEPEngine
+import org.eclipse.viatra.cep.core.api.engine.ResetTransformations
 import org.eclipse.viatra.cep.core.metamodels.automaton.EventContext
 import org.eclipse.viatra.cep.examples.sosym.tests.internal.DefaultRealm
 import org.junit.Before
 import org.junit.Test
 
 import static kvcontrol.requests.AbstractRequest.*
-import org.eclipse.viatra.cep.core.api.engine.ResetTransformations
+import hu.bme.mit.kv.queries.TrainIsGoingToHitMatcher
 
 class Main {
 	extension CepFactory factory = CepFactory.instance
@@ -174,7 +174,7 @@ class Main {
 		var train1 = trainModel.trains.findFirst[t|t.id == 1]
 		train1.currentlyOn = ModelUtil.getSectionByID(sectionModel, 0xB);
 		train1.goingClockwise = true
-		
+
 		var train0 = trainModel.trains.findFirst[t|t.id == 0]
 		train0.currentlyOn = ModelUtil.getSectionByID(sectionModel, 0xB);
 		train1.goingClockwise = false;
@@ -199,15 +199,15 @@ class Main {
 			println("Section = " + match.s1.id + " is the neighbor of section = " + match.s2.id)
 		}
 	}
-	
+
 	@Test
-	def void englishTurnoutTest(){
+	def void englishTurnoutTest() {
 		var reader = new TurnoutReader(sectionModel, lock)
 		var thread = new Thread(reader);
 		thread.start
-		
+
 		var englishTurnout = ModelUtil.getEnglishTurnout(sectionModel)
-		while(true){
+		while(true) {
 			println("cw = " + ModelUtil.toHexa(englishTurnout.clockwise.id) + "\tccw = " + ModelUtil.toHexa(englishTurnout.counterClockwise.id) + "\tnot = " + ModelUtil.toHexa(englishTurnout.notConnectedSection.id) + "\tnotcw = " + ModelUtil.toHexa(englishTurnout.notConnectedClockwiseSection.id))
 			Thread.sleep(1000)
 		}
@@ -227,85 +227,87 @@ class Main {
 			val sender = new SectionStateRequestSender
 			val packet = new DatagramPacket(buffer, buffer.length)
 
-//			println("Recieving a packet!")
 			socket.receive(packet);
-//			println("Packet recieved")
 			val trimmed = new String(packet.data).trim
-//			println(trimmed);
 			var JsonObject data;
 			try {
-				data = JsonObject.readFrom(trimmed)
+				parseJsonFromPacket(lock, sectionModel, trainModel, trimmed)
 			} catch(Exception e) {
 				println("failed to parse json, here is the file : ")
 				println(trimmed);
 				data = null
-				return
 			}
-			val timestamp = data.get("timestamp").asLong
-			val trains = data.get("trains").asArray
-			synchronized(lock) {
-				for (section : sectionModel.sections) {
-					section.enabled = true
-				}
-				
-				for (i : trains) {
-					val jsonTrain = i.asObject
-					val id = jsonTrain.get("id").asInt
-					val posX = jsonTrain.get("x").asDouble
-					val posY = jsonTrain.get("y").asDouble
-					val speed = jsonTrain.get("speed").asDouble
-					val direction = jsonTrain.get("dir").asString
 
-					val modelTrain = trainModel.trains.findFirst[t|t.id == id]
-					modelTrain.x = posX
-					modelTrain.y = posY
-					if(!direction.toUpperCase.equals("NONE")) {
-						modelTrain.goingClockwise = (direction.equals("CW"))
-					}
+			var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
+			if(matches.size == 0) {
+				println("I don't see the next turnout")
+			}
+			for (match : matches) {
+				println("train " + match.train.id + " next turnout = " + match.turnout.id)
+			}
 
-					var occupied = findOccupiedTurnout(modelTrain, sectionModel) as Section
-					if(occupied == null) {
-						occupied = findClosestSection(modelTrain, sectionModel)
-					}
+			val cutMatches = TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches
+			if(cutMatches.size == 0) {
+				println("No cut")
+			} else {
+				for (match : cutMatches) {
+					println("CUT on turnout #" + match.turnout.id + " with train #" + match.train.id)
+					match.train.currentlyOn.enabled = false
+					sender.disableSection(match.train.currentlyOn.id);
+				}
+			}
 
-					println(timestamp + "#:\tID = " + modelTrain.id + "\tX = " + modelTrain.x + "\tY = " + modelTrain.y + "\tspeed = " + speed + "\tdirection = " + modelTrain.isGoingClockwise + "\tsection = 0x" + ModelUtil.toHexa(occupied.id))
-					modelTrain.currentlyOn = occupied
+			var trainHitMatchers = TrainIsGoingToHitMatcher.on(queryEngine).allMatches
+			if(trainHitMatchers.size == 0) {
+				println("No train is going to hit the other");
+			}
+
+			for (match : trainHitMatchers) {
+				println("Train #" + match.t1.id + " is going to hit train #" + match.t2.id)
+				match.t1.currentlyOn.enabled = false
+				sender.disableSection(match.t1.currentlyOn.id);
+			}
+
+			sectionModel.sections.filter[section|section.enabled == true].forEach [
+				sender.enableSection(it.id)
+			]
+		}
+
+	}
+
+	def parseJsonFromPacket(Object object, SectionModel model, TrainModel model2, String trimmed) {
+		val data = JsonObject.readFrom(trimmed)
+		val timestamp = data.get("timestamp").asLong
+		val trains = data.get("trains").asArray
+		synchronized(lock) {
+			for (section : sectionModel.sections) {
+				section.enabled = true
+			}
+
+			for (i : trains) {
+				val jsonTrain = i.asObject
+				val id = jsonTrain.get("id").asInt
+				val posX = jsonTrain.get("x").asDouble
+				val posY = jsonTrain.get("y").asDouble
+				val speed = jsonTrain.get("speed").asDouble
+				val direction = jsonTrain.get("dir").asString
+
+				val modelTrain = trainModel.trains.findFirst[t|t.id == id]
+				modelTrain.x = posX
+				modelTrain.y = posY
+				if(!direction.toUpperCase.equals("NONE")) {
+					modelTrain.goingClockwise = (direction.equals("CW"))
 				}
 
-				var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
-				if(matches.size == 0) {
-					println("I don't see the next turnout")
-				}
-				for (match : matches) {
-					println("train " + match.train.id + " next turnout = " + match.turnout.id)
-				}
-				
-				val cutMatches = TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches
-				if(cutMatches.size == 0) {
-					println("No cut")
-				} else {
-					for (match : cutMatches) {
-						println("CUT on turnout #" + match.turnout.id + " with train #" + match.train.id)
-						match.train.currentlyOn.enabled = false
-						sender.disableSection(match.train.currentlyOn.id);
-					}
+				var Section occupied = findOccupiedTurnout(modelTrain, sectionModel)
+				if(occupied == null) { //If it's not on a turnout, it must be on a section
+					occupied = findClosestSection(modelTrain, sectionModel)
 				}
 
-				var trainHitMatchers = TrainIsGoingToHitMatcher.on(queryEngine).allMatches
-				if(trainHitMatchers.size == 0) {
-					println("No train is going to hit the other");
-				}
-				
-				for (match : trainHitMatchers) {
-					println("Train #" + match.t1.id + " is going to hit train #" + match.t2.id)
-					match.t1.currentlyOn.enabled = false
-					sender.disableSection(match.t1.currentlyOn.id); 
-				}
-
-				sectionModel.sections.filter[section | section.enabled == true].forEach[
-					sender.enableSection(it.id)
-				]
+				println(timestamp + "#:\tID = " + modelTrain.id + "\tX = " + modelTrain.x + "\tY = " + modelTrain.y + "\tspeed = " + speed + "\tdirection = " + modelTrain.isGoingClockwise + "\tsection = 0x" + ModelUtil.toHexa(occupied.id))
+				modelTrain.currentlyOn = occupied
 			}
 		}
 	}
+
 } 

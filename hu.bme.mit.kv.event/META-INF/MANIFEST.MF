@@ -10,6 +10,7 @@ Export-Package: hu.bme.mit.kv.event,
  hu.bme.mit.kv.event.jobs,
  hu.bme.mit.kv.event.mapping,
  hu.bme.mit.kv.event.patterns.atomic.queryresult,
+ hu.bme.mit.kv.event.patterns.complex,
  hu.bme.mit.kv.event.rules,
  hu.bme.mit.kv.queries,
  hu.bme.mit.kv.queries.util

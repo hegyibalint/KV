@@ -39,7 +39,6 @@ pattern soloSection(section: Section){
 	Turnout(turnout);
 }
 
-
 pattern trainsNextTurnout(train : Train, turnout : Turnout){
 	Train.goingClockwise(train,true);
 	Train.currentlyOn(train, trainSection);
@@ -125,3 +124,10 @@ pattern trainIsGoingToHit(t1 : Train, t2 : Train){
 	find twoTrainsInSameSection(t1,t2);
 }
 
+pattern nextSectionFromSectionInClockwise(section : Section, nextSection : Section){
+	Section.clockwise(section, nextSection);
+} or {
+	Section.clockwise(section, nextNonSection);
+	Turnout(nextNonSection); //TODO generalize
+	find nextSectionFromSectionInClockwise(nextNonSection, nextSection);
+}

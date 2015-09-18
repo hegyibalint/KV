@@ -2,64 +2,49 @@ package hu.bme.mit.kv.event
 
 import-queries hu.bme.mit.kv.queries.*
 
-//QueryResultChangeEvent safe(){
-//	query: safe
-//	resultChangeType: NEW_MATCH_FOUND
-//}
+import hu.bme.mit.kv.model.railroadmodel.*
 
-QueryResultChangeEvent onSame(){
-	query: twoTrainsInSameSection
+QueryResultChangeEvent hit(train : Train){
+	query: trainIsGoingToHit(train, _)
 	resultChangeType: NEW_MATCH_FOUND
 }
-//
-//QueryResultChangeEvent zeroBetween(){
-//	query: twoTrainsWithZeroSectionsBetweenThem
-//	resultChangeType: NEW_MATCH_FOUND
-//}
-//
-//QueryResultChangeEvent oneBetween(){
-//	query: twoTrainsWithOneSectionsBetweenThem
-//	resultChangeType: NEW_MATCH_FOUND
-//}
 
-QueryResultChangeEvent cut(){
-	query: trainGoingToCutTheTurnout
+QueryResultChangeEvent cut(train : Train){
+	query: trainGoingToCutTheTurnout(train, _)
 	resultChangeType: NEW_MATCH_FOUND
+}
+
+QueryResultChangeEvent unhit(train : Train){
+	query: trainIsGoingToHit(train, _)
+	resultChangeType: EXISTING_MATCH_LOST
+}
+
+QueryResultChangeEvent uncut(train : Train){
+	query: trainGoingToCutTheTurnout(train, _)
+	resultChangeType: EXISTING_MATCH_LOST
 }
 
 Rule debugRule{
-	events: onSame, cut//, zeroBetween, oneBetween, safe, 
+	events: hit, cut
 	action{
 		println(ruleInstance.atom.observedEventPatternId.split("\\.").last.split("_pattern").head)
 	}
 }
 
-
- /*
- 
-AtomicEvent A
-AtomicEvent B
-
-ComplexEvent Test(){
-	definition: A->B->A->B
+ComplexEvent release(train : Train){
+	definition: uncut(train) OR unhit(train)
 }
 
-ComplexEvent Test2(){
-	definition: A-> (NOT B ){*} -> A 
-}
-
-Rule TestRule{
-	events: Test
-	action{
-		println("Triggered!")
-	}
-}
-
-Rule Test2Rule{
-	events: Test2
+Rule HitRule{
+	events: hit(train)
 	action{
 		
 	}
 }
 
- */
+Rule CutRule{
+	events: cut(train)
+	action{
+		// hu.bme.mit.kv.hwcontrol.stopTrain(train.id)
+	}
+}
