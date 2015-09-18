@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import hu.bme.mit.kv.model.railroadmodel.EnglishTurnout
+import hu.bme.mit.kv.model.railroadmodel.TrainModel
 
 class ModelUtil {
 	static extension ModelFactory factory = ModelFactory.eINSTANCE
@@ -22,6 +23,13 @@ class ModelUtil {
 
 		val sectionModel = resource.contents.head as SectionModel
 		return sectionModel
+	}
+	
+	def static addTrain(TrainModel tm , int id ){
+		var train = createTrain
+		train.id = id;
+		tm.trains.add(train);
+		train
 	}
 
 	def static createReadySectionModel() {
@@ -132,11 +140,15 @@ class ModelUtil {
 		// Add the trains
 		var train1 = createTrain
 		var train2 = createTrain
-		train1.id = 1
-		train2.id = 0
+		var train3 = createTrain
+
+		train1.id = 0
+		train2.id = 1
+		train3.id = 2
 
 		trainModel.trains.add(train1)
 		trainModel.trains.add(train2)
+		trainModel.trains.add(train3)
 
 		return trainModel;
 	}

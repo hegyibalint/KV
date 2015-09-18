@@ -292,7 +292,13 @@ class Main {
 				val speed = jsonTrain.get("speed").asDouble
 				val direction = jsonTrain.get("dir").asString
 
-				val modelTrain = trainModel.trains.findFirst[t|t.id == id]
+				var modelTrain = trainModel.trains.findFirst[t|t.id == id]
+				//XXX this should be in somewhere else?
+				if(modelTrain == null){
+					modelTrain = ModelUtil.addTrain(trainModel, id);
+					
+				}
+				
 				modelTrain.x = posX
 				modelTrain.y = posY
 				if(!direction.toUpperCase.equals("NONE")) {

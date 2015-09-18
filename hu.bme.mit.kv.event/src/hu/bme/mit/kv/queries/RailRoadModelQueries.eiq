@@ -91,7 +91,7 @@ pattern twoTrainsInSameSection(t1 : Train, t2 : Train){
 pattern trainIsGoingToHitNextAfterNext(t1: Train, t2 : Train){
 	t1 != t2;
 	Train.goingClockwise(t1, true);
-//	Train.currentlyOn.clockwise.clockwise(t1,nextSection);
+//XXX	Train.currentlyOn.clockwise.clockwise(t1,nextSection);
 	Train.currentlyOn(t1, trainSection);
 	Section.clockwise(trainSection, nearTrainSection);
 	Section.clockwise(nearTrainSection, notSoNearTheFuckinTrainSection);
@@ -99,7 +99,7 @@ pattern trainIsGoingToHitNextAfterNext(t1: Train, t2 : Train){
 } or {
 	t1 != t2;
 	Train.goingClockwise(t1, false);
-//	Train.currentlyOn.counterClockwise.counterClockwise(t1,nextSection);
+//XXX	Train.currentlyOn.counterClockwise.counterClockwise(t1,nextSection);
 	Train.currentlyOn(t1, trainSection);
 	Section.counterClockwise(trainSection, nearTrainSection);
 	Section.counterClockwise(nearTrainSection, notSoNearTheFuckinTrainSection);
@@ -125,9 +125,10 @@ pattern trainIsGoingToHit(t1 : Train, t2 : Train){
 }
 
 pattern nextSectionFromSectionInClockwise(section : Section, nextSection : Section){
-	Section.clockwise(section, nextSection);
+	Section.clockwise(section, nextSection); // if the next is not a turnout, we return it.
+	neg find turnout(nextSection);
 } or {
-	Section.clockwise(section, nextNonSection);
+	Section.clockwise(section, nextNonSection); //if the next is a turnout, we recurse.
 	Turnout(nextNonSection); //TODO generalize
 	find nextSectionFromSectionInClockwise(nextNonSection, nextSection);
 }
