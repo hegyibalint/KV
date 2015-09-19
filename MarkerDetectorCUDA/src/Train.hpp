@@ -30,9 +30,19 @@ struct Train {
                 accumulatedSpeed += positions[i].getSpeed(positions[i+1]);
             }
             lastSpeed = accumulatedSpeed / positions.size();
-            
-            dir = positions[0].getDir(positions[positions.size() - 1]);
-            std::cout << dir << std::endl;
+			if (lastSpeed < 0.5) {
+				lastSpeed = 0.0;
+			}
+			
+			if (lastSpeed > 100) {
+				positions.clear();
+				dir = DIR_NONE;
+			} else {
+				dir = positions[0].getDir(positions[positions.size() - 1]);
+				std::cout << dir << std::endl;
+			}
+			
+
         }
     }
     

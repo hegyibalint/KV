@@ -9,13 +9,13 @@ const float BOARD_HEIGHT = 143.0;
 
 
 /// COLOR CONSTANTS -------------------------------
-const int CMYK_DEVIATION = 70;
+const int CMYK_DEVIATION = 40;
 
-const int CYAN = 210;
+const int CYAN = 200;
 const int CYAN_LOW = CYAN - CMYK_DEVIATION;
 const int CYAN_HIGH = CYAN + CMYK_DEVIATION;
 
-const int MAGENTA = 326;
+const int MAGENTA = 300;
 const int MAGENTA_LOW = MAGENTA - CMYK_DEVIATION;
 const int MAGENTA_HIGH = MAGENTA + CMYK_DEVIATION;
 

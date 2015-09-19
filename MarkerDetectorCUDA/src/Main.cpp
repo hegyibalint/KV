@@ -9,7 +9,6 @@
 // OpenCV - CUDA
 #include <opencv2/core/cuda.hpp>
 #include <opencv2/cudaarithm.hpp>
-#include <opencv2/cudafilters.hpp>
 
 // Network
 #include <arpa/inet.h>
@@ -44,7 +43,7 @@ void sendData(TrainJSON& trainJSON) {
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(24000);
-    addr.sin_addr.s_addr = inet_addr("152.66.156.190");
+    addr.sin_addr.s_addr = inet_addr("152.66.158.41");
     
     std::string data = trainJSON.generateJSON();
     sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
@@ -97,7 +96,7 @@ Mat convolve(Mat raw, GpuMat circleSpectrum, float thresold) {
 	
 	//cuda::magnitude(spectrum, spectrum, stream);
 	cuda::normalize(spectrum, spectrum, 0, 1, NORM_MINMAX, CV_32F, noArray(), stream);
-	cuda::threshold(spectrum, spectrum, thresold, 1, CV_THRESH_BINARY, stream);
+	cuda::threshold(spectrum, spectrum, thresold, 0.5, CV_THRESH_BINARY, stream);
 	
 	static GpuMat spectrumByte;
 	spectrum.convertTo(spectrumByte, CV_8U, 255);
@@ -110,7 +109,7 @@ Mat convolve(Mat raw, GpuMat circleSpectrum, float thresold) {
 }
 
 bool isMarkerNear(std::vector<Point2f> points, Point2f loc, double e, std::vector<int>& deletionVector) {
-    for (int i = 0; i < points.size(); ++i) {
+    for (int i = 0; i < points.size() && i < 5; ++i) {
         double distance = cv::norm(loc - points[i]);
         
         if (distance <= e) {
@@ -167,20 +166,20 @@ std::tuple<bool, Point2f, Point2f> findMarker(std::vector<Point2f>& points, doub
 }
 
 int identifyMarker(Point2f markerCenter, Mat& img) {
-    Rect2i roi((markerCenter - Point2f(5, 5)), cv::Size2i(10, 10));
+    Rect2i roi((markerCenter - Point2f(8, 8)), cv::Size2i(16, 16));
     
     Mat sample;
     cv::cvtColor(img(roi), sample, CV_BGR2HSV);
     cv::rectangle(img, roi, Scalar(0, 0, 255));
     
     float hue = cv::mean(sample)[0] * 2;
-    //std::cout << hue << std::endl;
+    std::cout << hue << std::endl;
     
     float sat = cv::mean(sample)[1];
-    //std::cout << sat << std::endl;
+    std::cout << sat << std::endl;
     
     float val = cv::mean(sample)[2];
-    //std::cout << val << std::endl << std::endl;
+    std::cout << val << std::endl << std::endl;
     
     if (CYAN_LOW < hue && hue < CYAN_HIGH)
         return MARKER_C;
@@ -220,15 +219,10 @@ Board detectBoard(VideoCapture vid) {
     vid >> raw;
     Mat undistorted;
     cv::undistort(raw, undistorted, cameraMatrix, distCoeffs);
-
-    /*
-    cv::resize(undistorted, undistorted, undistorted.size() / 3 * 2);
-    imshow("1", undistorted);
-    waitKey(0);
-    */
 	
     Point2i decPoint = raw.size() / 2;
-    GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 25, 20, 10);
+    //GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 25, 20, 10);
+	GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 30, 25, 15);
     
     std::cout << "Searching board..." << std::endl;
     
@@ -237,6 +231,13 @@ Board detectBoard(VideoCapture vid) {
     float thresold = 0.99;
     while (true) {
         contour = convolve(undistorted, boardCicle, thresold);
+		
+		/*
+		Mat debug;
+		cv::resize(contour, debug, contour.size() * 2 / 3);
+		imshow("c", debug);
+		waitKey(0);
+		*/
         
         std::cout << "Thresold: " << thresold << std::endl;
         
@@ -300,7 +301,7 @@ void drawTrainMarker(Mat& raw, Train& train, Point2f start, Point2f end, Point2f
 	Point2f v0 = end - start;
 	Point2f v1 = {v0.y, -v0.x};
 	
-	if (train.lastSpeed > 0) {
+	if (train.lastSpeed > 0.001) {
 		Point2f speedVector = train.positions[train.positions.size()].coordinate - train.positions[0].coordinate;
 		float dotProduct = v0.dot(speedVector);
 		
@@ -353,8 +354,9 @@ void drawTrainMarker(Mat& raw, Train& train, Point2f start, Point2f end, Point2f
 		{convert(+H_DIST, +HEIGHT), convert(+L_DIST, +HEIGHT)}
 	}, color, 6);
 	
+	
 	if (train.lastSpeed > 0) {
-		for (int i = 0; i < train.lastSpeed; ++i) {
+		for (int i = 0; i * 2 < train.lastSpeed; ++i) {
 			Scalar color(
 				0,
 				255 - 255 / ARROWS * train.lastSpeed,
@@ -482,7 +484,7 @@ int main(int argc, char** argv)
     initSocket();
 	initMQTT();
     
-    VideoCapture vid("Test1.mov");
+    VideoCapture vid(1);
 	
     Train trains[] = {
         Train(MARKER_C),
