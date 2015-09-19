@@ -11,11 +11,8 @@
 #include <opencv2/cudaarithm.hpp>
 
 // Network
-#include <arpa/inet.h>
-#include <sys/socket.h>
-
-// Mosquitto
-#include <mosquittopp.h>
+//#include <arpa/inet.h>
+//#include <sys/socket.h>
 
 // User
 #include "Board.hpp"
@@ -24,22 +21,17 @@
 
 using namespace cv;
 using namespace cv::cuda;
-using namespace mosqpp;
 
 Mat distCoeffs, cameraMatrix;
 
 int sockhandler;
-mosquittopp mqtt("opencv");
 
 void initSocket() {
-    sockhandler = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-}
-
-void initMQTT() {
-	mqtt.connect("localhost");
+    //sockhandler = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 }
 
 void sendData(TrainJSON& trainJSON) {
+	/*
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(24000);
@@ -49,8 +41,7 @@ void sendData(TrainJSON& trainJSON) {
     sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
     addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
-	
-	mqtt.publish(NULL, "cv", static_cast<int>(data.length()), data.data());
+	*/
 }
 
 void drawMarkerToMat(Mat& marker, int x, int y, int outer, int ring, int inner) {
@@ -82,7 +73,13 @@ Mat convolve(Mat raw, GpuMat circleSpectrum, float thresold) {
 	Rect2i srcRoi(Point(0, 28), Size(1920, 1024));
 	Rect2i dstRoi(Point(64, 0), Size(1920, 1024));
 	
-	static Mat grayPadded = Mat::zeros(1024, 2048, CV_32F);
+	static HostMem grayPaddedMem(1024, 2048, CV_32F);
+	static Mat grayPadded = ([&]() {
+		Mat material = grayPaddedMem.createMatHeader();
+		material.setTo(Scalar(0));
+		return material;
+	})();
+
 	gray(srcRoi).convertTo(grayPadded(dstRoi), CV_32F, 1/255.0);
 	
 	static cuda::Stream stream;
@@ -162,7 +159,7 @@ std::tuple<bool, Point2f, Point2f> findMarker(std::vector<Point2f>& points, doub
         }
     }
     
-    return false;
+    return std::make_tuple(false, Point2f(), Point2f());
 }
 
 int identifyMarker(Point2f markerCenter, Mat& img) {
@@ -221,8 +218,8 @@ Board detectBoard(VideoCapture vid) {
     cv::undistort(raw, undistorted, cameraMatrix, distCoeffs);
 	
     Point2i decPoint = raw.size() / 2;
-    //GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 25, 20, 10);
-	GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 30, 25, 15);
+    GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 25, 20, 10);
+	//GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 30, 25, 15);
     
     std::cout << "Searching board..." << std::endl;
     
@@ -302,7 +299,7 @@ void drawTrainMarker(Mat& raw, Train& train, Point2f start, Point2f end, Point2f
 	Point2f v1 = {v0.y, -v0.x};
 	
 	if (train.lastSpeed > 0.001) {
-		Point2f speedVector = train.positions[train.positions.size()].coordinate - train.positions[0].coordinate;
+		Point2f speedVector = train.positions[train.positions.size() - 1].coordinate - train.positions[0].coordinate;
 		float dotProduct = v0.dot(speedVector);
 		
 		if (dotProduct < 0) {
@@ -324,7 +321,7 @@ void drawTrainMarker(Mat& raw, Train& train, Point2f start, Point2f end, Point2f
 			 end,
 			 color, thickness / 2, CV_AA);
 	};
-	auto drawLines = [&](std::vector<std::pair<Point2f, Point2f>> pairs, Scalar color = Scalar(0, 0, 255), float thickness = 4) {
+	auto drawLines = [&](std::vector<std::pair<Point2f, Point2f>> pairs, Scalar color, float thickness) {
 		for(auto& pair : pairs) {
 			drawLine(pair.first, pair.second, Scalar(0, 0, 0), thickness + 4);
 		}
@@ -474,7 +471,7 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
     
     std::cout << "Fps: " << 1000.0 / dur << std::endl;
 	
-    cv::resize(raw, raw, raw.size() / 3 * 2);
+    //cv::resize(raw, raw, raw.size() / 3 * 2);
     imshow("Train", raw);
     waitKey(1);
 }
@@ -482,9 +479,8 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
 int main(int argc, char** argv)
 {
     initSocket();
-	initMQTT();
     
-    VideoCapture vid(1);
+    VideoCapture vid("Test1.mov");
 	
     Train trains[] = {
         Train(MARKER_C),
