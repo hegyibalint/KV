@@ -17,7 +17,6 @@ struct Train {
     Train(int identifier) : identifier(identifier) { }
     
     void setCurrentPosition(Position pos) {
-        
         if (positions.size() < BUFFER_SIZE) {
             positions.push_back(pos);
             lastSpeed = 0.0;
@@ -35,8 +34,7 @@ struct Train {
 			}
 			
 			if (lastSpeed > 100) {
-				positions.clear();
-				dir = DIR_NONE;
+				lastSpeed = 10;
 			} else {
 				dir = positions[0].getDir(positions[positions.size() - 1]);
 				std::cout << dir << std::endl;

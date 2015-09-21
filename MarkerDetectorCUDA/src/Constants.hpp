@@ -28,11 +28,11 @@ const int MAGENTA_HIGH = MAGENTA + CMYK_DEVIATION;
 
 
 /// TRAIN IDS -------------------------------------
-const int MARKER_COUNT = 2;
+const int MARKER_COUNT = 3;
 
-const int MARKER_C = 0;
-const int MARKER_M = 1;
-//const int MARKER_Y = 2;
+const int MARKER_R = 0;
+const int MARKER_G = 1;
+const int MARKER_B = 2;
 const int MARKER_UNKNOWN = -1;
 /// -----------------------------------------------
 
