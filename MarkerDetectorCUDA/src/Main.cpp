@@ -84,19 +84,21 @@ Mat convolve(Mat raw, GpuMat circleSpectrum, float thresold) {
 	
 	static cuda::Stream stream;
 
-	static GpuMat spectrum;
+	static GpuMat spectrum = createContinuous(Size(1025, 1024), CV_32FC2);
 	spectrum.upload(grayPadded, stream);
 
 	cuda::dft(spectrum, spectrum, grayPadded.size(), 0, stream);
 	cuda::mulSpectrums(spectrum, circleSpectrum, spectrum, 0, stream);
-	cuda::dft(spectrum, spectrum, grayPadded.size(), DFT_INVERSE | DFT_REAL_OUTPUT, stream);
+
+	static GpuMat convoluted = createContinuous(Size(2048, 1024), CV_32FC2);
+	cuda::dft(spectrum, convoluted, grayPadded.size(), DFT_INVERSE | DFT_REAL_OUTPUT, stream);
 	
 	//cuda::magnitude(spectrum, spectrum, stream);
-	cuda::normalize(spectrum, spectrum, 0, 1, NORM_MINMAX, CV_32F, noArray(), stream);
-	cuda::threshold(spectrum, spectrum, thresold, 0.5, CV_THRESH_BINARY, stream);
+	cuda::normalize(convoluted, convoluted, 0, 1, NORM_MINMAX, CV_32F, noArray(), stream);
+	cuda::threshold(convoluted, convoluted, thresold, 0.5, CV_THRESH_BINARY, stream);
 	
 	static GpuMat spectrumByte;
-	spectrum.convertTo(spectrumByte, CV_8U, 255);
+	convoluted.convertTo(spectrumByte, CV_8U, 255);
 
 	static Mat contour = Mat::zeros(1080, 1920, CV_8U);
 	spectrumByte(dstRoi).download(contour(srcRoi), stream);
