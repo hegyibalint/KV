@@ -12,7 +12,7 @@ class InputFilter : public Filter<cv::Mat> {
 	void process() {
 		static Mat raw;
 		vid >> raw;
-		setData(raw.clone());
+		setData<0>(raw);
 	}
 
 public:

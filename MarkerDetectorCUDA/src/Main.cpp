@@ -121,44 +121,50 @@ Board detectBoard(VideoCapture vid) {
 
 int main(int argc, char** argv)
 {
-    initSocket();
-    
-    VideoCapture vid("Test1.mov");
-	
-    Train trains[] = {
-        Train(MARKER_R),
-        Train(MARKER_G)
-    };
-    
-    cv::FileStorage fs("camera_data.xml", FileStorage::READ);
-    fs["Distortion_Coefficients"] >> distCoeffs;
-    fs["Camera_Matrix"] >> cameraMatrix;
+	initSocket();
 
-    Board board = detectBoard(vid);
-    std::cout << board.topLeft;
-	
+	VideoCapture vid("Test1.mov");
+
+	Train trains[] = {
+		Train(MARKER_R),
+		Train(MARKER_G)
+	};
+
+	cv::FileStorage fs("camera_data.xml", FileStorage::READ);
+	fs["Distortion_Coefficients"] >> distCoeffs;
+	fs["Camera_Matrix"] >> cameraMatrix;
+
+	Board board = detectBoard(vid);
+	std::cout << board.topLeft;
+
 	//cv::namedWindow("Train");
 
 	InputFilter p1("Test1.mov");
 	ConvolutionFilter p2(p1);
-	DetectionFilter p3(p1, p2, board, cameraMatrix, distCoeffs);
+	DetectionFilter p3(p2, board, cameraMatrix, distCoeffs);
 
 	p1.start();
 	p2.start();
 	p3.start();
-	
+
+	cv::namedWindow("Test", CV_WINDOW_AUTOSIZE | CV_WINDOW_KEEPRATIO);
+	cv::setWindowProperty("Test", CV_WINDOW_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+
 	Mat im;
 	while (true) {
-		auto timestamp = std::chrono::high_resolution_clock::now();
-		p3.getData().copyTo(im);
+		auto timestamp = std::chrono::steady_clock::now();
+		p3.getData<0>().copyTo(im);
+		p3.clearToProcess();
 		imshow("Test", im);
-		waitKey(1);
+		int key = waitKey(1);
         //detectTrains(vid, board, trains);
-		auto end = std::chrono::high_resolution_clock::now();
-		auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - timestamp).count();
+		auto end = std::chrono::steady_clock::now();
+		auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - timestamp).count();
 
-		std::cout << "Fps: " << 1000.0 / dur << std::endl;
-        std::cout << "-----------" << std::endl;
+		std::cout << "Fps: " << 1000000 / dur << std::endl;
+
+		if (key == 27)
+			break;
     }
     
     return 0;

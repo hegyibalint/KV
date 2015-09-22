@@ -6,7 +6,7 @@
 #include "Constants.hpp"
 
 struct Train {
-    const int BUFFER_SIZE = 5;
+    const int BUFFER_SIZE = 10;
 	
     int identifier;
     int dir = DIR_NONE;

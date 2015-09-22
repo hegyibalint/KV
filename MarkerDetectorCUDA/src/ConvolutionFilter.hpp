@@ -15,13 +15,13 @@
 using namespace cv;
 using namespace cv::cuda;
 
-class ConvolutionFilter : public Filter < std::pair<cv::Mat, cv::Mat>> {
+class ConvolutionFilter : public Filter<cv::Mat, cv::Mat> {
 	InputFilter& input;
 	GpuMat circleSpectrum;
 
 	void process() {
-		static Mat raw;
-		input.getData().copyTo(raw);
+		static Mat raw = input.getData<0>();
+		input.clearToProcess();
 
 		static Mat gray;
 		cv::cvtColor(raw, gray, CV_BGR2GRAY);
@@ -50,7 +50,7 @@ class ConvolutionFilter : public Filter < std::pair<cv::Mat, cv::Mat>> {
 		static GpuMat convoluted = createContinuous(Size(2048, 1024), CV_32F);
 		cuda::dft(spectrum, convoluted, grayPadded.size(), DFT_INVERSE | DFT_REAL_OUTPUT, stream);
 		cuda::normalize(convoluted, convoluted, 0, 1.0, NORM_MINMAX, CV_32F, noArray(), stream);
-		cuda::threshold(convoluted, convoluted, 0.8, 1.0, CV_THRESH_BINARY, stream);
+		cuda::threshold(convoluted, convoluted, 0.6, 1.0, CV_THRESH_BINARY, stream);
 
 		static GpuMat spectrumByte;
 		convoluted.convertTo(spectrumByte, CV_8U, 255, stream);
@@ -59,7 +59,9 @@ class ConvolutionFilter : public Filter < std::pair<cv::Mat, cv::Mat>> {
 		spectrumByte(dstRoi).download(contour(srcRoi), stream);
 
 		stream.waitForCompletion();
-		setData(std::make_pair(raw.clone(), contour.clone()));
+
+		setData<0>(raw.clone());
+		setData<1>(contour.clone());
 	}
 
 public:

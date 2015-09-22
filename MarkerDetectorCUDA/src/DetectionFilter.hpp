@@ -14,7 +14,6 @@
 #include "ConvolutionFilter.hpp"
 
 class DetectionFilter : public Filter<cv::Mat> {
-	InputFilter& input;
 	ConvolutionFilter& convolution;
 	Board& board;
 	Mat cameraMatrix, distCoeffs;
@@ -28,13 +27,13 @@ class DetectionFilter : public Filter<cv::Mat> {
 		cv::rectangle(img, roi, Scalar(0, 0, 255));
 
 		float hue = cv::mean(sample)[0] * 2;
-		std::cout << hue << std::endl;
+		//std::cout << hue << std::endl;
 
 		float sat = cv::mean(sample)[1];
-		std::cout << sat << std::endl;
+		//std::cout << sat << std::endl;
 
 		float val = cv::mean(sample)[2];
-		std::cout << val << std::endl << std::endl;
+		//std::cout << val << std::endl;
 
 		if (CYAN_LOW < hue && hue < CYAN_HIGH)
 			return MARKER_R;
@@ -172,14 +171,12 @@ class DetectionFilter : public Filter<cv::Mat> {
 	}
 
 	void process() {
-		auto data = convolution.getData();
-		auto timestamp = std::chrono::high_resolution_clock::now();
+		auto timestamp = std::chrono::steady_clock::now();
 
-		static Mat raw;
-		data.first.copyTo(raw);
-
-		static Mat contour;
-		data.second.copyTo(contour);
+		static Mat raw = convolution.getData<0>();
+		static Mat contour = convolution.getData<1>();
+		convolution.clearToProcess();
+		
 		auto mc = calculateMassCenters(contour);
 
 		for (int i = 0; i < MARKER_COUNT; ++i) {
@@ -202,23 +199,6 @@ class DetectionFilter : public Filter<cv::Mat> {
 			Point2f center = (start + end) / 2;
 
 			int id = identifyMarker(center, raw);
-			switch (id) {
-			case MARKER_R:
-				std::cout << "CYAN MARKER @ ";
-				break;
-			case MARKER_G:
-				std::cout << "MAGENTA MARKER @ ";
-				break;
-				/*
-				case MARKER_Y:
-				std::cout << "YELLOW MARKER @ ";
-				break;
-				*/
-			case MARKER_UNKNOWN:
-				std::cout << "UNKOWN MARKER @ ";
-			default:
-				break;
-			}
 
 			if (id != MARKER_UNKNOWN) {
 				trains[id].setDetected(true);
@@ -231,11 +211,6 @@ class DetectionFilter : public Filter<cv::Mat> {
 				Position pos = { timestamp, corrected };
 				trains[id].setCurrentPosition(pos);
 
-				std::cout << trains[id].getCoordinate() << std::endl;
-				std::cout << trains[id].getSpeed() << " cm/s" << std::endl;
-
-				//cv::circle(raw, Train::getCorrectedToCamera(Train::getCorrectedCenter(center, board), board), 4, Scalar(0, 0, 255), -1);
-				//cv::circle(raw, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
 				json.addTrain(trains[id]);
 			}
 
@@ -248,16 +223,15 @@ class DetectionFilter : public Filter<cv::Mat> {
 				trains[i].clearPositions();
 		}
 
-		setData(raw.clone());
+		setData<0>(raw.clone());
 	}
 
 public:
 	DetectionFilter(
-		InputFilter& input, 
 		ConvolutionFilter& convolution, 
 		Board& board,
 		Mat cameraMatrix,
-		Mat distCoeffs) : input(input), convolution(convolution), board(board), cameraMatrix(cameraMatrix), distCoeffs(distCoeffs) {
+		Mat distCoeffs) : convolution(convolution), board(board), cameraMatrix(cameraMatrix), distCoeffs(distCoeffs) {
 		trains.emplace_back(MARKER_R);
 		trains.emplace_back(MARKER_G);
 		trains.emplace_back(MARKER_B);
