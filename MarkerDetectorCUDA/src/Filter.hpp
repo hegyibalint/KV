@@ -28,9 +28,9 @@ class Filter {
 	}
 
 protected:
-	template <int index, typename TYPE = typename std::tuple_element<index, decltype(dataTuple)>::type>
-	void setData(TYPE data) {
-		std::get<index>(dataTuple) = data;
+	template <int INDEX>
+	void setData(typename std::tuple_element<INDEX, decltype(dataTuple)>::type data) {
+		std::get<INDEX>(dataTuple) = data;
 	}
 
 public:
@@ -38,13 +38,13 @@ public:
 		runner = std::thread(&Filter<TYPES...>::loop, this);
 	}
 
-	template <int index, typename TYPE = typename std::tuple_element<index, decltype(dataTuple)>::type>
-	TYPE getData() {
+	template <int INDEX>
+	typename std::tuple_element<INDEX, decltype(dataTuple)>::type getData() {
 		std::unique_lock<std::mutex> lock(m);
 		if (!isDataAvailable)
 			fetchMonitor.wait(lock, [this]{ return isDataAvailable; });
 
-		return std::get<index>(dataTuple);
+		return std::get<INDEX>(dataTuple);
 	}
 
 	void clearToProcess() {
