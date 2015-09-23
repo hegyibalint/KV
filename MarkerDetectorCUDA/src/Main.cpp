@@ -125,11 +125,6 @@ int main(int argc, char** argv)
 
 	VideoCapture vid("Test1.mov");
 
-	Train trains[] = {
-		Train(MARKER_R),
-		Train(MARKER_G)
-	};
-
 	cv::FileStorage fs("camera_data.xml", FileStorage::READ);
 	fs["Distortion_Coefficients"] >> distCoeffs;
 	fs["Camera_Matrix"] >> cameraMatrix;
@@ -147,15 +142,15 @@ int main(int argc, char** argv)
 	p2.start();
 	p3.start();
 
-	cv::namedWindow("Test", CV_WINDOW_AUTOSIZE | CV_WINDOW_KEEPRATIO);
-	cv::setWindowProperty("Test", CV_WINDOW_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+	//cv::namedWindow("Test", CV_WINDOW_AUTOSIZE | CV_WINDOW_KEEPRATIO);
+	//cv::setWindowProperty("Test", CV_WINDOW_FULLSCREEN, CV_WINDOW_FULLSCREEN);
 
 	Mat im;
 	while (true) {
 		auto timestamp = std::chrono::steady_clock::now();
 		p3.getData<0>().copyTo(im);
 		p3.clearToProcess();
-		imshow("Test", im);
+		//imshow("Test", im);
 		int key = waitKey(1);
         //detectTrains(vid, board, trains);
 		auto end = std::chrono::steady_clock::now();

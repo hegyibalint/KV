@@ -11,6 +11,7 @@ class InputFilter : public Filter<cv::Mat> {
 
 	void process() {
 		static Mat raw;
+		std::cout << "Reading frame: " << vid.get(CV_CAP_PROP_POS_FRAMES);
 		vid >> raw;
 		setData<0>(raw);
 	}

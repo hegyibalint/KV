@@ -21,10 +21,11 @@ class ConvolutionFilter : public Filter<cv::Mat, cv::Mat> {
 
 	void process() {
 		static Mat raw = input.getData<0>();
-		input.clearToProcess();
-
 		static Mat gray;
 		cv::cvtColor(raw, gray, CV_BGR2GRAY);
+		
+		input.clearToProcess();
+		imshow("Raw", raw);
 
 		Rect2i srcRoi(Point(0, 28), Size(1920, 1024));
 		Rect2i dstRoi(Point(64, 0), Size(1920, 1024));
@@ -60,8 +61,10 @@ class ConvolutionFilter : public Filter<cv::Mat, cv::Mat> {
 
 		stream.waitForCompletion();
 
-		setData<0>(raw.clone());
-		setData<1>(contour.clone());
+		setData<0>(raw);
+		setData<1>(contour);
+		
+		imshow("cont", contour);
 	}
 
 public:

@@ -28,7 +28,7 @@ class Filter {
 	}
 
 protected:
-	template <int index, class TYPE = std::tuple_element<index, TYPES...>::type>
+	template <int index, typename TYPE = typename std::tuple_element<index, decltype(dataTuple)>::type>
 	void setData(TYPE data) {
 		std::get<index>(dataTuple) = data;
 	}
@@ -38,8 +38,8 @@ public:
 		runner = std::thread(&Filter<TYPES...>::loop, this);
 	}
 
-	template <int index>
-	cv::Mat getData() {
+	template <int index, typename TYPE = typename std::tuple_element<index, decltype(dataTuple)>::type>
+	TYPE getData() {
 		std::unique_lock<std::mutex> lock(m);
 		if (!isDataAvailable)
 			fetchMonitor.wait(lock, [this]{ return isDataAvailable; });

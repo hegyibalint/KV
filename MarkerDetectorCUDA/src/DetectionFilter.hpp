@@ -116,15 +116,18 @@ class DetectionFilter : public Filter<cv::Mat> {
 		};
 
 		Scalar color;
-		switch (train.identifier) {
-		case MARKER_R:
-			color = Scalar(255, 255, 0);
-			break;
-		case MARKER_G:
-			color = Scalar(255, 0, 255);
-			break;
-		default:
-			Scalar(0, 0, 0);
+		switch (train.id) {
+			case MARKER_R:
+				color = Scalar(0, 0, 255);
+				break;
+			case MARKER_G:
+				color = Scalar(0, 255, 0);
+				break;
+			case MARKER_B:
+				color = Scalar(255, 0, 0);
+				break;
+			default:
+				Scalar(0, 0, 0);
 		}
 
 		drawLines({
@@ -156,11 +159,12 @@ class DetectionFilter : public Filter<cv::Mat> {
 	void process() {
 		auto timestamp = std::chrono::steady_clock::now();
 
-		static Mat raw = convolution.getData<0>();
+		static Mat raw = convolution.getData<0>().clone();
 		static Mat contour = convolution.getData<1>();
-		convolution.clearToProcess();
 		
 		auto mc = calculateMassCenters(contour);
+		
+		convolution.clearToProcess();
 
 		for (int i = 0; i < MARKER_COUNT; ++i) {
 			trains[i].setDetected(false);
