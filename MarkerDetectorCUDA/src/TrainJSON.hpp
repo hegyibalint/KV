@@ -18,7 +18,7 @@ public:
             return;
         
         Point2f c = train.getCoordinate();
-        ss << "{ \"id\": " << train.identifier << ", \"x\": " << c.x << ", \"y\": " << c.y << ", \"speed\": " << train.getSpeed() << ", \"dir\": \"" << train.getDir() << "\" }";
+        ss << "{ \"id\": " << train.id << ", \"x\": " << c.x << ", \"y\": " << c.y << ", \"speed\": " << train.getSpeed() << ", \"dir\": \"" << train.getDir() << "\" }";
         
         trainChunks.push_back(ss.str());
     }

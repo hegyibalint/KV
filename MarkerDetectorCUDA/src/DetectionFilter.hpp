@@ -21,70 +21,53 @@ class DetectionFilter : public Filter<cv::Mat> {
 
 	static int identifyMarker(Point2f markerCenter, Mat& img) {
 		Rect2i roi((markerCenter - Point2f(8, 8)), cv::Size2i(16, 16));
-
-		static Mat sample;
+		
+		Mat sample;
 		cv::cvtColor(img(roi), sample, CV_BGR2HSV);
 		cv::rectangle(img, roi, Scalar(0, 0, 255));
-
+		
 		float hue = cv::mean(sample)[0] * 2;
-		//std::cout << hue << std::endl;
-
-		float sat = cv::mean(sample)[1];
+		//std::cout << "Hue: " << hue << std::endl;
+		
+		//float sat = cv::mean(sample)[1];
 		//std::cout << sat << std::endl;
-
+		
 		float val = cv::mean(sample)[2];
-		//std::cout << val << std::endl;
-
-		if (CYAN_LOW < hue && hue < CYAN_HIGH)
-			return MARKER_R;
-		if (MAGENTA_LOW < hue && hue < MAGENTA_HIGH)
-			return MARKER_G;
-		/*
-		if (YELLOW_LOW < hue && hue < YELLOW_HIGH)
-		return MARKER_Y;
-		*/
-
+		//std::cout << val << std::endl << std::endl;
+		
+		if (val > 100) {
+			if (RED_LOW < hue && hue < RED_HIGH)
+				return MARKER_R;
+			if (GREEN_LOW < hue && hue < GREEN_HIGH)
+				return MARKER_G;
+			if (BLUE_LOW < hue && hue < BLUE_HIGH)
+				return MARKER_B;
+		}
+		
+		
 		return MARKER_UNKNOWN;
 	}
 
 	static bool isMarkerNear(std::vector<Point2f> points, Point2f loc, double e, std::vector<int>& deletionVector) {
 		for (int i = 0; i < points.size() && i < 5; ++i) {
 			double distance = cv::norm(loc - points[i]);
-
+			
 			if (distance <= e) {
 				deletionVector.push_back(i);
 				return true;
 			}
 		}
-
+		
 		return false;
 	}
 
-	static std::tuple<bool, Point2f, Point2f> findMarker(std::vector<Point2f>& points, double min, double max) {
-		//if (points.size() < 4)
-		//return false;
-
-		for (int first = 0; first < points.size() - 1; ++first) {
-			for (int last = first + 1; last < points.size(); ++last) {
-
-				double distance = cv::norm(points[first] - points[last]);
-				if (min < distance && distance < max) {
-					//Point2f dirVector = (points[last] - points[first]) / 4;
-					std::vector<int> deletionVector = { first, last };
-					auto result = std::tuple<bool, Point2f, Point2f>(true, points[first], points[last]);
-
-					std::sort(deletionVector.begin(), deletionVector.end());
-					for (int d = 0; d < deletionVector.size(); ++d) {
-						int position = deletionVector[d] - d;
-						points.erase(points.begin() + position);
-					}
-
-					return result;
-				}
-			}
+	static bool findMarker(Point2f a, Point2f b, double min, double max) {
+		double distance = cv::norm(a - b);
+		if (min < distance && distance < max) {
+			return true;
 		}
-
-		return std::make_tuple(false, Point2f(), Point2f());
+		
+		return false;
 	}
 
 	static void drawTrainMarker(Mat& raw, Train& train, Point2f start, Point2f end, Point2f center) {
@@ -186,36 +169,59 @@ class DetectionFilter : public Filter<cv::Mat> {
 		TrainJSON json;
 		json.setTimestamp(timestamp);
 
-		while (true) {
-			std::tuple<bool, Point2f, Point2f> result = findMarker(mc, 50, 70);
-			//std::tuple<bool, Point2f, Point2f> result = findMarker(mc, 100, 150);
-
-			bool found = std::get<0>(result);
-			if (!found)
-				break;
-
-			Point2f start = std::get<1>(result);
-			Point2f end = std::get<2>(result);
-			Point2f center = (start + end) / 2;
-
-			int id = identifyMarker(center, raw);
-
-			if (id != MARKER_UNKNOWN) {
-				trains[id].setDetected(true);
-
-				Mat_<Point2f> cameraCorrectionMat(1, 1, center);
-				cv::undistortPoints(cameraCorrectionMat, cameraCorrectionMat, cameraMatrix, distCoeffs, cv::noArray(), cameraMatrix);
-				Point2f undistorted = cameraCorrectionMat.at<Point2f>(0, 0);
-				Point2f corrected = Train::getCorrectedCenter(undistorted, board);
-
-				Position pos = { timestamp, corrected };
-				trains[id].setCurrentPosition(pos);
-
-				json.addTrain(trains[id]);
-			}
-
-			if (id != -1)
+		for (int i = 0; i < mc.size() - 1; ++i) {
+			for (int j = i + 1; j < mc.size(); ++j) {
+				bool found = findMarker(mc[i], mc[j], 50, 70);
+				if (!found)
+					continue;
+				
+				Point2f start = mc[i];
+				Point2f end = mc[j];
+				Point2f center = (start + end) / 2;
+				
+				int id = identifyMarker(center, raw);
+				switch (id) {
+					case MARKER_R:
+						std::cout << "RED MARKER @ ";
+						break;
+					case MARKER_G:
+						std::cout << "GREEN MARKER @ ";
+						break;
+					case MARKER_B:
+						std::cout << "BLUE MARKER @ ";
+						break;
+					case MARKER_UNKNOWN:
+						std::cout << "UNKOWN MARKER @ ";
+					default:
+						break;
+				}
+				
+				if (id != MARKER_UNKNOWN) {
+					trains[id].setDetected(true);
+					
+					Mat_<Point2f> cameraCorrectionMat(1, 1, center);
+					cv::undistortPoints(cameraCorrectionMat, cameraCorrectionMat, cameraMatrix, distCoeffs, cv::noArray(), cameraMatrix);
+					Point2f undistorted = cameraCorrectionMat.at<Point2f>(0, 0);
+					Point2f corrected = Train::getCorrectedCenter(undistorted, board);
+					
+					Position pos = {timestamp, corrected};
+					trains[id].setCurrentPosition(pos);
+					
+					std::cout << trains[id].getCoordinate() << std::endl;
+					std::cout << trains[id].getSpeed() << " cm/s" << std::endl;
+					
+					cv::circle(raw, Train::getCorrectedToCamera(Train::getCorrectedCenter(center, board), board), 4, Scalar(0, 0, 255), -1);
+					cv::circle(raw, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
+					json.addTrain(trains[id]);
+				}
+				
 				drawTrainMarker(raw, trains[id], start, end, center);
+				
+				cv::circle(raw, board.topLeft, 10, Scalar(255, 0, 0));
+				cv::circle(raw, board.topRight, 10, Scalar(255, 0, 0));
+				cv::circle(raw, board.bottomLeft, 10, Scalar(255, 0, 0));
+				cv::circle(raw, board.bottomRight, 10, Scalar(255, 0, 0));
+			}
 		}
 
 		for (int i = 0; i < MARKER_COUNT; ++i) {

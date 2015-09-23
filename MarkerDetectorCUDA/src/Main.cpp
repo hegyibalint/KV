@@ -33,90 +33,90 @@ Mat distCoeffs, cameraMatrix;
 int sockhandler;
 
 void initSocket() {
-    //sockhandler = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	//sockhandler = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 }
 
 void sendData(TrainJSON& trainJSON) {
 	/*
-    struct sockaddr_in addr;
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(24000);
-    addr.sin_addr.s_addr = inet_addr("152.66.158.41");
-    
-    std::string data = trainJSON.generateJSON();
-    sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
-	*/
+	 struct sockaddr_in addr;
+	 addr.sin_family = AF_INET;
+	 addr.sin_port = htons(24000);
+	 addr.sin_addr.s_addr = inet_addr("152.66.158.41");
+	 
+	 std::string data = trainJSON.generateJSON();
+	 sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
+	 addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	 sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
+	 */
 }
 
 Board detectBoard(VideoCapture vid) {
-    Mat raw;
-    vid >> raw;
-    Mat undistorted;
-    cv::undistort(raw, undistorted, cameraMatrix, distCoeffs);
+	Mat raw;
+	vid >> raw;
+	Mat undistorted;
+	cv::undistort(raw, undistorted, cameraMatrix, distCoeffs);
 	
-    Point2i decPoint = raw.size() / 2;
-    GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 25, 20, 10);
+	Point2i decPoint = raw.size() / 2;
+	GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 25, 20, 10);
 	//GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 30, 25, 15);
-    
-    std::cout << "Searching board..." << std::endl;
-    
-    Mat contour;
-    std::vector<Point2f> mc;
-    float thresold = 0.99;
-    while (true) {
-        contour = convolve(undistorted, boardCicle, thresold);
+	
+	std::cout << "Searching board..." << std::endl;
+	
+	Mat contour;
+	std::vector<Point2f> mc;
+	float thresold = 0.99;
+	while (true) {
+		contour = convolve(undistorted, boardCicle, thresold);
 		
 		/*
-		Mat debug;
-		cv::resize(contour, debug, contour.size() * 2 / 3);
-		imshow("c", debug);
-		waitKey(0);
-		*/
-        
-        std::cout << "Thresold: " << thresold << std::endl;
-        
-        mc = calculateMassCenters(contour);
-        if (mc.size() == 4) {
-            bool zeroPoint = false;
-            for (auto& point : mc) {
-                if (point.x < 0.1 || point.y < 0.1)
-                    zeroPoint = true;
-            }
-            if (zeroPoint) {
-                thresold -= 0.025;
-                continue;
-            }
-            break;
-        } else if (mc.size() > 4 || thresold < 0.5)
-            throw std::runtime_error("Board cannot be detected");
-        
-        thresold -= 0.05;
-    }
-    
-    std::cout << "Board found" << std::endl;
-    std::cout << "===========" << std::endl;
-    
-    Board board;
-    for (auto& point : mc) {
-        if (point.x < decPoint.x) {
-            if (point.y < decPoint.y) {
-                board.topLeft = point;
-            } else {
-                board.bottomLeft = point;
-            }
-        } else {
-            if (point.y < decPoint.y) {
-                board.topRight = point;
-            } else {
-                board.bottomRight = point;
-            }
-        }
-    }
-    board.calculateBaseMat();
-    
-    return board;
+		 Mat debug;
+		 cv::resize(contour, debug, contour.size() * 2 / 3);
+		 imshow("c", debug);
+		 waitKey(0);
+		 */
+		
+		std::cout << "Thresold: " << thresold << std::endl;
+		
+		mc = calculateMassCenters(contour);
+		if (mc.size() == 4) {
+			bool zeroPoint = false;
+			for (auto& point : mc) {
+				if (point.x < 0.1 || point.y < 0.1)
+					zeroPoint = true;
+			}
+			if (zeroPoint) {
+				thresold -= 0.025;
+				continue;
+			}
+			break;
+		} else if (mc.size() > 4 || thresold < 0.5)
+			throw std::runtime_error("Board cannot be detected");
+		
+		thresold -= 0.05;
+	}
+	
+	std::cout << "Board found" << std::endl;
+	std::cout << "===========" << std::endl;
+	
+	Board board;
+	for (auto& point : mc) {
+		if (point.x < decPoint.x) {
+			if (point.y < decPoint.y) {
+				board.topLeft = point;
+			} else {
+				board.bottomLeft = point;
+			}
+		} else {
+			if (point.y < decPoint.y) {
+				board.topRight = point;
+			} else {
+				board.bottomRight = point;
+			}
+		}
+	}
+	board.calculateBaseMat();
+	
+	return board;
 }
 
 int main(int argc, char** argv)
