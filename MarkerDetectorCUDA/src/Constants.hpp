@@ -9,30 +9,37 @@ const float BOARD_HEIGHT = 143.0;
 
 
 /// COLOR CONSTANTS -------------------------------
-const int CMYK_DEVIATION = 40;
+const int HUE_DEVIATION = 49.99;
 
 const int CYAN = 200;
-const int CYAN_LOW = CYAN - CMYK_DEVIATION;
-const int CYAN_HIGH = CYAN + CMYK_DEVIATION;
+const int CYAN_LOW = CYAN - HUE_DEVIATION;
+const int CYAN_HIGH = CYAN + HUE_DEVIATION;
 
 const int MAGENTA = 300;
-const int MAGENTA_LOW = MAGENTA - CMYK_DEVIATION;
-const int MAGENTA_HIGH = MAGENTA + CMYK_DEVIATION;
+const int MAGENTA_LOW = MAGENTA - HUE_DEVIATION;
+const int MAGENTA_HIGH = MAGENTA + HUE_DEVIATION;
 
-/*
- const int YELLOW = 55;
- const int YELLOW_LOW = YELLOW - CMYK_DEVIATION;
- const int YELLOW_HIGH = YELLOW + CMYK_DEVIATION;
- */
+const int RED = 300; // 0
+const int RED_LOW = RED - HUE_DEVIATION;
+const int RED_HIGH = RED + HUE_DEVIATION;
+
+const int GREEN = 120;
+const int GREEN_LOW = GREEN - HUE_DEVIATION;
+const int GREEN_HIGH = GREEN + HUE_DEVIATION;
+
+const int BLUE = 200; // 240
+const int BLUE_LOW = BLUE - HUE_DEVIATION;
+const int BLUE_HIGH = BLUE + HUE_DEVIATION;
 /// -----------------------------------------------
 
 
 /// TRAIN IDS -------------------------------------
-const int MARKER_COUNT = 2;
+const int MARKER_COUNT = 3;
 
-const int MARKER_C = 0;
-const int MARKER_M = 1;
-//const int MARKER_Y = 2;
+const int MARKER_R = 0;
+const int MARKER_G = 1;
+const int MARKER_B = 2;
+
 const int MARKER_UNKNOWN = -1;
 /// -----------------------------------------------
 
