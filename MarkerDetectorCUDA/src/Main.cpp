@@ -219,6 +219,8 @@ Board detectBoard(VideoCapture vid) {
     Mat undistorted;
     cv::undistort(raw, undistorted, cameraMatrix, distCoeffs);
 	
+	cv::imshow("Lel", undistorted);
+
     Point2i decPoint = raw.size() / 2;
     GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 25, 20, 10);
 	//GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 30, 25, 15);
