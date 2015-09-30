@@ -53,6 +53,8 @@ class ModelUtil {
 		//Blind track
 		var blindTrack = createBlindTrack
 		blindTrack.id = 9
+		blindTrack.counterClockwise = sectionModel.getTurnoutByID(1)
+//		sectionModel.getTurnoutByID(1).clockwise = blindTrack
 		sectionModel.sections.add(blindTrack)
 		
 		
@@ -175,24 +177,24 @@ class ModelUtil {
 		String.format("%X", a)
 	}
 
-	def static connectSectionToTurnout(SectionModel model, int turnoutID, int onlySection, int straightSection, int divergentsection, boolean twoSectionsInClockwiseDirection) {
+	def static connectSectionToTurnout(SectionModel model, int turnoutID, int topSection, int straightSection, int divergentsection, boolean twoSectionsInClockwiseDirection) {
 		var turnout = getTurnoutByID(model, turnoutID)
-		var onlyConnection = getSectionByID(model, onlySection)
+		var top = getSectionByID(model, topSection)
 		var straight = getSectionByID(model, straightSection);
 		var divergent = getSectionByID(model, divergentsection)
 
 		turnout.twoSectionsInClockwiseDirection = twoSectionsInClockwiseDirection
 
 		if(twoSectionsInClockwiseDirection) {
-			turnout.counterClockwise = onlyConnection
-			onlyConnection.clockwise = turnout
+			turnout.counterClockwise = top
+			top.clockwise = turnout
 			turnout.clockwise = straight
 			straight.counterClockwise = turnout
 			turnout.notConnectedSection = divergent
 			divergent.counterClockwise = turnout
 		} else {
-			turnout.clockwise = onlyConnection
-			onlyConnection.counterClockwise = turnout
+			turnout.clockwise = top
+			top.counterClockwise = turnout
 			turnout.counterClockwise = straight
 			straight.clockwise = turnout
 			turnout.notConnectedSection = divergent

@@ -30,16 +30,32 @@ pattern soloSection(section: Section){
 	Turnout(turnout1);
 	Turnout(turnout2);
 } or {
-	BlindTrack(section); //it's a blind turnout with only one connection; which is a turnout
-	Section.clockwise(section, turnout);
-	Turnout(turnout);
+	find soloBlindTrack(section);
+}
+
+pattern blindTrack(blindTrack : BlindTrack){
+	BlindTrack(blindTrack);
+}
+
+pattern soloBlindTrack(section : Section){
+	find soloClockwiseBlindTrack(section);
 } or {
+	find soloCounterClockwiseBlindTrack(section);
+}
+
+pattern soloClockwiseBlindTrack(section : Section){
+	BlindTrack(section);
+	Section.clockwise(section,turnout);
+	Turnout(turnout);
+}
+
+pattern soloCounterClockwiseBlindTrack(section : Section){
 	BlindTrack(section);
 	Section.counterClockwise(section,turnout);
 	Turnout(turnout);
 }
 
-pattern trainsNextTurnout(train : Train, turnout : Turnout){
+pattern trainsNextTurnout(train : Train, turnout : Turnout){ // FIXME somehow this doesnt work on section 9
 	Train.goingClockwise(train,true);
 	Train.currentlyOn(train, trainSection);
 	Section.clockwise(sectionNextToTurnout, turnout);
@@ -73,7 +89,7 @@ pattern trainGoingToCutTheTurnout(train : Train, turnout : Turnout){
 	Train.currentlyOn(train, trainSection);
 	find inSameRailroadPart(trainSection, sectionNearTheTurnout);
 } or {
-	EnglishTurnout(turnout);
+	EnglishTurnout(turnout); // the english turnout only behaves badly from ccw direction 
 	find trainsNextTurnout(train, turnout);
 	Train.goingClockwise(train,false);
 	Section.counterClockwise(sectionNearTheTurnout, turnout);

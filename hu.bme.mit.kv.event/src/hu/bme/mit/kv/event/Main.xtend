@@ -1,6 +1,5 @@
 package hu.bme.mit.kv.event
 
-import hu.bme.mit.kv.event.mapping.QueryEngine2ViatraCep
 import hu.bme.mit.kv.json.JsonObject
 import hu.bme.mit.kv.model.modelutil.ModelUtil
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory
@@ -14,6 +13,7 @@ import hu.bme.mit.kv.queries.InSameRailroadPartMatcher
 import hu.bme.mit.kv.queries.SectionNeighborMatcher
 import hu.bme.mit.kv.queries.SectionsInSameRailroadPartAsTrainMatcher
 import hu.bme.mit.kv.queries.TrainGoingToCutTheTurnoutMatcher
+import hu.bme.mit.kv.queries.TrainIsGoingToHitMatcher
 import hu.bme.mit.kv.queries.TrainsNextTurnoutMatcher
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -27,26 +27,19 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
-import org.eclipse.viatra.cep.core.api.engine.CEPEngine
-import org.eclipse.viatra.cep.core.api.engine.ResetTransformations
-import org.eclipse.viatra.cep.core.metamodels.automaton.EventContext
 import org.eclipse.viatra.cep.examples.sosym.tests.internal.DefaultRealm
 import org.junit.Before
 import org.junit.Test
 
 import static kvcontrol.requests.AbstractRequest.*
-import hu.bme.mit.kv.queries.TrainIsGoingToHitMatcher
+import hu.bme.mit.kv.queries.SoloSectionMatcher
 
 class Main {
-	extension CepFactory factory = CepFactory.instance
-
 	val Object lock = new Object;
 	var DefaultRealm realm;
 
-	var QueryEngine2ViatraCep mapping
 	var Resource resource
 	var ResourceSet resourceSet
-	var CEPEngine eventEngine
 	var IncQueryEngine queryEngine
 
 	var SectionModel sectionModel // root of the runtime EMF model
@@ -55,8 +48,6 @@ class Main {
 	@Before
 	def void setUp() {
 		realm = new DefaultRealm;
-
-		eventEngine = CEPEngine.newEngine().eventContext(EventContext.CHRONICLE).rules(allRules).prepare();
 
 		sectionModel = ModelUtil.loadReadySectionModel
 		trainModel = ModelUtil.createReadyTrainModel(sectionModel)
@@ -71,16 +62,11 @@ class Main {
 		resource.getContents().add(trainModel)
 
 		queryEngine = IncQueryEngine.on(new EMFScope(resourceSet))
-
-		mapping = QueryEngine2ViatraCep.register(resourceSet, eventEngine.streamManager.newEventStream)
-
 	}
-
+	
 	@Test
-	def void visualizeGraph() {
-		println("=================================")
-		var asd = ResetTransformations.toGraphViz(eventEngine.internalModel)
-		println(asd)
+	def void graphViz(){
+		println(ModelUtil.toGraphViz(sectionModel));
 	}
 
 	@Test
@@ -188,7 +174,7 @@ class Main {
 		}
 
 		for (match : SectionsInSameRailroadPartAsTrainMatcher.on(queryEngine).allMatches) {
-			println("train " + match.train.id + " is in the same part as seciton " + match.section.id)
+			println("train " + match.train.id + " is in the same part as section " + match.section.id)
 		}
 
 		for (match : InSameRailroadPartMatcher.on(queryEngine).allMatches) {
@@ -198,6 +184,14 @@ class Main {
 		for (match : SectionNeighborMatcher.on(queryEngine).allMatches) {
 			println("Section = " + match.s1.id + " is the neighbor of section = " + match.s2.id)
 		}
+		
+		for(match : SoloSectionMatcher.on(queryEngine).allMatches){
+			println("SoloSection = 0x" + ModelUtil.toHexa(match.section.id))
+		}
+		
+//		for(match : SoloBlindTrackMatcher.on(queryEngine).allMatches){
+//			println("SoloBlindTrack =  0x" + ModelUtil.toHexa(match.section.id) )
+//		} 
 	}
 
 	@Test
@@ -237,27 +231,29 @@ class Main {
 				println(trimmed);
 				data = null
 			}
-
-			var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
-			if(matches.size == 0) {
-				println("I don't see the next turnout")
-			}
-			for (match : matches) {
-				println("train " + match.train.id + " next turnout = " + match.turnout.id)
-			}
-
+			var trainHitMatchers = TrainIsGoingToHitMatcher.on(queryEngine).allMatches
 			val cutMatches = TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches
+//			var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
+//			if(matches.size == 0){
+//				println("baj van")
+//			} 
+			
+			
+			
+			if(cutMatches.size == 0 && trainHitMatchers.size == 0){
+				//TODO later
+			}
 			if(cutMatches.size == 0) {
 				println("No cut")
 			} else {
 				for (match : cutMatches) {
-					println("CUT on turnout #" + match.turnout.id + " with train #" + match.train.id)
+					println("Train #" + match.train.id + " is going to cut turnout #" + match.turnout.id)
 					match.train.currentlyOn.enabled = false
-					sender.disableSection(match.train.currentlyOn.id);
+//					sender.disableSection(match.train.currentlyOn.id);
 				}
 			}
 
-			var trainHitMatchers = TrainIsGoingToHitMatcher.on(queryEngine).allMatches
+
 			if(trainHitMatchers.size == 0) {
 				println("No train is going to hit the other");
 			}
@@ -265,12 +261,15 @@ class Main {
 			for (match : trainHitMatchers) {
 				println("Train #" + match.t1.id + " is going to hit train #" + match.t2.id)
 				match.t1.currentlyOn.enabled = false
-				sender.disableSection(match.t1.currentlyOn.id);
+//				sender.disableSection(match.t1.currentlyOn.enabled);
 			}
+			
+			TrainsNextTurnoutMatcher.on(queryEngine).allMatches.forEach[match | println(match.train.id + " -> " + match.turnout.id)  ]
 
-			sectionModel.sections.filter[section|section.enabled == true].forEach [
-				sender.enableSection(it.id)
-			]
+//			sectionModel.sections.filter[section|section.enabled == true].forEach [
+//				sender.enableSection(it.id)
+//			]
+			sectionModel.sections.forEach[if(it.enabled == true) sender.enableSection(it.id) else sender.disableSection(it.id) ]
 		}
 
 	}
@@ -310,8 +309,11 @@ class Main {
 					occupied = findClosestSection(modelTrain, sectionModel)
 				}
 
-				println(timestamp + "#:\tID = " + modelTrain.id + "\tX = " + modelTrain.x + "\tY = " + modelTrain.y + "\tspeed = " + speed + "\tdirection = " + modelTrain.isGoingClockwise + "\tsection = 0x" + ModelUtil.toHexa(occupied.id))
+				println(timestamp + "#:\tID = " + modelTrain.id + "\tX = " + modelTrain.x + "\tY = " + modelTrain.y + /* "\tspeed = " + speed +  */ "\tdirection = " + modelTrain.isGoingClockwise + "\tsection = 0x" + ModelUtil.toHexa(occupied.id))
 				modelTrain.currentlyOn = occupied
+				
+
+				
 			}
 		}
 	}
