@@ -5,8 +5,10 @@ package hu.bme.mit.kv.model.railroadmodel.impl;
 import hu.bme.mit.kv.model.railroadmodel.ModelPackage;
 import hu.bme.mit.kv.model.railroadmodel.Point;
 
+import java.lang.reflect.InvocationTargetException;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -131,6 +133,15 @@ public class PointImpl extends MinimalEObjectImpl.Container implements Point {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public double distanceFrom(Point from) {
+		return Math.sqrt(Math.pow(this.getX() - from.getX(), 2) + Math.pow(this.getY() - from.getY(), 2));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -194,6 +205,20 @@ public class PointImpl extends MinimalEObjectImpl.Container implements Point {
 				return y != Y_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case ModelPackage.POINT___DISTANCE_FROM__POINT:
+				return distanceFrom((Point)arguments.get(0));
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 	/**

@@ -3,55 +3,46 @@
 package hu.bme.mit.kv.model.railroadmodel.impl;
 
 import hu.bme.mit.kv.model.railroadmodel.ModelPackage;
+import hu.bme.mit.kv.model.railroadmodel.RailEndPoint;
 import hu.bme.mit.kv.model.railroadmodel.Section;
 
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Section</b></em>'.
+ * An implementation of the model object '<em><b>Rail End Point</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl#getId <em>Id</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.RailEndPointImpl#getNextSection <em>Next Section</em>}</li>
  * </ul>
  *
  * @generated
  */
-public abstract class SectionImpl extends MinimalEObjectImpl.Container implements Section {
+public class RailEndPointImpl extends RailPointImpl implements RailEndPoint {
 	/**
-	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * The cached value of the '{@link #getNextSection() <em>Next Section</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getId()
+	 * @see #getNextSection()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int ID_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getId()
-	 * @generated
-	 * @ordered
-	 */
-	protected int id = ID_EDEFAULT;
+	protected Section nextSection;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SectionImpl() {
+	protected RailEndPointImpl() {
 		super();
 	}
 
@@ -62,7 +53,7 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ModelPackage.Literals.SECTION;
+		return ModelPackage.Literals.RAIL_END_POINT;
 	}
 
 	/**
@@ -70,8 +61,16 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getId() {
-		return id;
+	public Section getNextSection() {
+		if (nextSection != null && nextSection.eIsProxy()) {
+			InternalEObject oldNextSection = (InternalEObject)nextSection;
+			nextSection = (Section)eResolveProxy(oldNextSection);
+			if (nextSection != oldNextSection) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.RAIL_END_POINT__NEXT_SECTION, oldNextSection, nextSection));
+			}
+		}
+		return nextSection;
 	}
 
 	/**
@@ -79,11 +78,20 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setId(int newId) {
-		int oldId = id;
-		id = newId;
+	public Section basicGetNextSection() {
+		return nextSection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setNextSection(Section newNextSection) {
+		Section oldNextSection = nextSection;
+		nextSection = newNextSection;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.SECTION__ID, oldId, id));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.RAIL_END_POINT__NEXT_SECTION, oldNextSection, nextSection));
 	}
 
 	/**
@@ -94,8 +102,9 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.SECTION__ID:
-				return getId();
+			case ModelPackage.RAIL_END_POINT__NEXT_SECTION:
+				if (resolve) return getNextSection();
+				return basicGetNextSection();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -108,8 +117,8 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.SECTION__ID:
-				setId((Integer)newValue);
+			case ModelPackage.RAIL_END_POINT__NEXT_SECTION:
+				setNextSection((Section)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -123,8 +132,8 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.SECTION__ID:
-				setId(ID_EDEFAULT);
+			case ModelPackage.RAIL_END_POINT__NEXT_SECTION:
+				setNextSection((Section)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -138,26 +147,10 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.SECTION__ID:
-				return id != ID_EDEFAULT;
+			case ModelPackage.RAIL_END_POINT__NEXT_SECTION:
+				return nextSection != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (id: ");
-		result.append(id);
-		result.append(')');
-		return result.toString();
-	}
-
-} //SectionImpl
+} //RailEndPointImpl

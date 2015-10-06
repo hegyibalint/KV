@@ -95,7 +95,7 @@ Mat convolve(Mat raw, GpuMat circleSpectrum, float thresold) {
 	
 	//cuda::magnitude(spectrum, spectrum, stream);
 	cuda::normalize(convoluted, convoluted, 0, 1, NORM_MINMAX, CV_32F, noArray(), stream);
-	cuda::threshold(convoluted, convoluted, thresold, 0.5, CV_THRESH_BINARY, stream);
+	cuda::threshold(convoluted, convoluted, thresold, 1, CV_THRESH_BINARY, stream);
 	
 	static GpuMat spectrumByte;
 	convoluted.convertTo(spectrumByte, CV_8U, 255);
@@ -346,7 +346,7 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
 	
 	static GpuMat trainCircle = createCirclePattern(Size(2048, 1024), 10, 8, 4);
 	static Mat contour;
-	contour = convolve(raw, trainCircle, 0.6);
+	contour = convolve(raw, trainCircle, 0.8);
 	
 	auto mc = calculateMassCenters(contour);
 	
@@ -434,7 +434,7 @@ int main(int argc, char** argv)
 {
 	initSocket();
 	
-	VideoCapture vid("Test1.mov");
+	VideoCapture vid(1);
 	
 	Train trains[] = {
 		Train(MARKER_R),

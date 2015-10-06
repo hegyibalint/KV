@@ -6,8 +6,7 @@ Bundle-Version: 0.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Export-Package: hu.bme.mit.kv.model.modelutil,
- hu.bme.mit.kv.model.railroadmodel,
+Export-Package: hu.bme.mit.kv.model.railroadmodel,
  hu.bme.mit.kv.model.railroadmodel.impl,
  hu.bme.mit.kv.model.railroadmodel.util
 Require-Bundle: org.eclipse.core.runtime,

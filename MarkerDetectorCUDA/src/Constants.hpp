@@ -19,7 +19,7 @@ const int MAGENTA = 300;
 const int MAGENTA_LOW = MAGENTA - HUE_DEVIATION;
 const int MAGENTA_HIGH = MAGENTA + HUE_DEVIATION;
 
-const int RED = 300; // 0
+const int RED = 0; // 0
 const int RED_LOW = RED - HUE_DEVIATION;
 const int RED_HIGH = RED + HUE_DEVIATION;
 
@@ -27,7 +27,7 @@ const int GREEN = 120;
 const int GREEN_LOW = GREEN - HUE_DEVIATION;
 const int GREEN_HIGH = GREEN + HUE_DEVIATION;
 
-const int BLUE = 200; // 240
+const int BLUE = 240; // 240
 const int BLUE_LOW = BLUE - HUE_DEVIATION;
 const int BLUE_HIGH = BLUE + HUE_DEVIATION;
 /// -----------------------------------------------

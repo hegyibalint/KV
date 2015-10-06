@@ -74,4 +74,12 @@ public interface Point extends EObject {
 	 */
 	void setY(double value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	double distanceFrom(Point from);
+
 } // Point

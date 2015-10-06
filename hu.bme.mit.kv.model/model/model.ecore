@@ -6,37 +6,16 @@
         eType="#//Train" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Train">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="currentlyOn" lowerBound="1"
-        eType="#//Section"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="goingClockwise" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        iD="true"/>
+        defaultValueLiteral="0" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentlyOn" eType="#//Section"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Section">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="clockwise" lowerBound="1"
-        eType="#//Section"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="counterClockwise" lowerBound="1"
-        eType="#//Section"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        iD="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="points" lowerBound="2"
-        upperBound="-1" eType="#//Point" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Turnout" eSuperTypes="#//Section">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="notConnectedSection" lowerBound="1"
-        eType="#//Section"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="twoSectionsInClockwiseDirection"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rectangle" lowerBound="1"
-        eType="#//Rectangle" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Turn" eSuperTypes="#//Section"/>
   <eClassifiers xsi:type="ecore:EClass" name="Point">
+    <eOperations name="distanceFrom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eParameters name="from" eType="#//Point"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
@@ -48,21 +27,45 @@
     <eOperations name="isPointInside" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="point" eType="#//Point"/>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="origin" lowerBound="1"
-        eType="#//Point" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="size" lowerBound="1" eType="#//Dimension"
-        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="inverseMatrix" ordered="false"
         unique="false" upperBound="8" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
         defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="size" lowerBound="1" eType="#//Dimension"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="origin" lowerBound="1"
+        eType="#//Point" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Section" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0" iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rail" eSuperTypes="#//Section">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="points" upperBound="-1"
+        eType="#//RailPoint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endpoints" lowerBound="2"
+        upperBound="2" eType="#//RailEndPoint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="newAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Turnout" eSuperTypes="#//Section">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connected" lowerBound="2"
+        upperBound="2" eType="#//Section"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notConnected" lowerBound="1"
+        upperBound="-1" eType="#//Section"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rectangle" lowerBound="1"
+        eType="#//Rectangle" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Dimension">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EnglishTurnout" eSuperTypes="#//Turnout">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="notConnectedClockwiseSection"
-        lowerBound="1" eType="#//Section"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RailEndPoint" eSuperTypes="#//RailPoint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nextSection" eType="#//Section"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="BlindTrack" eSuperTypes="#//Section"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RailPoint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" lowerBound="1"
+        eType="#//Point"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="neighbours" lowerBound="1"
+        upperBound="2" eType="#//RailPoint"/>
+  </eClassifiers>
 </ecore:EPackage>

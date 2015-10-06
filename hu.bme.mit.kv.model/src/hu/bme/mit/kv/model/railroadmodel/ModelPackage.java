@@ -105,22 +105,13 @@ public interface ModelPackage extends EPackage {
 	int TRAIN = 1;
 
 	/**
-	 * The feature id for the '<em><b>Currently On</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRAIN__CURRENTLY_ON = 0;
-
-	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN__X = 1;
+	int TRAIN__X = 0;
 
 	/**
 	 * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -129,16 +120,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN__Y = 2;
-
-	/**
-	 * The feature id for the '<em><b>Going Clockwise</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRAIN__GOING_CLOCKWISE = 3;
+	int TRAIN__Y = 1;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -147,7 +129,16 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN__ID = 4;
+	int TRAIN__ID = 2;
+
+	/**
+	 * The feature id for the '<em><b>Currently On</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRAIN__CURRENTLY_ON = 3;
 
 	/**
 	 * The number of structural features of the '<em>Train</em>' class.
@@ -156,7 +147,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN_FEATURE_COUNT = 5;
+	int TRAIN_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Train</em>' class.
@@ -168,252 +159,6 @@ public interface ModelPackage extends EPackage {
 	int TRAIN_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl <em>Section</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getSection()
-	 * @generated
-	 */
-	int SECTION = 2;
-
-	/**
-	 * The feature id for the '<em><b>Clockwise</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SECTION__CLOCKWISE = 0;
-
-	/**
-	 * The feature id for the '<em><b>Counter Clockwise</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SECTION__COUNTER_CLOCKWISE = 1;
-
-	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SECTION__ID = 2;
-
-	/**
-	 * The feature id for the '<em><b>Points</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SECTION__POINTS = 3;
-
-	/**
-	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SECTION__ENABLED = 4;
-
-	/**
-	 * The number of structural features of the '<em>Section</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SECTION_FEATURE_COUNT = 5;
-
-	/**
-	 * The number of operations of the '<em>Section</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SECTION_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl <em>Turnout</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getTurnout()
-	 * @generated
-	 */
-	int TURNOUT = 3;
-
-	/**
-	 * The feature id for the '<em><b>Clockwise</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURNOUT__CLOCKWISE = SECTION__CLOCKWISE;
-
-	/**
-	 * The feature id for the '<em><b>Counter Clockwise</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURNOUT__COUNTER_CLOCKWISE = SECTION__COUNTER_CLOCKWISE;
-
-	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURNOUT__ID = SECTION__ID;
-
-	/**
-	 * The feature id for the '<em><b>Points</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURNOUT__POINTS = SECTION__POINTS;
-
-	/**
-	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURNOUT__ENABLED = SECTION__ENABLED;
-
-	/**
-	 * The feature id for the '<em><b>Not Connected Section</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURNOUT__NOT_CONNECTED_SECTION = SECTION_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Two Sections In Clockwise Direction</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION = SECTION_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Rectangle</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURNOUT__RECTANGLE = SECTION_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of structural features of the '<em>Turnout</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURNOUT_FEATURE_COUNT = SECTION_FEATURE_COUNT + 3;
-
-	/**
-	 * The number of operations of the '<em>Turnout</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURNOUT_OPERATION_COUNT = SECTION_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnImpl <em>Turn</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.TurnImpl
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getTurn()
-	 * @generated
-	 */
-	int TURN = 4;
-
-	/**
-	 * The feature id for the '<em><b>Clockwise</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURN__CLOCKWISE = SECTION__CLOCKWISE;
-
-	/**
-	 * The feature id for the '<em><b>Counter Clockwise</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURN__COUNTER_CLOCKWISE = SECTION__COUNTER_CLOCKWISE;
-
-	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURN__ID = SECTION__ID;
-
-	/**
-	 * The feature id for the '<em><b>Points</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURN__POINTS = SECTION__POINTS;
-
-	/**
-	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURN__ENABLED = SECTION__ENABLED;
-
-	/**
-	 * The number of structural features of the '<em>Turn</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURN_FEATURE_COUNT = SECTION_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Turn</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TURN_OPERATION_COUNT = SECTION_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.PointImpl <em>Point</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -421,7 +166,7 @@ public interface ModelPackage extends EPackage {
 	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getPoint()
 	 * @generated
 	 */
-	int POINT = 5;
+	int POINT = 2;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -451,13 +196,22 @@ public interface ModelPackage extends EPackage {
 	int POINT_FEATURE_COUNT = 2;
 
 	/**
+	 * The operation id for the '<em>Distance From</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POINT___DISTANCE_FROM__POINT = 0;
+
+	/**
 	 * The number of operations of the '<em>Point</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POINT_OPERATION_COUNT = 0;
+	int POINT_OPERATION_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionModelImpl <em>Section Model</em>}' class.
@@ -467,7 +221,7 @@ public interface ModelPackage extends EPackage {
 	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getSectionModel()
 	 * @generated
 	 */
-	int SECTION_MODEL = 6;
+	int SECTION_MODEL = 3;
 
 	/**
 	 * The feature id for the '<em><b>Sections</b></em>' containment reference list.
@@ -504,16 +258,16 @@ public interface ModelPackage extends EPackage {
 	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getRectangle()
 	 * @generated
 	 */
-	int RECTANGLE = 7;
+	int RECTANGLE = 4;
 
 	/**
-	 * The feature id for the '<em><b>Origin</b></em>' containment reference.
+	 * The feature id for the '<em><b>Inverse Matrix</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RECTANGLE__ORIGIN = 0;
+	int RECTANGLE__INVERSE_MATRIX = 0;
 
 	/**
 	 * The feature id for the '<em><b>Size</b></em>' containment reference.
@@ -525,13 +279,13 @@ public interface ModelPackage extends EPackage {
 	int RECTANGLE__SIZE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Inverse Matrix</b></em>' attribute list.
+	 * The feature id for the '<em><b>Origin</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RECTANGLE__INVERSE_MATRIX = 2;
+	int RECTANGLE__ORIGIN = 2;
 
 	/**
 	 * The number of structural features of the '<em>Rectangle</em>' class.
@@ -559,6 +313,171 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int RECTANGLE_OPERATION_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl <em>Section</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getSection()
+	 * @generated
+	 */
+	int SECTION = 5;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SECTION__ID = 0;
+
+	/**
+	 * The number of structural features of the '<em>Section</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SECTION_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Section</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SECTION_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.RailImpl <em>Rail</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.RailImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getRail()
+	 * @generated
+	 */
+	int RAIL = 6;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAIL__ID = SECTION__ID;
+
+	/**
+	 * The feature id for the '<em><b>Points</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAIL__POINTS = SECTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Endpoints</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAIL__ENDPOINTS = SECTION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>New Attribute</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAIL__NEW_ATTRIBUTE = SECTION_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Rail</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAIL_FEATURE_COUNT = SECTION_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of operations of the '<em>Rail</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAIL_OPERATION_COUNT = SECTION_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl <em>Turnout</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getTurnout()
+	 * @generated
+	 */
+	int TURNOUT = 7;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TURNOUT__ID = SECTION__ID;
+
+	/**
+	 * The feature id for the '<em><b>Connected</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TURNOUT__CONNECTED = SECTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Not Connected</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TURNOUT__NOT_CONNECTED = SECTION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Rectangle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TURNOUT__RECTANGLE = SECTION_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Turnout</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TURNOUT_FEATURE_COUNT = SECTION_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of operations of the '<em>Turnout</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TURNOUT_OPERATION_COUNT = SECTION_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.DimensionImpl <em>Dimension</em>}' class.
@@ -606,189 +525,106 @@ public interface ModelPackage extends EPackage {
 	 */
 	int DIMENSION_OPERATION_COUNT = 0;
 
-
 	/**
-	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.EnglishTurnoutImpl <em>English Turnout</em>}' class.
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.RailPointImpl <em>Rail Point</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.EnglishTurnoutImpl
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getEnglishTurnout()
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.RailPointImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getRailPoint()
 	 * @generated
 	 */
-	int ENGLISH_TURNOUT = 9;
+	int RAIL_POINT = 10;
 
 	/**
-	 * The feature id for the '<em><b>Clockwise</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENGLISH_TURNOUT__CLOCKWISE = TURNOUT__CLOCKWISE;
-
-	/**
-	 * The feature id for the '<em><b>Counter Clockwise</b></em>' reference.
+	 * The feature id for the '<em><b>Position</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENGLISH_TURNOUT__COUNTER_CLOCKWISE = TURNOUT__COUNTER_CLOCKWISE;
+	int RAIL_POINT__POSITION = 0;
 
 	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Neighbours</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENGLISH_TURNOUT__ID = TURNOUT__ID;
+	int RAIL_POINT__NEIGHBOURS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Points</b></em>' containment reference list.
+	 * The number of structural features of the '<em>Rail Point</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENGLISH_TURNOUT__POINTS = TURNOUT__POINTS;
+	int RAIL_POINT_FEATURE_COUNT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
+	 * The number of operations of the '<em>Rail Point</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENGLISH_TURNOUT__ENABLED = TURNOUT__ENABLED;
+	int RAIL_POINT_OPERATION_COUNT = 0;
 
 	/**
-	 * The feature id for the '<em><b>Not Connected Section</b></em>' reference.
+	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.RailEndPointImpl <em>Rail End Point</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.RailEndPointImpl
+	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getRailEndPoint()
+	 * @generated
+	 */
+	int RAIL_END_POINT = 9;
+
+	/**
+	 * The feature id for the '<em><b>Position</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENGLISH_TURNOUT__NOT_CONNECTED_SECTION = TURNOUT__NOT_CONNECTED_SECTION;
+	int RAIL_END_POINT__POSITION = RAIL_POINT__POSITION;
 
 	/**
-	 * The feature id for the '<em><b>Two Sections In Clockwise Direction</b></em>' attribute.
+	 * The feature id for the '<em><b>Neighbours</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENGLISH_TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION = TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION;
+	int RAIL_END_POINT__NEIGHBOURS = RAIL_POINT__NEIGHBOURS;
 
 	/**
-	 * The feature id for the '<em><b>Rectangle</b></em>' containment reference.
+	 * The feature id for the '<em><b>Next Section</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENGLISH_TURNOUT__RECTANGLE = TURNOUT__RECTANGLE;
+	int RAIL_END_POINT__NEXT_SECTION = RAIL_POINT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Not Connected Clockwise Section</b></em>' reference.
+	 * The number of structural features of the '<em>Rail End Point</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENGLISH_TURNOUT__NOT_CONNECTED_CLOCKWISE_SECTION = TURNOUT_FEATURE_COUNT + 0;
+	int RAIL_END_POINT_FEATURE_COUNT = RAIL_POINT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>English Turnout</em>' class.
+	 * The number of operations of the '<em>Rail End Point</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENGLISH_TURNOUT_FEATURE_COUNT = TURNOUT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>English Turnout</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENGLISH_TURNOUT_OPERATION_COUNT = TURNOUT_OPERATION_COUNT + 0;
-
-
-	/**
-	 * The meta object id for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.BlindTrackImpl <em>Blind Track</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.BlindTrackImpl
-	 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getBlindTrack()
-	 * @generated
-	 */
-	int BLIND_TRACK = 10;
-
-	/**
-	 * The feature id for the '<em><b>Clockwise</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BLIND_TRACK__CLOCKWISE = SECTION__CLOCKWISE;
-
-	/**
-	 * The feature id for the '<em><b>Counter Clockwise</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BLIND_TRACK__COUNTER_CLOCKWISE = SECTION__COUNTER_CLOCKWISE;
-
-	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BLIND_TRACK__ID = SECTION__ID;
-
-	/**
-	 * The feature id for the '<em><b>Points</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BLIND_TRACK__POINTS = SECTION__POINTS;
-
-	/**
-	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BLIND_TRACK__ENABLED = SECTION__ENABLED;
-
-	/**
-	 * The number of structural features of the '<em>Blind Track</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BLIND_TRACK_FEATURE_COUNT = SECTION_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Blind Track</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BLIND_TRACK_OPERATION_COUNT = SECTION_OPERATION_COUNT + 0;
+	int RAIL_END_POINT_OPERATION_COUNT = RAIL_POINT_OPERATION_COUNT + 0;
 
 
 	/**
@@ -823,17 +659,6 @@ public interface ModelPackage extends EPackage {
 	EClass getTrain();
 
 	/**
-	 * Returns the meta object for the reference '{@link hu.bme.mit.kv.model.railroadmodel.Train#getCurrentlyOn <em>Currently On</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Currently On</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Train#getCurrentlyOn()
-	 * @see #getTrain()
-	 * @generated
-	 */
-	EReference getTrain_CurrentlyOn();
-
-	/**
 	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Train#getX <em>X</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -856,17 +681,6 @@ public interface ModelPackage extends EPackage {
 	EAttribute getTrain_Y();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Train#isGoingClockwise <em>Going Clockwise</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Going Clockwise</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Train#isGoingClockwise()
-	 * @see #getTrain()
-	 * @generated
-	 */
-	EAttribute getTrain_GoingClockwise();
-
-	/**
 	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Train#getId <em>Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -878,122 +692,15 @@ public interface ModelPackage extends EPackage {
 	EAttribute getTrain_Id();
 
 	/**
-	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Section <em>Section</em>}'.
+	 * Returns the meta object for the reference '{@link hu.bme.mit.kv.model.railroadmodel.Train#getCurrentlyOn <em>Currently On</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Section</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Section
+	 * @return the meta object for the reference '<em>Currently On</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Train#getCurrentlyOn()
+	 * @see #getTrain()
 	 * @generated
 	 */
-	EClass getSection();
-
-	/**
-	 * Returns the meta object for the reference '{@link hu.bme.mit.kv.model.railroadmodel.Section#getClockwise <em>Clockwise</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Clockwise</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Section#getClockwise()
-	 * @see #getSection()
-	 * @generated
-	 */
-	EReference getSection_Clockwise();
-
-	/**
-	 * Returns the meta object for the reference '{@link hu.bme.mit.kv.model.railroadmodel.Section#getCounterClockwise <em>Counter Clockwise</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Counter Clockwise</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Section#getCounterClockwise()
-	 * @see #getSection()
-	 * @generated
-	 */
-	EReference getSection_CounterClockwise();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Section#getId <em>Id</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Id</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Section#getId()
-	 * @see #getSection()
-	 * @generated
-	 */
-	EAttribute getSection_Id();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.kv.model.railroadmodel.Section#getPoints <em>Points</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Points</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Section#getPoints()
-	 * @see #getSection()
-	 * @generated
-	 */
-	EReference getSection_Points();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Section#isEnabled <em>Enabled</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Enabled</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Section#isEnabled()
-	 * @see #getSection()
-	 * @generated
-	 */
-	EAttribute getSection_Enabled();
-
-	/**
-	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Turnout <em>Turnout</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Turnout</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Turnout
-	 * @generated
-	 */
-	EClass getTurnout();
-
-	/**
-	 * Returns the meta object for the reference '{@link hu.bme.mit.kv.model.railroadmodel.Turnout#getNotConnectedSection <em>Not Connected Section</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Not Connected Section</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Turnout#getNotConnectedSection()
-	 * @see #getTurnout()
-	 * @generated
-	 */
-	EReference getTurnout_NotConnectedSection();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Turnout#isTwoSectionsInClockwiseDirection <em>Two Sections In Clockwise Direction</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Two Sections In Clockwise Direction</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Turnout#isTwoSectionsInClockwiseDirection()
-	 * @see #getTurnout()
-	 * @generated
-	 */
-	EAttribute getTurnout_TwoSectionsInClockwiseDirection();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link hu.bme.mit.kv.model.railroadmodel.Turnout#getRectangle <em>Rectangle</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Rectangle</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Turnout#getRectangle()
-	 * @see #getTurnout()
-	 * @generated
-	 */
-	EReference getTurnout_Rectangle();
-
-	/**
-	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Turn <em>Turn</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Turn</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Turn
-	 * @generated
-	 */
-	EClass getTurn();
+	EReference getTrain_CurrentlyOn();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Point <em>Point</em>}'.
@@ -1028,6 +735,16 @@ public interface ModelPackage extends EPackage {
 	EAttribute getPoint_Y();
 
 	/**
+	 * Returns the meta object for the '{@link hu.bme.mit.kv.model.railroadmodel.Point#distanceFrom(hu.bme.mit.kv.model.railroadmodel.Point) <em>Distance From</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Distance From</em>' operation.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Point#distanceFrom(hu.bme.mit.kv.model.railroadmodel.Point)
+	 * @generated
+	 */
+	EOperation getPoint__DistanceFrom__Point();
+
+	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.SectionModel <em>Section Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1059,15 +776,15 @@ public interface ModelPackage extends EPackage {
 	EClass getRectangle();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getOrigin <em>Origin</em>}'.
+	 * Returns the meta object for the attribute list '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getInverseMatrix <em>Inverse Matrix</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Origin</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Rectangle#getOrigin()
+	 * @return the meta object for the attribute list '<em>Inverse Matrix</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rectangle#getInverseMatrix()
 	 * @see #getRectangle()
 	 * @generated
 	 */
-	EReference getRectangle_Origin();
+	EAttribute getRectangle_InverseMatrix();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getSize <em>Size</em>}'.
@@ -1081,15 +798,15 @@ public interface ModelPackage extends EPackage {
 	EReference getRectangle_Size();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getInverseMatrix <em>Inverse Matrix</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getOrigin <em>Origin</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Inverse Matrix</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.Rectangle#getInverseMatrix()
+	 * @return the meta object for the containment reference '<em>Origin</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rectangle#getOrigin()
 	 * @see #getRectangle()
 	 * @generated
 	 */
-	EAttribute getRectangle_InverseMatrix();
+	EReference getRectangle_Origin();
 
 	/**
 	 * Returns the meta object for the '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#isPointInside(hu.bme.mit.kv.model.railroadmodel.Point) <em>Is Point Inside</em>}' operation.
@@ -1100,6 +817,113 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EOperation getRectangle__IsPointInside__Point();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Section <em>Section</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Section</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Section
+	 * @generated
+	 */
+	EClass getSection();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Section#getId <em>Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Section#getId()
+	 * @see #getSection()
+	 * @generated
+	 */
+	EAttribute getSection_Id();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Rail <em>Rail</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Rail</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rail
+	 * @generated
+	 */
+	EClass getRail();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.kv.model.railroadmodel.Rail#getPoints <em>Points</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Points</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rail#getPoints()
+	 * @see #getRail()
+	 * @generated
+	 */
+	EReference getRail_Points();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.kv.model.railroadmodel.Rail#getEndpoints <em>Endpoints</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Endpoints</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rail#getEndpoints()
+	 * @see #getRail()
+	 * @generated
+	 */
+	EReference getRail_Endpoints();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.model.railroadmodel.Rail#getNewAttribute <em>New Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>New Attribute</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Rail#getNewAttribute()
+	 * @see #getRail()
+	 * @generated
+	 */
+	EAttribute getRail_NewAttribute();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Turnout <em>Turnout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Turnout</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Turnout
+	 * @generated
+	 */
+	EClass getTurnout();
+
+	/**
+	 * Returns the meta object for the reference list '{@link hu.bme.mit.kv.model.railroadmodel.Turnout#getConnected <em>Connected</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Connected</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Turnout#getConnected()
+	 * @see #getTurnout()
+	 * @generated
+	 */
+	EReference getTurnout_Connected();
+
+	/**
+	 * Returns the meta object for the reference list '{@link hu.bme.mit.kv.model.railroadmodel.Turnout#getNotConnected <em>Not Connected</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Not Connected</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Turnout#getNotConnected()
+	 * @see #getTurnout()
+	 * @generated
+	 */
+	EReference getTurnout_NotConnected();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.kv.model.railroadmodel.Turnout#getRectangle <em>Rectangle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Rectangle</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.Turnout#getRectangle()
+	 * @see #getTurnout()
+	 * @generated
+	 */
+	EReference getTurnout_Rectangle();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.Dimension <em>Dimension</em>}'.
@@ -1134,35 +958,57 @@ public interface ModelPackage extends EPackage {
 	EAttribute getDimension_Height();
 
 	/**
-	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.EnglishTurnout <em>English Turnout</em>}'.
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.RailEndPoint <em>Rail End Point</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>English Turnout</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.EnglishTurnout
+	 * @return the meta object for class '<em>Rail End Point</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.RailEndPoint
 	 * @generated
 	 */
-	EClass getEnglishTurnout();
+	EClass getRailEndPoint();
 
 	/**
-	 * Returns the meta object for the reference '{@link hu.bme.mit.kv.model.railroadmodel.EnglishTurnout#getNotConnectedClockwiseSection <em>Not Connected Clockwise Section</em>}'.
+	 * Returns the meta object for the reference '{@link hu.bme.mit.kv.model.railroadmodel.RailEndPoint#getNextSection <em>Next Section</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Not Connected Clockwise Section</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.EnglishTurnout#getNotConnectedClockwiseSection()
-	 * @see #getEnglishTurnout()
+	 * @return the meta object for the reference '<em>Next Section</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.RailEndPoint#getNextSection()
+	 * @see #getRailEndPoint()
 	 * @generated
 	 */
-	EReference getEnglishTurnout_NotConnectedClockwiseSection();
+	EReference getRailEndPoint_NextSection();
 
 	/**
-	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.BlindTrack <em>Blind Track</em>}'.
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.model.railroadmodel.RailPoint <em>Rail Point</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Blind Track</em>'.
-	 * @see hu.bme.mit.kv.model.railroadmodel.BlindTrack
+	 * @return the meta object for class '<em>Rail Point</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.RailPoint
 	 * @generated
 	 */
-	EClass getBlindTrack();
+	EClass getRailPoint();
+
+	/**
+	 * Returns the meta object for the reference '{@link hu.bme.mit.kv.model.railroadmodel.RailPoint#getPosition <em>Position</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Position</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.RailPoint#getPosition()
+	 * @see #getRailPoint()
+	 * @generated
+	 */
+	EReference getRailPoint_Position();
+
+	/**
+	 * Returns the meta object for the reference list '{@link hu.bme.mit.kv.model.railroadmodel.RailPoint#getNeighbours <em>Neighbours</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Neighbours</em>'.
+	 * @see hu.bme.mit.kv.model.railroadmodel.RailPoint#getNeighbours()
+	 * @see #getRailPoint()
+	 * @generated
+	 */
+	EReference getRailPoint_Neighbours();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1216,14 +1062,6 @@ public interface ModelPackage extends EPackage {
 		EClass TRAIN = eINSTANCE.getTrain();
 
 		/**
-		 * The meta object literal for the '<em><b>Currently On</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TRAIN__CURRENTLY_ON = eINSTANCE.getTrain_CurrentlyOn();
-
-		/**
 		 * The meta object literal for the '<em><b>X</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1240,14 +1078,6 @@ public interface ModelPackage extends EPackage {
 		EAttribute TRAIN__Y = eINSTANCE.getTrain_Y();
 
 		/**
-		 * The meta object literal for the '<em><b>Going Clockwise</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TRAIN__GOING_CLOCKWISE = eINSTANCE.getTrain_GoingClockwise();
-
-		/**
 		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1256,98 +1086,12 @@ public interface ModelPackage extends EPackage {
 		EAttribute TRAIN__ID = eINSTANCE.getTrain_Id();
 
 		/**
-		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl <em>Section</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getSection()
-		 * @generated
-		 */
-		EClass SECTION = eINSTANCE.getSection();
-
-		/**
-		 * The meta object literal for the '<em><b>Clockwise</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Currently On</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SECTION__CLOCKWISE = eINSTANCE.getSection_Clockwise();
-
-		/**
-		 * The meta object literal for the '<em><b>Counter Clockwise</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SECTION__COUNTER_CLOCKWISE = eINSTANCE.getSection_CounterClockwise();
-
-		/**
-		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SECTION__ID = eINSTANCE.getSection_Id();
-
-		/**
-		 * The meta object literal for the '<em><b>Points</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SECTION__POINTS = eINSTANCE.getSection_Points();
-
-		/**
-		 * The meta object literal for the '<em><b>Enabled</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SECTION__ENABLED = eINSTANCE.getSection_Enabled();
-
-		/**
-		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl <em>Turnout</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getTurnout()
-		 * @generated
-		 */
-		EClass TURNOUT = eINSTANCE.getTurnout();
-
-		/**
-		 * The meta object literal for the '<em><b>Not Connected Section</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TURNOUT__NOT_CONNECTED_SECTION = eINSTANCE.getTurnout_NotConnectedSection();
-
-		/**
-		 * The meta object literal for the '<em><b>Two Sections In Clockwise Direction</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION = eINSTANCE.getTurnout_TwoSectionsInClockwiseDirection();
-
-		/**
-		 * The meta object literal for the '<em><b>Rectangle</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TURNOUT__RECTANGLE = eINSTANCE.getTurnout_Rectangle();
-
-		/**
-		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnImpl <em>Turn</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.TurnImpl
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getTurn()
-		 * @generated
-		 */
-		EClass TURN = eINSTANCE.getTurn();
+		EReference TRAIN__CURRENTLY_ON = eINSTANCE.getTrain_CurrentlyOn();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.PointImpl <em>Point</em>}' class.
@@ -1374,6 +1118,14 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute POINT__Y = eINSTANCE.getPoint_Y();
+
+		/**
+		 * The meta object literal for the '<em><b>Distance From</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation POINT___DISTANCE_FROM__POINT = eINSTANCE.getPoint__DistanceFrom__Point();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionModelImpl <em>Section Model</em>}' class.
@@ -1404,12 +1156,12 @@ public interface ModelPackage extends EPackage {
 		EClass RECTANGLE = eINSTANCE.getRectangle();
 
 		/**
-		 * The meta object literal for the '<em><b>Origin</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Inverse Matrix</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RECTANGLE__ORIGIN = eINSTANCE.getRectangle_Origin();
+		EAttribute RECTANGLE__INVERSE_MATRIX = eINSTANCE.getRectangle_InverseMatrix();
 
 		/**
 		 * The meta object literal for the '<em><b>Size</b></em>' containment reference feature.
@@ -1420,12 +1172,12 @@ public interface ModelPackage extends EPackage {
 		EReference RECTANGLE__SIZE = eINSTANCE.getRectangle_Size();
 
 		/**
-		 * The meta object literal for the '<em><b>Inverse Matrix</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>Origin</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute RECTANGLE__INVERSE_MATRIX = eINSTANCE.getRectangle_InverseMatrix();
+		EReference RECTANGLE__ORIGIN = eINSTANCE.getRectangle_Origin();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Point Inside</b></em>' operation.
@@ -1434,6 +1186,92 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation RECTANGLE___IS_POINT_INSIDE__POINT = eINSTANCE.getRectangle__IsPointInside__Point();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl <em>Section</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.SectionImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getSection()
+		 * @generated
+		 */
+		EClass SECTION = eINSTANCE.getSection();
+
+		/**
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SECTION__ID = eINSTANCE.getSection_Id();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.RailImpl <em>Rail</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.RailImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getRail()
+		 * @generated
+		 */
+		EClass RAIL = eINSTANCE.getRail();
+
+		/**
+		 * The meta object literal for the '<em><b>Points</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RAIL__POINTS = eINSTANCE.getRail_Points();
+
+		/**
+		 * The meta object literal for the '<em><b>Endpoints</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RAIL__ENDPOINTS = eINSTANCE.getRail_Endpoints();
+
+		/**
+		 * The meta object literal for the '<em><b>New Attribute</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RAIL__NEW_ATTRIBUTE = eINSTANCE.getRail_NewAttribute();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl <em>Turnout</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getTurnout()
+		 * @generated
+		 */
+		EClass TURNOUT = eINSTANCE.getTurnout();
+
+		/**
+		 * The meta object literal for the '<em><b>Connected</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TURNOUT__CONNECTED = eINSTANCE.getTurnout_Connected();
+
+		/**
+		 * The meta object literal for the '<em><b>Not Connected</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TURNOUT__NOT_CONNECTED = eINSTANCE.getTurnout_NotConnected();
+
+		/**
+		 * The meta object literal for the '<em><b>Rectangle</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TURNOUT__RECTANGLE = eINSTANCE.getTurnout_Rectangle();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.DimensionImpl <em>Dimension</em>}' class.
@@ -1462,32 +1300,48 @@ public interface ModelPackage extends EPackage {
 		EAttribute DIMENSION__HEIGHT = eINSTANCE.getDimension_Height();
 
 		/**
-		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.EnglishTurnoutImpl <em>English Turnout</em>}' class.
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.RailEndPointImpl <em>Rail End Point</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.EnglishTurnoutImpl
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getEnglishTurnout()
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.RailEndPointImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getRailEndPoint()
 		 * @generated
 		 */
-		EClass ENGLISH_TURNOUT = eINSTANCE.getEnglishTurnout();
+		EClass RAIL_END_POINT = eINSTANCE.getRailEndPoint();
 
 		/**
-		 * The meta object literal for the '<em><b>Not Connected Clockwise Section</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Next Section</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ENGLISH_TURNOUT__NOT_CONNECTED_CLOCKWISE_SECTION = eINSTANCE.getEnglishTurnout_NotConnectedClockwiseSection();
+		EReference RAIL_END_POINT__NEXT_SECTION = eINSTANCE.getRailEndPoint_NextSection();
 
 		/**
-		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.BlindTrackImpl <em>Blind Track</em>}' class.
+		 * The meta object literal for the '{@link hu.bme.mit.kv.model.railroadmodel.impl.RailPointImpl <em>Rail Point</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.BlindTrackImpl
-		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getBlindTrack()
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.RailPointImpl
+		 * @see hu.bme.mit.kv.model.railroadmodel.impl.ModelPackageImpl#getRailPoint()
 		 * @generated
 		 */
-		EClass BLIND_TRACK = eINSTANCE.getBlindTrack();
+		EClass RAIL_POINT = eINSTANCE.getRailPoint();
+
+		/**
+		 * The meta object literal for the '<em><b>Position</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RAIL_POINT__POSITION = eINSTANCE.getRailPoint_Position();
+
+		/**
+		 * The meta object literal for the '<em><b>Neighbours</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RAIL_POINT__NEIGHBOURS = eINSTANCE.getRailPoint_Neighbours();
 
 	}
 

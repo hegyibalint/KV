@@ -28,23 +28,23 @@ import hu.bme.mit.kv.model.railroadmodel.Rectangle;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl#getOrigin <em>Origin</em>}</li>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl#getSize <em>Size</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl#getInverseMatrix <em>Inverse Matrix</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl#getSize <em>Size</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.RectangleImpl#getOrigin <em>Origin</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class RectangleImpl extends MinimalEObjectImpl.Container implements Rectangle {
 	/**
-	 * The cached value of the '{@link #getOrigin() <em>Origin</em>}' containment reference.
+	 * The cached value of the '{@link #getInverseMatrix() <em>Inverse Matrix</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getOrigin()
+	 * @see #getInverseMatrix()
 	 * @generated
 	 * @ordered
 	 */
-	protected Point origin;
+	protected EList<Double> inverseMatrix;
 
 	/**
 	 * The cached value of the '{@link #getSize() <em>Size</em>}' containment reference.
@@ -57,14 +57,14 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	protected Dimension size;
 
 	/**
-	 * The cached value of the '{@link #getInverseMatrix() <em>Inverse Matrix</em>}' attribute list.
+	 * The cached value of the '{@link #getOrigin() <em>Origin</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getInverseMatrix()
+	 * @see #getOrigin()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Double> inverseMatrix;
+	protected Point origin;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -83,49 +83,6 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	@Override
 	protected EClass eStaticClass() {
 		return ModelPackage.Literals.RECTANGLE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Point getOrigin() {
-		return origin;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetOrigin(Point newOrigin, NotificationChain msgs) {
-		Point oldOrigin = origin;
-		origin = newOrigin;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.RECTANGLE__ORIGIN, oldOrigin, newOrigin);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOrigin(Point newOrigin) {
-		if (newOrigin != origin) {
-			NotificationChain msgs = null;
-			if (origin != null)
-				msgs = ((InternalEObject)origin).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.RECTANGLE__ORIGIN, null, msgs);
-			if (newOrigin != null)
-				msgs = ((InternalEObject)newOrigin).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.RECTANGLE__ORIGIN, null, msgs);
-			msgs = basicSetOrigin(newOrigin, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.RECTANGLE__ORIGIN, newOrigin, newOrigin));
 	}
 
 	/**
@@ -176,6 +133,49 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Point getOrigin() {
+		return origin;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetOrigin(Point newOrigin, NotificationChain msgs) {
+		Point oldOrigin = origin;
+		origin = newOrigin;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.RECTANGLE__ORIGIN, oldOrigin, newOrigin);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOrigin(Point newOrigin) {
+		if (newOrigin != origin) {
+			NotificationChain msgs = null;
+			if (origin != null)
+				msgs = ((InternalEObject)origin).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.RECTANGLE__ORIGIN, null, msgs);
+			if (newOrigin != null)
+				msgs = ((InternalEObject)newOrigin).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.RECTANGLE__ORIGIN, null, msgs);
+			msgs = basicSetOrigin(newOrigin, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.RECTANGLE__ORIGIN, newOrigin, newOrigin));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<Double> getInverseMatrix() {
 		if (inverseMatrix == null) {
 			inverseMatrix = new EDataTypeEList<Double>(Double.class, this, ModelPackage.RECTANGLE__INVERSE_MATRIX);
@@ -194,8 +194,9 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 		invp.setX(inverseMatrix.get(0) * p.getX() + inverseMatrix.get(1) * p.getY() + inverseMatrix.get(2));
 		invp.setY(inverseMatrix.get(3) * p.getX() + inverseMatrix.get(4) * p.getY() + inverseMatrix.get(5));
 		
-		if (origin.getX() < p.getX() && p.getX() < origin.getX() + size.getWidth() &&
-			origin.getY() < p.getY() && p.getY() < origin.getY() + size.getHeight()) {
+		final double thres = 0.05;
+		if (origin.getX() - thres <= invp.getX() && invp.getX() <= origin.getX() + size.getWidth() + thres &&
+			origin.getY() - thres <= invp.getY() && invp.getY() <= origin.getY() + size.getHeight() + thres) {
 			return true;
 		}
 		
@@ -210,10 +211,10 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ModelPackage.RECTANGLE__ORIGIN:
-				return basicSetOrigin(null, msgs);
 			case ModelPackage.RECTANGLE__SIZE:
 				return basicSetSize(null, msgs);
+			case ModelPackage.RECTANGLE__ORIGIN:
+				return basicSetOrigin(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -226,12 +227,12 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.RECTANGLE__ORIGIN:
-				return getOrigin();
-			case ModelPackage.RECTANGLE__SIZE:
-				return getSize();
 			case ModelPackage.RECTANGLE__INVERSE_MATRIX:
 				return getInverseMatrix();
+			case ModelPackage.RECTANGLE__SIZE:
+				return getSize();
+			case ModelPackage.RECTANGLE__ORIGIN:
+				return getOrigin();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -245,15 +246,15 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.RECTANGLE__ORIGIN:
-				setOrigin((Point)newValue);
+			case ModelPackage.RECTANGLE__INVERSE_MATRIX:
+				getInverseMatrix().clear();
+				getInverseMatrix().addAll((Collection<? extends Double>)newValue);
 				return;
 			case ModelPackage.RECTANGLE__SIZE:
 				setSize((Dimension)newValue);
 				return;
-			case ModelPackage.RECTANGLE__INVERSE_MATRIX:
-				getInverseMatrix().clear();
-				getInverseMatrix().addAll((Collection<? extends Double>)newValue);
+			case ModelPackage.RECTANGLE__ORIGIN:
+				setOrigin((Point)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -267,14 +268,14 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.RECTANGLE__ORIGIN:
-				setOrigin((Point)null);
+			case ModelPackage.RECTANGLE__INVERSE_MATRIX:
+				getInverseMatrix().clear();
 				return;
 			case ModelPackage.RECTANGLE__SIZE:
 				setSize((Dimension)null);
 				return;
-			case ModelPackage.RECTANGLE__INVERSE_MATRIX:
-				getInverseMatrix().clear();
+			case ModelPackage.RECTANGLE__ORIGIN:
+				setOrigin((Point)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -288,12 +289,12 @@ public class RectangleImpl extends MinimalEObjectImpl.Container implements Recta
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.RECTANGLE__ORIGIN:
-				return origin != null;
-			case ModelPackage.RECTANGLE__SIZE:
-				return size != null;
 			case ModelPackage.RECTANGLE__INVERSE_MATRIX:
 				return inverseMatrix != null && !inverseMatrix.isEmpty();
+			case ModelPackage.RECTANGLE__SIZE:
+				return size != null;
+			case ModelPackage.RECTANGLE__ORIGIN:
+				return origin != null;
 		}
 		return super.eIsSet(featureID);
 	}

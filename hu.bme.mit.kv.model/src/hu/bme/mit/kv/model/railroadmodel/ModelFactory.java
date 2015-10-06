@@ -40,33 +40,6 @@ public interface ModelFactory extends EFactory {
 	Train createTrain();
 
 	/**
-	 * Returns a new object of class '<em>Section</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Section</em>'.
-	 * @generated
-	 */
-	Section createSection();
-
-	/**
-	 * Returns a new object of class '<em>Turnout</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Turnout</em>'.
-	 * @generated
-	 */
-	Turnout createTurnout();
-
-	/**
-	 * Returns a new object of class '<em>Turn</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Turn</em>'.
-	 * @generated
-	 */
-	Turn createTurn();
-
-	/**
 	 * Returns a new object of class '<em>Point</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -94,6 +67,24 @@ public interface ModelFactory extends EFactory {
 	Rectangle createRectangle();
 
 	/**
+	 * Returns a new object of class '<em>Rail</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Rail</em>'.
+	 * @generated
+	 */
+	Rail createRail();
+
+	/**
+	 * Returns a new object of class '<em>Turnout</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Turnout</em>'.
+	 * @generated
+	 */
+	Turnout createTurnout();
+
+	/**
 	 * Returns a new object of class '<em>Dimension</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -103,22 +94,22 @@ public interface ModelFactory extends EFactory {
 	Dimension createDimension();
 
 	/**
-	 * Returns a new object of class '<em>English Turnout</em>'.
+	 * Returns a new object of class '<em>Rail End Point</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>English Turnout</em>'.
+	 * @return a new object of class '<em>Rail End Point</em>'.
 	 * @generated
 	 */
-	EnglishTurnout createEnglishTurnout();
+	RailEndPoint createRailEndPoint();
 
 	/**
-	 * Returns a new object of class '<em>Blind Track</em>'.
+	 * Returns a new object of class '<em>Rail Point</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Blind Track</em>'.
+	 * @return a new object of class '<em>Rail Point</em>'.
 	 * @generated
 	 */
-	BlindTrack createBlindTrack();
+	RailPoint createRailPoint();
 
 	/**
 	 * Returns the package supported by this factory.

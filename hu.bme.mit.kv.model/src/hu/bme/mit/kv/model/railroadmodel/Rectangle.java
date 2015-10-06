@@ -15,9 +15,9 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getOrigin <em>Origin</em>}</li>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getSize <em>Size</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getInverseMatrix <em>Inverse Matrix</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getSize <em>Size</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getOrigin <em>Origin</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getRectangle()
@@ -26,30 +26,20 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Rectangle extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Origin</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Inverse Matrix</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.Double}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Origin</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Inverse Matrix</em>' attribute list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Origin</em>' containment reference.
-	 * @see #setOrigin(Point)
-	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getRectangle_Origin()
-	 * @model containment="true" required="true"
+	 * @return the value of the '<em>Inverse Matrix</em>' attribute list.
+	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getRectangle_InverseMatrix()
+	 * @model default="0.0" unique="false" upper="8" ordered="false"
 	 * @generated
 	 */
-	Point getOrigin();
-
-	/**
-	 * Sets the value of the '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getOrigin <em>Origin</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Origin</em>' containment reference.
-	 * @see #getOrigin()
-	 * @generated
-	 */
-	void setOrigin(Point value);
+	EList<Double> getInverseMatrix();
 
 	/**
 	 * Returns the value of the '<em><b>Size</b></em>' containment reference.
@@ -78,20 +68,30 @@ public interface Rectangle extends EObject {
 	void setSize(Dimension value);
 
 	/**
-	 * Returns the value of the '<em><b>Inverse Matrix</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.Double}.
+	 * Returns the value of the '<em><b>Origin</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Inverse Matrix</em>' attribute list isn't clear,
+	 * If the meaning of the '<em>Origin</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Inverse Matrix</em>' attribute list.
-	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getRectangle_InverseMatrix()
-	 * @model default="0.0" unique="false" upper="8" ordered="false"
+	 * @return the value of the '<em>Origin</em>' containment reference.
+	 * @see #setOrigin(Point)
+	 * @see hu.bme.mit.kv.model.railroadmodel.ModelPackage#getRectangle_Origin()
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	EList<Double> getInverseMatrix();
+	Point getOrigin();
+
+	/**
+	 * Sets the value of the '{@link hu.bme.mit.kv.model.railroadmodel.Rectangle#getOrigin <em>Origin</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Origin</em>' containment reference.
+	 * @see #getOrigin()
+	 * @generated
+	 */
+	void setOrigin(Point value);
 
 	/**
 	 * <!-- begin-user-doc -->

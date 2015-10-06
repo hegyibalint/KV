@@ -7,13 +7,19 @@ import hu.bme.mit.kv.model.railroadmodel.Rectangle;
 import hu.bme.mit.kv.model.railroadmodel.Section;
 import hu.bme.mit.kv.model.railroadmodel.Turnout;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,8 +29,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl#getNotConnectedSection <em>Not Connected Section</em>}</li>
- *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl#isTwoSectionsInClockwiseDirection <em>Two Sections In Clockwise Direction</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl#getConnected <em>Connected</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl#getNotConnected <em>Not Connected</em>}</li>
  *   <li>{@link hu.bme.mit.kv.model.railroadmodel.impl.TurnoutImpl#getRectangle <em>Rectangle</em>}</li>
  * </ul>
  *
@@ -32,34 +38,24 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class TurnoutImpl extends SectionImpl implements Turnout {
 	/**
-	 * The cached value of the '{@link #getNotConnectedSection() <em>Not Connected Section</em>}' reference.
+	 * The cached value of the '{@link #getConnected() <em>Connected</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNotConnectedSection()
+	 * @see #getConnected()
 	 * @generated
 	 * @ordered
 	 */
-	protected Section notConnectedSection;
+	protected EList<Section> connected;
 
 	/**
-	 * The default value of the '{@link #isTwoSectionsInClockwiseDirection() <em>Two Sections In Clockwise Direction</em>}' attribute.
+	 * The cached value of the '{@link #getNotConnected() <em>Not Connected</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isTwoSectionsInClockwiseDirection()
+	 * @see #getNotConnected()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean TWO_SECTIONS_IN_CLOCKWISE_DIRECTION_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isTwoSectionsInClockwiseDirection() <em>Two Sections In Clockwise Direction</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isTwoSectionsInClockwiseDirection()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean twoSectionsInClockwiseDirection = TWO_SECTIONS_IN_CLOCKWISE_DIRECTION_EDEFAULT;
+	protected EList<Section> notConnected;
 
 	/**
 	 * The cached value of the '{@link #getRectangle() <em>Rectangle</em>}' containment reference.
@@ -95,16 +91,11 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Section getNotConnectedSection() {
-		if (notConnectedSection != null && notConnectedSection.eIsProxy()) {
-			InternalEObject oldNotConnectedSection = (InternalEObject)notConnectedSection;
-			notConnectedSection = (Section)eResolveProxy(oldNotConnectedSection);
-			if (notConnectedSection != oldNotConnectedSection) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.TURNOUT__NOT_CONNECTED_SECTION, oldNotConnectedSection, notConnectedSection));
-			}
+	public EList<Section> getConnected() {
+		if (connected == null) {
+			connected = new EObjectResolvingEList<Section>(Section.class, this, ModelPackage.TURNOUT__CONNECTED);
 		}
-		return notConnectedSection;
+		return connected;
 	}
 
 	/**
@@ -112,41 +103,11 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Section basicGetNotConnectedSection() {
-		return notConnectedSection;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setNotConnectedSection(Section newNotConnectedSection) {
-		Section oldNotConnectedSection = notConnectedSection;
-		notConnectedSection = newNotConnectedSection;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TURNOUT__NOT_CONNECTED_SECTION, oldNotConnectedSection, notConnectedSection));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isTwoSectionsInClockwiseDirection() {
-		return twoSectionsInClockwiseDirection;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTwoSectionsInClockwiseDirection(boolean newTwoSectionsInClockwiseDirection) {
-		boolean oldTwoSectionsInClockwiseDirection = twoSectionsInClockwiseDirection;
-		twoSectionsInClockwiseDirection = newTwoSectionsInClockwiseDirection;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION, oldTwoSectionsInClockwiseDirection, twoSectionsInClockwiseDirection));
+	public EList<Section> getNotConnected() {
+		if (notConnected == null) {
+			notConnected = new EObjectResolvingEList<Section>(Section.class, this, ModelPackage.TURNOUT__NOT_CONNECTED);
+		}
+		return notConnected;
 	}
 
 	/**
@@ -214,11 +175,10 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.TURNOUT__NOT_CONNECTED_SECTION:
-				if (resolve) return getNotConnectedSection();
-				return basicGetNotConnectedSection();
-			case ModelPackage.TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION:
-				return isTwoSectionsInClockwiseDirection();
+			case ModelPackage.TURNOUT__CONNECTED:
+				return getConnected();
+			case ModelPackage.TURNOUT__NOT_CONNECTED:
+				return getNotConnected();
 			case ModelPackage.TURNOUT__RECTANGLE:
 				return getRectangle();
 		}
@@ -230,14 +190,17 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.TURNOUT__NOT_CONNECTED_SECTION:
-				setNotConnectedSection((Section)newValue);
+			case ModelPackage.TURNOUT__CONNECTED:
+				getConnected().clear();
+				getConnected().addAll((Collection<? extends Section>)newValue);
 				return;
-			case ModelPackage.TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION:
-				setTwoSectionsInClockwiseDirection((Boolean)newValue);
+			case ModelPackage.TURNOUT__NOT_CONNECTED:
+				getNotConnected().clear();
+				getNotConnected().addAll((Collection<? extends Section>)newValue);
 				return;
 			case ModelPackage.TURNOUT__RECTANGLE:
 				setRectangle((Rectangle)newValue);
@@ -254,11 +217,11 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.TURNOUT__NOT_CONNECTED_SECTION:
-				setNotConnectedSection((Section)null);
+			case ModelPackage.TURNOUT__CONNECTED:
+				getConnected().clear();
 				return;
-			case ModelPackage.TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION:
-				setTwoSectionsInClockwiseDirection(TWO_SECTIONS_IN_CLOCKWISE_DIRECTION_EDEFAULT);
+			case ModelPackage.TURNOUT__NOT_CONNECTED:
+				getNotConnected().clear();
 				return;
 			case ModelPackage.TURNOUT__RECTANGLE:
 				setRectangle((Rectangle)null);
@@ -275,30 +238,14 @@ public class TurnoutImpl extends SectionImpl implements Turnout {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.TURNOUT__NOT_CONNECTED_SECTION:
-				return notConnectedSection != null;
-			case ModelPackage.TURNOUT__TWO_SECTIONS_IN_CLOCKWISE_DIRECTION:
-				return twoSectionsInClockwiseDirection != TWO_SECTIONS_IN_CLOCKWISE_DIRECTION_EDEFAULT;
+			case ModelPackage.TURNOUT__CONNECTED:
+				return connected != null && !connected.isEmpty();
+			case ModelPackage.TURNOUT__NOT_CONNECTED:
+				return notConnected != null && !notConnected.isEmpty();
 			case ModelPackage.TURNOUT__RECTANGLE:
 				return rectangle != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (twoSectionsInClockwiseDirection: ");
-		result.append(twoSectionsInClockwiseDirection);
-		result.append(')');
-		return result.toString();
 	}
 
 } //TurnoutImpl

@@ -58,15 +58,14 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 		switch (eClass.getClassifierID()) {
 			case ModelPackage.TRAIN_MODEL: return createTrainModel();
 			case ModelPackage.TRAIN: return createTrain();
-			case ModelPackage.SECTION: return createSection();
-			case ModelPackage.TURNOUT: return createTurnout();
-			case ModelPackage.TURN: return createTurn();
 			case ModelPackage.POINT: return createPoint();
 			case ModelPackage.SECTION_MODEL: return createSectionModel();
 			case ModelPackage.RECTANGLE: return createRectangle();
+			case ModelPackage.RAIL: return createRail();
+			case ModelPackage.TURNOUT: return createTurnout();
 			case ModelPackage.DIMENSION: return createDimension();
-			case ModelPackage.ENGLISH_TURNOUT: return createEnglishTurnout();
-			case ModelPackage.BLIND_TRACK: return createBlindTrack();
+			case ModelPackage.RAIL_END_POINT: return createRailEndPoint();
+			case ModelPackage.RAIL_POINT: return createRailPoint();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -90,36 +89,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public Train createTrain() {
 		TrainImpl train = new TrainImpl();
 		return train;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Section createSection() {
-		SectionImpl section = new SectionImpl();
-		return section;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Turnout createTurnout() {
-		TurnoutImpl turnout = new TurnoutImpl();
-		return turnout;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Turn createTurn() {
-		TurnImpl turn = new TurnImpl();
-		return turn;
 	}
 
 	/**
@@ -157,6 +126,26 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Rail createRail() {
+		RailImpl rail = new RailImpl();
+		return rail;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Turnout createTurnout() {
+		TurnoutImpl turnout = new TurnoutImpl();
+		return turnout;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Dimension createDimension() {
 		DimensionImpl dimension = new DimensionImpl();
 		return dimension;
@@ -167,9 +156,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EnglishTurnout createEnglishTurnout() {
-		EnglishTurnoutImpl englishTurnout = new EnglishTurnoutImpl();
-		return englishTurnout;
+	public RailEndPoint createRailEndPoint() {
+		RailEndPointImpl railEndPoint = new RailEndPointImpl();
+		return railEndPoint;
 	}
 
 	/**
@@ -177,9 +166,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BlindTrack createBlindTrack() {
-		BlindTrackImpl blindTrack = new BlindTrackImpl();
-		return blindTrack;
+	public RailPoint createRailPoint() {
+		RailPointImpl railPoint = new RailPointImpl();
+		return railPoint;
 	}
 
 	/**

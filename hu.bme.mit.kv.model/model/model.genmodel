@@ -11,47 +11,52 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//TrainModel/trains"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Train">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/currentlyOn"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/x"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/y"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/goingClockwise"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/id"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/currentlyOn"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//Section">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Section/clockwise"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Section/counterClockwise"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Section/id"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Section/points"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Section/enabled"/>
-    </genClasses>
-    <genClasses ecoreClass="model.ecore#//Turnout">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/notConnectedSection"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Turnout/twoSectionsInClockwiseDirection"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/rectangle"/>
-    </genClasses>
-    <genClasses ecoreClass="model.ecore#//Turn"/>
     <genClasses ecoreClass="model.ecore#//Point">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Point/x"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Point/y"/>
+      <genOperations ecoreOperation="model.ecore#//Point/distanceFrom">
+        <genParameters ecoreParameter="model.ecore#//Point/distanceFrom/from"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//SectionModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//SectionModel/sections"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Rectangle">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/origin"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/size"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Rectangle/inverseMatrix"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/size"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/origin"/>
       <genOperations ecoreOperation="model.ecore#//Rectangle/isPointInside">
         <genParameters ecoreParameter="model.ecore#//Rectangle/isPointInside/point"/>
       </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Section">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Section/id"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Rail">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rail/points"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rail/endpoints"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Rail/newAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Turnout">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Turnout/connected"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/notConnected"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/rectangle"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Dimension">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Dimension/width"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Dimension/height"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//EnglishTurnout">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//EnglishTurnout/notConnectedClockwiseSection"/>
+    <genClasses ecoreClass="model.ecore#//RailEndPoint">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RailEndPoint/nextSection"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//BlindTrack"/>
+    <genClasses ecoreClass="model.ecore#//RailPoint">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RailPoint/position"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RailPoint/neighbours"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
