@@ -13,11 +13,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getX <em>X</em>}</li>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getY <em>Y</em>}</li>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getId <em>Id</em>}</li>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getCurrentlyOn <em>Currently On</em>}</li>
  *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getPreviouslyOn <em>Previously On</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getCurrentlyOn <em>Currently On</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getTrain()
@@ -26,83 +23,30 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Train extends EObject {
 	/**
-	 * Returns the value of the '<em><b>X</b></em>' attribute.
+	 * Returns the value of the '<em><b>Previously On</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>X</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Previously On</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>X</em>' attribute.
-	 * @see #setX(double)
-	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getTrain_X()
-	 * @model required="true"
+	 * @return the value of the '<em>Previously On</em>' reference.
+	 * @see #setPreviouslyOn(Trackable)
+	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getTrain_PreviouslyOn()
+	 * @model
 	 * @generated
 	 */
-	double getX();
+	Trackable getPreviouslyOn();
 
 	/**
-	 * Sets the value of the '{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getX <em>X</em>}' attribute.
+	 * Sets the value of the '{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getPreviouslyOn <em>Previously On</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>X</em>' attribute.
-	 * @see #getX()
+	 * @param value the new value of the '<em>Previously On</em>' reference.
+	 * @see #getPreviouslyOn()
 	 * @generated
 	 */
-	void setX(double value);
-
-	/**
-	 * Returns the value of the '<em><b>Y</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Y</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Y</em>' attribute.
-	 * @see #setY(double)
-	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getTrain_Y()
-	 * @model required="true"
-	 * @generated
-	 */
-	double getY();
-
-	/**
-	 * Sets the value of the '{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getY <em>Y</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Y</em>' attribute.
-	 * @see #getY()
-	 * @generated
-	 */
-	void setY(double value);
-
-	/**
-	 * Returns the value of the '<em><b>Id</b></em>' attribute.
-	 * The default value is <code>"0"</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Id</em>' attribute.
-	 * @see #setId(int)
-	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getTrain_Id()
-	 * @model default="0" id="true" required="true"
-	 * @generated
-	 */
-	int getId();
-
-	/**
-	 * Sets the value of the '{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getId <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Id</em>' attribute.
-	 * @see #getId()
-	 * @generated
-	 */
-	void setId(int value);
+	void setPreviouslyOn(Trackable value);
 
 	/**
 	 * Returns the value of the '<em><b>Currently On</b></em>' reference.
@@ -113,12 +57,12 @@ public interface Train extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Currently On</em>' reference.
-	 * @see #setCurrentlyOn(Section)
+	 * @see #setCurrentlyOn(Trackable)
 	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getTrain_CurrentlyOn()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
-	Section getCurrentlyOn();
+	Trackable getCurrentlyOn();
 
 	/**
 	 * Sets the value of the '{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getCurrentlyOn <em>Currently On</em>}' reference.
@@ -128,32 +72,6 @@ public interface Train extends EObject {
 	 * @see #getCurrentlyOn()
 	 * @generated
 	 */
-	void setCurrentlyOn(Section value);
-
-	/**
-	 * Returns the value of the '<em><b>Previously On</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Previously On</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Previously On</em>' reference.
-	 * @see #setPreviouslyOn(Section)
-	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getTrain_PreviouslyOn()
-	 * @model
-	 * @generated
-	 */
-	Section getPreviouslyOn();
-
-	/**
-	 * Sets the value of the '{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Train#getPreviouslyOn <em>Previously On</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Previously On</em>' reference.
-	 * @see #getPreviouslyOn()
-	 * @generated
-	 */
-	void setPreviouslyOn(Section value);
+	void setCurrentlyOn(Trackable value);
 
 } // Train

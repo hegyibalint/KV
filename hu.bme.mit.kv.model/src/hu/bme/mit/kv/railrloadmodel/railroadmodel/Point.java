@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface Point extends EObject {
 	/**
 	 * Returns the value of the '<em><b>X</b></em>' attribute.
+	 * The default value is <code>"0.0"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>X</em>' attribute isn't clear,
@@ -33,7 +34,7 @@ public interface Point extends EObject {
 	 * @return the value of the '<em>X</em>' attribute.
 	 * @see #setX(double)
 	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getPoint_X()
-	 * @model
+	 * @model default="0.0" required="true"
 	 * @generated
 	 */
 	double getX();
@@ -50,6 +51,7 @@ public interface Point extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Y</b></em>' attribute.
+	 * The default value is <code>"0.0"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Y</em>' attribute isn't clear,
@@ -59,7 +61,7 @@ public interface Point extends EObject {
 	 * @return the value of the '<em>Y</em>' attribute.
 	 * @see #setY(double)
 	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getPoint_Y()
-	 * @model
+	 * @model default="0.0" required="true"
 	 * @generated
 	 */
 	double getY();
@@ -77,9 +79,9 @@ public interface Point extends EObject {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
-	double distanceFrom(Point from);
+	double distanceFrom(Point p);
 
 } // Point

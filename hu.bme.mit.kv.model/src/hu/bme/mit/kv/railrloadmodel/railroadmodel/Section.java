@@ -2,7 +2,6 @@
  */
 package hu.bme.mit.kv.railrloadmodel.railroadmodel;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -13,39 +12,38 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Section#getId <em>Id</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Section#getLine <em>Line</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getSection()
- * @model abstract="true"
+ * @model
  * @generated
  */
-public interface Section extends EObject {
+public interface Section extends Trackable {
 	/**
-	 * Returns the value of the '<em><b>Id</b></em>' attribute.
-	 * The default value is <code>"0"</code>.
+	 * Returns the value of the '<em><b>Line</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Line</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Id</em>' attribute.
-	 * @see #setId(int)
-	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getSection_Id()
-	 * @model default="0" id="true"
+	 * @return the value of the '<em>Line</em>' containment reference.
+	 * @see #setLine(Line)
+	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getSection_Line()
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	int getId();
+	Line getLine();
 
 	/**
-	 * Sets the value of the '{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Section#getId <em>Id</em>}' attribute.
+	 * Sets the value of the '{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Section#getLine <em>Line</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Id</em>' attribute.
-	 * @see #getId()
+	 * @param value the new value of the '<em>Line</em>' containment reference.
+	 * @see #getLine()
 	 * @generated
 	 */
-	void setId(int value);
+	void setLine(Line value);
 
 } // Section

@@ -4,9 +4,7 @@ package hu.bme.mit.kv.railrloadmodel.railroadmodel.impl;
 
 import hu.bme.mit.kv.railrloadmodel.railroadmodel.Dimension;
 import hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;

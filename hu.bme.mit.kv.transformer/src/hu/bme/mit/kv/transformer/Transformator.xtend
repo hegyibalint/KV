@@ -3,11 +3,10 @@ package hu.bme.mit.kv.transformer
 import Jama.Matrix
 import hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelFactory
 import hu.bme.mit.kv.railrloadmodel.railroadmodel.Point
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.Rail
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.RailEndPoint
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.RailPoint
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.Section
 import hu.bme.mit.kv.railrloadmodel.railroadmodel.SectionModel
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.Turnout
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.Switch
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.Trackable
 import java.io.IOException
 import java.net.URL
 import java.util.Collections
@@ -54,32 +53,59 @@ class Transformator {
 	def transform() {
 		fillRails()
 		fillTurnouts()
+		
+		for (var i = 0; i < (sm.trackables.size - 1); i++) {
+			for (var j = i+1; j < (sm.trackables.size); j++) {
+				val t1 = sm.trackables.get(i)
+				val t2 = sm.trackables.get(j)
+				
+				intersect(t1, t2)
+			}
+		}
+	}
 
-		val turnouts = sm.sections.filter[it instanceof Turnout] as Turnout[]
-		val rails = sm.sections.filter[it instanceof Rail] as Rail[]
+	def createLineFrom(Point start, Point end) {
+		val line = createLine
+		line.start = start
+		line.end = end
 
-		turnouts.forEach [ to |
-			rails.forEach [ rail |
-				rail.endpoints.forEach [ ep |
-					if (ep.nextSection == null) {
-						if (to.rectangle.isPointInside(ep.position)) {
-							println(Integer.toHexString(rail.id) + "-->" + Integer.toHexString(to.id))
-							ep.nextSection = to
-							to.notConnected += rail
-						} else {
-							rails.filter[rail2|rail != rail2].forEach [ rail2 |
-								rail2.endpoints.forEach [ ep2 |
-									if (ep.position.distanceFrom(ep2.position) < 0.05) {
-										println(Integer.toHexString(rail.id) + "<==>" + Integer.toHexString(rail2.id))
-										ep.nextSection = rail2
-									}
-								]
-							]
-						}
-					}
-				]
-			]
+		return line
+	}
+	
+	def pairUp(Trackable a, Trackable b) {
+		println(a.id + "<->" + b.id)
+		a.neighbours += b;
+		b.neighbours += a;
+	}
+
+	dispatch def void intersect(Section a, Section b) {
+		val test = [ Point p1, Point p2 |
+			val dist = p1.distanceFrom(p2)
+			if (dist < 0.05) {
+				pairUp(a, b)		
+			}
 		]
+
+		test.apply(a.line.start, b.line.start) 
+		test.apply(a.line.start, b.line.end) 
+		test.apply(a.line.end, b.line.start)
+		test.apply(a.line.end, b.line.end)
+	}
+
+	dispatch def void intersect(Section a, Switch b) {
+		if (b.rectangle.isPointInside(a.line.start)) {
+			pairUp(a, b)
+		} else if(b.rectangle.isPointInside(a.line.end)) {
+			pairUp(a, b)
+		}
+	}
+
+	dispatch def void intersect(Switch a, Section b) {
+		_intersect(b, a)
+	}
+	
+	dispatch def void intersect(Switch a, Switch b) {
+		return
 	}
 
 	def Point getPositionAtLength(SVGPathContext ctx, float length) {
@@ -92,49 +118,28 @@ class Transformator {
 		return position
 	}
 
-	def RailEndPoint getRailEndPointFromLength(SVGPathContext ctx, float length) {
-		val railPoint = createRailEndPoint
-		railPoint.position = getPositionAtLength(ctx, length)
-
-		return railPoint
-	}
-
-	def RailPoint getRailPointFromLength(SVGPathContext ctx, float length) {
-		val railPoint = createRailPoint
-		railPoint.position = getPositionAtLength(ctx, length)
-
-		return railPoint
-	}
-
 	def fillRails() {
 		val elements = doc.getElementById("Sections").getElementsByTagName("path");
 		for (var i = 0; i < elements.length; i++) {
 			val element = elements.item(i) as SVGOMPathElement;
 			val ctx = element.SVGContext as SVGPathContext
 
-			val rail = createRail
-			rail.id = Integer::parseUnsignedInt(element.id.substring(2), 16)
-
-			rail.endpoints.add(getRailEndPointFromLength(ctx, 0.0f))
-			rail.endpoints.add(getRailEndPointFromLength(ctx, ctx.totalLength))
+			val powerable = createPowerable
+			powerable.id = Integer::parseUnsignedInt(element.id.substring(2), 16)
 
 			val step = ctx.totalLength / 10;
-			for (var stepc = 1; stepc <= 9; stepc++) {
-				rail.points.add(getRailPointFromLength(ctx, step * stepc))
+			for (var stepc = 0; stepc <= 9; stepc++) {
+				val section = createSection
+				section.id = element.id + "_" + stepc;
+				
+				section.line = createLineFrom(getPositionAtLength(ctx, step * stepc),
+					getPositionAtLength(ctx, step * (stepc + 1)))
+
+				sm.trackables += section
+				powerable.sections += section
 			}
 
-			rail.points.head.neighbours.add(rail.endpoints.get(0))
-			rail.points.last.neighbours.add(rail.endpoints.get(1))
-
-			for (var p = 0; p < rail.points.size; p++) {
-				if (p > 0)
-					rail.points.get(p).neighbours.add(rail.points.get(p - 1))
-				if (p + 1 < rail.points.size)
-					rail.points.get(p).neighbours.add(rail.points.get(p + 1))
-			}
-
-			// println("Section #" + element.id + " added")
-			sm.sections.add(rail);
+			sm.powerables += powerable
 		}
 	}
 
@@ -142,8 +147,9 @@ class Transformator {
 		val elements = doc.getElementById("Turnouts").getElementsByTagName("rect");
 		for (var i = 0; i < elements.length; i++) {
 			val element = elements.item(i) as SVGOMRectElement;
-			val turnout = createTurnout
-			turnout.id = Integer::parseUnsignedInt(element.id.substring(2), 16)
+			val turnout = createSwitch
+			//turnout.id = Integer::parseUnsignedInt(element.id.substring(2), 16)
+			turnout.id = element.id.substring(2)
 
 			val origin = createPoint
 			origin.setX(element.getX().getBaseVal().getValue());
@@ -159,22 +165,22 @@ class Transformator {
 			val inv = mtx.inverse();
 
 			val rect = createRectangle
-			rect.getInverseMatrix().add(inv.get(0, 0));
-			rect.getInverseMatrix().add(inv.get(0, 1));
-			rect.getInverseMatrix().add(inv.get(0, 2));
-			rect.getInverseMatrix().add(inv.get(1, 0));
-			rect.getInverseMatrix().add(inv.get(1, 1));
-			rect.getInverseMatrix().add(inv.get(1, 2));
+			var inverseList = rect.inverseMatrix
+			inverseList += inv.get(0, 0)
+			inverseList += inv.get(0, 1)
+			inverseList += inv.get(0, 2)
+			inverseList += inv.get(1, 0)
+			inverseList += inv.get(1, 1)
+			inverseList += inv.get(1, 2)
 			rect.setOrigin(origin);
 			rect.setSize(size);
 
 			turnout.setRectangle(rect);
 
-			// println("Turnout #" + element.id + " added")
-			sm.sections.add(turnout);
+			sm.trackables += turnout
 		}
 	}
-	
+
 	def void saveToXML() {
 		val reg = Resource.Factory.Registry.INSTANCE;
 		val m = reg.getExtensionToFactoryMap();
@@ -189,7 +195,7 @@ class Transformator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		System.out.println("Successfully converted SVG to EMF model");
 	}
 

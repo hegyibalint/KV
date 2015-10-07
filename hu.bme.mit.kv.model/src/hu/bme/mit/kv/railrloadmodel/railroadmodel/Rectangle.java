@@ -15,9 +15,9 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Rectangle#getInverseMatrix <em>Inverse Matrix</em>}</li>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Rectangle#getSize <em>Size</em>}</li>
  *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Rectangle#getOrigin <em>Origin</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Rectangle#getSize <em>Size</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Rectangle#getInverseMatrix <em>Inverse Matrix</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getRectangle()
@@ -26,52 +26,10 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Rectangle extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Inverse Matrix</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.Double}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Inverse Matrix</em>' attribute list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Inverse Matrix</em>' attribute list.
-	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getRectangle_InverseMatrix()
-	 * @model default="0.0" unique="false" upper="8" ordered="false"
-	 * @generated
-	 */
-	EList<Double> getInverseMatrix();
-
-	/**
-	 * Returns the value of the '<em><b>Size</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Size</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Size</em>' containment reference.
-	 * @see #setSize(Dimension)
-	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getRectangle_Size()
-	 * @model containment="true" required="true"
-	 * @generated
-	 */
-	Dimension getSize();
-
-	/**
-	 * Sets the value of the '{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Rectangle#getSize <em>Size</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Size</em>' containment reference.
-	 * @see #getSize()
-	 * @generated
-	 */
-	void setSize(Dimension value);
-
-	/**
 	 * Returns the value of the '<em><b>Origin</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Origin</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Origin</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
@@ -94,11 +52,53 @@ public interface Rectangle extends EObject {
 	void setOrigin(Point value);
 
 	/**
+	 * Returns the value of the '<em><b>Size</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Size</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Size</em>' containment reference.
+	 * @see #setSize(Dimension)
+	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getRectangle_Size()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	Dimension getSize();
+
+	/**
+	 * Sets the value of the '{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.Rectangle#getSize <em>Size</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Size</em>' containment reference.
+	 * @see #getSize()
+	 * @generated
+	 */
+	void setSize(Dimension value);
+
+	/**
+	 * Returns the value of the '<em><b>Inverse Matrix</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.Double}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Inverse Matrix</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Inverse Matrix</em>' attribute list.
+	 * @see hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage#getRectangle_InverseMatrix()
+	 * @model unique="false" upper="6"
+	 * @generated
+	 */
+	EList<Double> getInverseMatrix();
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model required="true"
 	 * @generated
 	 */
-	boolean isPointInside(Point point);
+	boolean isPointInside(Point p);
 
 } // Rectangle

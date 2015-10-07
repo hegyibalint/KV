@@ -56,20 +56,16 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ModelPackage.TRAIN_MODEL: return createTrainModel();
+			case ModelPackage.SECTION: return createSection();
+			case ModelPackage.SWITCH: return createSwitch();
 			case ModelPackage.TRAIN: return createTrain();
-			case ModelPackage.POINT: return createPoint();
+			case ModelPackage.POWERABLE: return createPowerable();
 			case ModelPackage.SECTION_MODEL: return createSectionModel();
+			case ModelPackage.TRAIN_MODEL: return createTrainModel();
+			case ModelPackage.LINE: return createLine();
 			case ModelPackage.RECTANGLE: return createRectangle();
-			case ModelPackage.RAIL: return createRail();
-			case ModelPackage.TURNOUT: return createTurnout();
+			case ModelPackage.POINT: return createPoint();
 			case ModelPackage.DIMENSION: return createDimension();
-			case ModelPackage.RAIL_END_POINT: return createRailEndPoint();
-			case ModelPackage.RAIL_POINT: return createRailPoint();
-			case ModelPackage.SETTING: return createSetting();
-			case ModelPackage.DIVERGENT_CONFIGURATION: return createDivergentConfiguration();
-			case ModelPackage.STRAIGHT_CONFIGURATION: return createStraightConfiguration();
-			case ModelPackage.CONFIGURATION: return createConfiguration();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -80,9 +76,19 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TrainModel createTrainModel() {
-		TrainModelImpl trainModel = new TrainModelImpl();
-		return trainModel;
+	public Section createSection() {
+		SectionImpl section = new SectionImpl();
+		return section;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Switch createSwitch() {
+		SwitchImpl switch_ = new SwitchImpl();
+		return switch_;
 	}
 
 	/**
@@ -100,9 +106,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Point createPoint() {
-		PointImpl point = new PointImpl();
-		return point;
+	public Powerable createPowerable() {
+		PowerableImpl powerable = new PowerableImpl();
+		return powerable;
 	}
 
 	/**
@@ -120,6 +126,26 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public TrainModel createTrainModel() {
+		TrainModelImpl trainModel = new TrainModelImpl();
+		return trainModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Line createLine() {
+		LineImpl line = new LineImpl();
+		return line;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Rectangle createRectangle() {
 		RectangleImpl rectangle = new RectangleImpl();
 		return rectangle;
@@ -130,19 +156,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Rail createRail() {
-		RailImpl rail = new RailImpl();
-		return rail;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Turnout createTurnout() {
-		TurnoutImpl turnout = new TurnoutImpl();
-		return turnout;
+	public Point createPoint() {
+		PointImpl point = new PointImpl();
+		return point;
 	}
 
 	/**
@@ -153,66 +169,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public Dimension createDimension() {
 		DimensionImpl dimension = new DimensionImpl();
 		return dimension;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public RailEndPoint createRailEndPoint() {
-		RailEndPointImpl railEndPoint = new RailEndPointImpl();
-		return railEndPoint;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public RailPoint createRailPoint() {
-		RailPointImpl railPoint = new RailPointImpl();
-		return railPoint;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Setting createSetting() {
-		SettingImpl setting = new SettingImpl();
-		return setting;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public DivergentConfiguration createDivergentConfiguration() {
-		DivergentConfigurationImpl divergentConfiguration = new DivergentConfigurationImpl();
-		return divergentConfiguration;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public StraightConfiguration createStraightConfiguration() {
-		StraightConfigurationImpl straightConfiguration = new StraightConfigurationImpl();
-		return straightConfiguration;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Configuration createConfiguration() {
-		ConfigurationImpl configuration = new ConfigurationImpl();
-		return configuration;
 	}
 
 	/**

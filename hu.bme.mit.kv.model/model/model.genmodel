@@ -7,68 +7,53 @@
   <foreignModel>model.ecore</foreignModel>
   <genPackages prefix="Model" basePackage="hu.bme.mit.kv.railrloadmodel" disposableProviderFactory="true"
       ecorePackage="model.ecore#/">
+    <genClasses ecoreClass="model.ecore#//Trackable">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Trackable/neighbours"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Trackable/id"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Section">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Section/line"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Switch">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Switch/rectangle"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Train">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/previouslyOn"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/currentlyOn"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Powerable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Powerable/sections"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Powerable/id"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//SectionModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//SectionModel/powerables"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//SectionModel/trackables"/>
+    </genClasses>
     <genClasses ecoreClass="model.ecore#//TrainModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//TrainModel/trains"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//Train">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/id"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/currentlyOn"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/previouslyOn"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Train/position"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/nextSection"/>
+    <genClasses ecoreClass="model.ecore#//Line">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Line/start"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Line/end"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Rectangle">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/origin"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/size"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Rectangle/inverseMatrix"/>
+      <genOperations ecoreOperation="model.ecore#//Rectangle/isPointInside">
+        <genParameters ecoreParameter="model.ecore#//Rectangle/isPointInside/p"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Point">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Point/x"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Point/y"/>
       <genOperations ecoreOperation="model.ecore#//Point/distanceFrom">
-        <genParameters ecoreParameter="model.ecore#//Point/distanceFrom/from"/>
+        <genParameters ecoreParameter="model.ecore#//Point/distanceFrom/p"/>
       </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="model.ecore#//SectionModel">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//SectionModel/sections"/>
-    </genClasses>
-    <genClasses ecoreClass="model.ecore#//Rectangle">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Rectangle/inverseMatrix"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/size"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/origin"/>
-      <genOperations ecoreOperation="model.ecore#//Rectangle/isPointInside">
-        <genParameters ecoreParameter="model.ecore#//Rectangle/isPointInside/point"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="model.ecore#//Section">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Section/id"/>
-    </genClasses>
-    <genClasses ecoreClass="model.ecore#//Rail">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rail/points"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rail/endpoints"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Rail/newAttribute"/>
-    </genClasses>
-    <genClasses ecoreClass="model.ecore#//Turnout">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Turnout/connected"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/notConnected"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/rectangle"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/settings"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Dimension">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Dimension/width"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Dimension/height"/>
-    </genClasses>
-    <genClasses ecoreClass="model.ecore#//RailEndPoint">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RailEndPoint/nextSection"/>
-    </genClasses>
-    <genClasses ecoreClass="model.ecore#//RailPoint">
-      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RailPoint/position"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RailPoint/neighbours"/>
-    </genClasses>
-    <genClasses ecoreClass="model.ecore#//Setting">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Setting/straightconfiguration"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Setting/divergentconfiguration"/>
-    </genClasses>
-    <genClasses ecoreClass="model.ecore#//DivergentConfiguration"/>
-    <genClasses ecoreClass="model.ecore#//StraightConfiguration"/>
-    <genClasses ecoreClass="model.ecore#//Configuration">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Configuration/disabled"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Configuration/enabled"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

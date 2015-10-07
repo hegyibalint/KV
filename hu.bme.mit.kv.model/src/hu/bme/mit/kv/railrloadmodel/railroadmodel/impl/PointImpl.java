@@ -6,11 +6,9 @@ import hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage;
 import hu.bme.mit.kv.railrloadmodel.railroadmodel.Point;
 
 import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -137,8 +135,8 @@ public class PointImpl extends MinimalEObjectImpl.Container implements Point {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public double distanceFrom(Point from) {
-		return Math.sqrt(Math.pow(this.getX() - from.getX(), 2) + Math.pow(this.getY() - from.getY(), 2));
+	public double distanceFrom(Point p) {
+		return Math.sqrt(Math.pow(this.getX() - p.getX() , 2) + Math.pow(this.getX() - p.getX() , 2));
 	}
 
 	/**
@@ -226,13 +224,13 @@ public class PointImpl extends MinimalEObjectImpl.Container implements Point {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuffer result = new StringBuffer();
 		result.append(" (x: ");
 		result.append(x);
 		result.append(", y: ");

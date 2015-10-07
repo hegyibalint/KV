@@ -22,13 +22,22 @@ public interface ModelFactory extends EFactory {
 	ModelFactory eINSTANCE = hu.bme.mit.kv.railrloadmodel.railroadmodel.impl.ModelFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Train Model</em>'.
+	 * Returns a new object of class '<em>Section</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Train Model</em>'.
+	 * @return a new object of class '<em>Section</em>'.
 	 * @generated
 	 */
-	TrainModel createTrainModel();
+	Section createSection();
+
+	/**
+	 * Returns a new object of class '<em>Switch</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Switch</em>'.
+	 * @generated
+	 */
+	Switch createSwitch();
 
 	/**
 	 * Returns a new object of class '<em>Train</em>'.
@@ -40,13 +49,13 @@ public interface ModelFactory extends EFactory {
 	Train createTrain();
 
 	/**
-	 * Returns a new object of class '<em>Point</em>'.
+	 * Returns a new object of class '<em>Powerable</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Point</em>'.
+	 * @return a new object of class '<em>Powerable</em>'.
 	 * @generated
 	 */
-	Point createPoint();
+	Powerable createPowerable();
 
 	/**
 	 * Returns a new object of class '<em>Section Model</em>'.
@@ -58,6 +67,24 @@ public interface ModelFactory extends EFactory {
 	SectionModel createSectionModel();
 
 	/**
+	 * Returns a new object of class '<em>Train Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Train Model</em>'.
+	 * @generated
+	 */
+	TrainModel createTrainModel();
+
+	/**
+	 * Returns a new object of class '<em>Line</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Line</em>'.
+	 * @generated
+	 */
+	Line createLine();
+
+	/**
 	 * Returns a new object of class '<em>Rectangle</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -67,22 +94,13 @@ public interface ModelFactory extends EFactory {
 	Rectangle createRectangle();
 
 	/**
-	 * Returns a new object of class '<em>Rail</em>'.
+	 * Returns a new object of class '<em>Point</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Rail</em>'.
+	 * @return a new object of class '<em>Point</em>'.
 	 * @generated
 	 */
-	Rail createRail();
-
-	/**
-	 * Returns a new object of class '<em>Turnout</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Turnout</em>'.
-	 * @generated
-	 */
-	Turnout createTurnout();
+	Point createPoint();
 
 	/**
 	 * Returns a new object of class '<em>Dimension</em>'.
@@ -92,60 +110,6 @@ public interface ModelFactory extends EFactory {
 	 * @generated
 	 */
 	Dimension createDimension();
-
-	/**
-	 * Returns a new object of class '<em>Rail End Point</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Rail End Point</em>'.
-	 * @generated
-	 */
-	RailEndPoint createRailEndPoint();
-
-	/**
-	 * Returns a new object of class '<em>Rail Point</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Rail Point</em>'.
-	 * @generated
-	 */
-	RailPoint createRailPoint();
-
-	/**
-	 * Returns a new object of class '<em>Setting</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Setting</em>'.
-	 * @generated
-	 */
-	Setting createSetting();
-
-	/**
-	 * Returns a new object of class '<em>Divergent Configuration</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Divergent Configuration</em>'.
-	 * @generated
-	 */
-	DivergentConfiguration createDivergentConfiguration();
-
-	/**
-	 * Returns a new object of class '<em>Straight Configuration</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Straight Configuration</em>'.
-	 * @generated
-	 */
-	StraightConfiguration createStraightConfiguration();
-
-	/**
-	 * Returns a new object of class '<em>Configuration</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Configuration</em>'.
-	 * @generated
-	 */
-	Configuration createConfiguration();
 
 	/**
 	 * Returns the package supported by this factory.

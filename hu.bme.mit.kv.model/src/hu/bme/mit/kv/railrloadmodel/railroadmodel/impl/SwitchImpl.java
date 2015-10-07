@@ -2,9 +2,9 @@
  */
 package hu.bme.mit.kv.railrloadmodel.railroadmodel.impl;
 
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.Line;
 import hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage;
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.Section;
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.Rectangle;
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.Switch;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -16,34 +16,34 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Section</b></em>'.
+ * An implementation of the model object '<em><b>Switch</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.impl.SectionImpl#getLine <em>Line</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.impl.SwitchImpl#getRectangle <em>Rectangle</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class SectionImpl extends TrackableImpl implements Section {
+public class SwitchImpl extends TrackableImpl implements Switch {
 	/**
-	 * The cached value of the '{@link #getLine() <em>Line</em>}' containment reference.
+	 * The cached value of the '{@link #getRectangle() <em>Rectangle</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLine()
+	 * @see #getRectangle()
 	 * @generated
 	 * @ordered
 	 */
-	protected Line line;
+	protected Rectangle rectangle;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SectionImpl() {
+	protected SwitchImpl() {
 		super();
 	}
 
@@ -54,7 +54,7 @@ public class SectionImpl extends TrackableImpl implements Section {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ModelPackage.Literals.SECTION;
+		return ModelPackage.Literals.SWITCH;
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class SectionImpl extends TrackableImpl implements Section {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Line getLine() {
-		return line;
+	public Rectangle getRectangle() {
+		return rectangle;
 	}
 
 	/**
@@ -71,11 +71,11 @@ public class SectionImpl extends TrackableImpl implements Section {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLine(Line newLine, NotificationChain msgs) {
-		Line oldLine = line;
-		line = newLine;
+	public NotificationChain basicSetRectangle(Rectangle newRectangle, NotificationChain msgs) {
+		Rectangle oldRectangle = rectangle;
+		rectangle = newRectangle;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.SECTION__LINE, oldLine, newLine);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.SWITCH__RECTANGLE, oldRectangle, newRectangle);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -86,18 +86,18 @@ public class SectionImpl extends TrackableImpl implements Section {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setLine(Line newLine) {
-		if (newLine != line) {
+	public void setRectangle(Rectangle newRectangle) {
+		if (newRectangle != rectangle) {
 			NotificationChain msgs = null;
-			if (line != null)
-				msgs = ((InternalEObject)line).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.SECTION__LINE, null, msgs);
-			if (newLine != null)
-				msgs = ((InternalEObject)newLine).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.SECTION__LINE, null, msgs);
-			msgs = basicSetLine(newLine, msgs);
+			if (rectangle != null)
+				msgs = ((InternalEObject)rectangle).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.SWITCH__RECTANGLE, null, msgs);
+			if (newRectangle != null)
+				msgs = ((InternalEObject)newRectangle).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.SWITCH__RECTANGLE, null, msgs);
+			msgs = basicSetRectangle(newRectangle, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.SECTION__LINE, newLine, newLine));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.SWITCH__RECTANGLE, newRectangle, newRectangle));
 	}
 
 	/**
@@ -108,8 +108,8 @@ public class SectionImpl extends TrackableImpl implements Section {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ModelPackage.SECTION__LINE:
-				return basicSetLine(null, msgs);
+			case ModelPackage.SWITCH__RECTANGLE:
+				return basicSetRectangle(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -122,8 +122,8 @@ public class SectionImpl extends TrackableImpl implements Section {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.SECTION__LINE:
-				return getLine();
+			case ModelPackage.SWITCH__RECTANGLE:
+				return getRectangle();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -136,8 +136,8 @@ public class SectionImpl extends TrackableImpl implements Section {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.SECTION__LINE:
-				setLine((Line)newValue);
+			case ModelPackage.SWITCH__RECTANGLE:
+				setRectangle((Rectangle)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -151,8 +151,8 @@ public class SectionImpl extends TrackableImpl implements Section {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.SECTION__LINE:
-				setLine((Line)null);
+			case ModelPackage.SWITCH__RECTANGLE:
+				setRectangle((Rectangle)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -166,10 +166,10 @@ public class SectionImpl extends TrackableImpl implements Section {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.SECTION__LINE:
-				return line != null;
+			case ModelPackage.SWITCH__RECTANGLE:
+				return rectangle != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //SectionImpl
+} //SwitchImpl

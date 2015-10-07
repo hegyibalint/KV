@@ -66,9 +66,23 @@ public class ModelSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ModelPackage.TRAIN_MODEL: {
-				TrainModel trainModel = (TrainModel)theEObject;
-				T result = caseTrainModel(trainModel);
+			case ModelPackage.TRACKABLE: {
+				Trackable trackable = (Trackable)theEObject;
+				T result = caseTrackable(trackable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.SECTION: {
+				Section section = (Section)theEObject;
+				T result = caseSection(section);
+				if (result == null) result = caseTrackable(section);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.SWITCH: {
+				hu.bme.mit.kv.railrloadmodel.railroadmodel.Switch switch_ = (hu.bme.mit.kv.railrloadmodel.railroadmodel.Switch)theEObject;
+				T result = caseSwitch(switch_);
+				if (result == null) result = caseTrackable(switch_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -78,9 +92,9 @@ public class ModelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelPackage.POINT: {
-				Point point = (Point)theEObject;
-				T result = casePoint(point);
+			case ModelPackage.POWERABLE: {
+				Powerable powerable = (Powerable)theEObject;
+				T result = casePowerable(powerable);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -90,29 +104,27 @@ public class ModelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ModelPackage.TRAIN_MODEL: {
+				TrainModel trainModel = (TrainModel)theEObject;
+				T result = caseTrainModel(trainModel);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.LINE: {
+				Line line = (Line)theEObject;
+				T result = caseLine(line);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ModelPackage.RECTANGLE: {
 				Rectangle rectangle = (Rectangle)theEObject;
 				T result = caseRectangle(rectangle);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelPackage.SECTION: {
-				Section section = (Section)theEObject;
-				T result = caseSection(section);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.RAIL: {
-				Rail rail = (Rail)theEObject;
-				T result = caseRail(rail);
-				if (result == null) result = caseSection(rail);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.TURNOUT: {
-				Turnout turnout = (Turnout)theEObject;
-				T result = caseTurnout(turnout);
-				if (result == null) result = caseSection(turnout);
+			case ModelPackage.POINT: {
+				Point point = (Point)theEObject;
+				T result = casePoint(point);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -122,121 +134,22 @@ public class ModelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelPackage.RAIL_END_POINT: {
-				RailEndPoint railEndPoint = (RailEndPoint)theEObject;
-				T result = caseRailEndPoint(railEndPoint);
-				if (result == null) result = caseRailPoint(railEndPoint);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.RAIL_POINT: {
-				RailPoint railPoint = (RailPoint)theEObject;
-				T result = caseRailPoint(railPoint);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.SETTING: {
-				Setting setting = (Setting)theEObject;
-				T result = caseSetting(setting);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.DIVERGENT_CONFIGURATION: {
-				DivergentConfiguration divergentConfiguration = (DivergentConfiguration)theEObject;
-				T result = caseDivergentConfiguration(divergentConfiguration);
-				if (result == null) result = caseConfiguration(divergentConfiguration);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.STRAIGHT_CONFIGURATION: {
-				StraightConfiguration straightConfiguration = (StraightConfiguration)theEObject;
-				T result = caseStraightConfiguration(straightConfiguration);
-				if (result == null) result = caseConfiguration(straightConfiguration);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.CONFIGURATION: {
-				Configuration configuration = (Configuration)theEObject;
-				T result = caseConfiguration(configuration);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			default: return defaultCase(theEObject);
 		}
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Train Model</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Trackable</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Train Model</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Trackable</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTrainModel(TrainModel object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Train</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Train</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseTrain(Train object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Point</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Point</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T casePoint(Point object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Section Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Section Model</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseSectionModel(SectionModel object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Rectangle</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Rectangle</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseRectangle(Rectangle object) {
+	public T caseTrackable(Trackable object) {
 		return null;
 	}
 
@@ -256,32 +169,122 @@ public class ModelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Rail</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Switch</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Rail</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Switch</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseRail(Rail object) {
+	public T caseSwitch(hu.bme.mit.kv.railrloadmodel.railroadmodel.Switch object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Turnout</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Train</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Turnout</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Train</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTurnout(Turnout object) {
+	public T caseTrain(Train object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Powerable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Powerable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePowerable(Powerable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Section Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Section Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSectionModel(SectionModel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Train Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Train Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTrainModel(TrainModel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Line</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Line</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLine(Line object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Rectangle</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Rectangle</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRectangle(Rectangle object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Point</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePoint(Point object) {
 		return null;
 	}
 
@@ -297,96 +300,6 @@ public class ModelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseDimension(Dimension object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Rail End Point</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Rail End Point</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseRailEndPoint(RailEndPoint object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Rail Point</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Rail Point</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseRailPoint(RailPoint object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Setting</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Setting</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseSetting(Setting object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Divergent Configuration</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Divergent Configuration</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseDivergentConfiguration(DivergentConfiguration object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Straight Configuration</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Straight Configuration</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseStraightConfiguration(StraightConfiguration object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Configuration</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Configuration</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseConfiguration(Configuration object) {
 		return null;
 	}
 

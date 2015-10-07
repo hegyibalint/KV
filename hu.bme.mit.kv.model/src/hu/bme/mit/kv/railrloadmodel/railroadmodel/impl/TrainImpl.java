@@ -3,7 +3,7 @@
 package hu.bme.mit.kv.railrloadmodel.railroadmodel.impl;
 
 import hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelPackage;
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.Section;
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.Trackable;
 import hu.bme.mit.kv.railrloadmodel.railroadmodel.Train;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -22,75 +22,22 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.impl.TrainImpl#getX <em>X</em>}</li>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.impl.TrainImpl#getY <em>Y</em>}</li>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.impl.TrainImpl#getId <em>Id</em>}</li>
- *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.impl.TrainImpl#getCurrentlyOn <em>Currently On</em>}</li>
  *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.impl.TrainImpl#getPreviouslyOn <em>Previously On</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.railrloadmodel.railroadmodel.impl.TrainImpl#getCurrentlyOn <em>Currently On</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	/**
-	 * The default value of the '{@link #getX() <em>X</em>}' attribute.
+	 * The cached value of the '{@link #getPreviouslyOn() <em>Previously On</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getX()
+	 * @see #getPreviouslyOn()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double X_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getX() <em>X</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getX()
-	 * @generated
-	 * @ordered
-	 */
-	protected double x = X_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getY() <em>Y</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getY()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double Y_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getY() <em>Y</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getY()
-	 * @generated
-	 * @ordered
-	 */
-	protected double y = Y_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getId()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int ID_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getId()
-	 * @generated
-	 * @ordered
-	 */
-	protected int id = ID_EDEFAULT;
+	protected Trackable previouslyOn;
 
 	/**
 	 * The cached value of the '{@link #getCurrentlyOn() <em>Currently On</em>}' reference.
@@ -100,17 +47,7 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	 * @generated
 	 * @ordered
 	 */
-	protected Section currentlyOn;
-
-	/**
-	 * The cached value of the '{@link #getPreviouslyOn() <em>Previously On</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPreviouslyOn()
-	 * @generated
-	 * @ordered
-	 */
-	protected Section previouslyOn;
+	protected Trackable currentlyOn;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -136,111 +73,10 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getX() {
-		return x;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setX(double newX) {
-		double oldX = x;
-		x = newX;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TRAIN__X, oldX, x));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public double getY() {
-		return y;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setY(double newY) {
-		double oldY = y;
-		y = newY;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TRAIN__Y, oldY, y));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setId(int newId) {
-		int oldId = id;
-		id = newId;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TRAIN__ID, oldId, id));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Section getCurrentlyOn() {
-		if (currentlyOn != null && currentlyOn.eIsProxy()) {
-			InternalEObject oldCurrentlyOn = (InternalEObject)currentlyOn;
-			currentlyOn = (Section)eResolveProxy(oldCurrentlyOn);
-			if (currentlyOn != oldCurrentlyOn) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.TRAIN__CURRENTLY_ON, oldCurrentlyOn, currentlyOn));
-			}
-		}
-		return currentlyOn;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Section basicGetCurrentlyOn() {
-		return currentlyOn;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCurrentlyOn(Section newCurrentlyOn) {
-		Section oldCurrentlyOn = currentlyOn;
-		currentlyOn = newCurrentlyOn;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TRAIN__CURRENTLY_ON, oldCurrentlyOn, currentlyOn));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Section getPreviouslyOn() {
+	public Trackable getPreviouslyOn() {
 		if (previouslyOn != null && previouslyOn.eIsProxy()) {
 			InternalEObject oldPreviouslyOn = (InternalEObject)previouslyOn;
-			previouslyOn = (Section)eResolveProxy(oldPreviouslyOn);
+			previouslyOn = (Trackable)eResolveProxy(oldPreviouslyOn);
 			if (previouslyOn != oldPreviouslyOn) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.TRAIN__PREVIOUSLY_ON, oldPreviouslyOn, previouslyOn));
@@ -254,7 +90,7 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Section basicGetPreviouslyOn() {
+	public Trackable basicGetPreviouslyOn() {
 		return previouslyOn;
 	}
 
@@ -263,8 +99,8 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPreviouslyOn(Section newPreviouslyOn) {
-		Section oldPreviouslyOn = previouslyOn;
+	public void setPreviouslyOn(Trackable newPreviouslyOn) {
+		Trackable oldPreviouslyOn = previouslyOn;
 		previouslyOn = newPreviouslyOn;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TRAIN__PREVIOUSLY_ON, oldPreviouslyOn, previouslyOn));
@@ -275,21 +111,53 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Trackable getCurrentlyOn() {
+		if (currentlyOn != null && currentlyOn.eIsProxy()) {
+			InternalEObject oldCurrentlyOn = (InternalEObject)currentlyOn;
+			currentlyOn = (Trackable)eResolveProxy(oldCurrentlyOn);
+			if (currentlyOn != oldCurrentlyOn) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.TRAIN__CURRENTLY_ON, oldCurrentlyOn, currentlyOn));
+			}
+		}
+		return currentlyOn;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Trackable basicGetCurrentlyOn() {
+		return currentlyOn;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCurrentlyOn(Trackable newCurrentlyOn) {
+		Trackable oldCurrentlyOn = currentlyOn;
+		currentlyOn = newCurrentlyOn;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.TRAIN__CURRENTLY_ON, oldCurrentlyOn, currentlyOn));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.TRAIN__X:
-				return getX();
-			case ModelPackage.TRAIN__Y:
-				return getY();
-			case ModelPackage.TRAIN__ID:
-				return getId();
-			case ModelPackage.TRAIN__CURRENTLY_ON:
-				if (resolve) return getCurrentlyOn();
-				return basicGetCurrentlyOn();
 			case ModelPackage.TRAIN__PREVIOUSLY_ON:
 				if (resolve) return getPreviouslyOn();
 				return basicGetPreviouslyOn();
+			case ModelPackage.TRAIN__CURRENTLY_ON:
+				if (resolve) return getCurrentlyOn();
+				return basicGetCurrentlyOn();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -302,20 +170,11 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.TRAIN__X:
-				setX((Double)newValue);
-				return;
-			case ModelPackage.TRAIN__Y:
-				setY((Double)newValue);
-				return;
-			case ModelPackage.TRAIN__ID:
-				setId((Integer)newValue);
+			case ModelPackage.TRAIN__PREVIOUSLY_ON:
+				setPreviouslyOn((Trackable)newValue);
 				return;
 			case ModelPackage.TRAIN__CURRENTLY_ON:
-				setCurrentlyOn((Section)newValue);
-				return;
-			case ModelPackage.TRAIN__PREVIOUSLY_ON:
-				setPreviouslyOn((Section)newValue);
+				setCurrentlyOn((Trackable)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -329,20 +188,11 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.TRAIN__X:
-				setX(X_EDEFAULT);
-				return;
-			case ModelPackage.TRAIN__Y:
-				setY(Y_EDEFAULT);
-				return;
-			case ModelPackage.TRAIN__ID:
-				setId(ID_EDEFAULT);
+			case ModelPackage.TRAIN__PREVIOUSLY_ON:
+				setPreviouslyOn((Trackable)null);
 				return;
 			case ModelPackage.TRAIN__CURRENTLY_ON:
-				setCurrentlyOn((Section)null);
-				return;
-			case ModelPackage.TRAIN__PREVIOUSLY_ON:
-				setPreviouslyOn((Section)null);
+				setCurrentlyOn((Trackable)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -356,38 +206,12 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.TRAIN__X:
-				return x != X_EDEFAULT;
-			case ModelPackage.TRAIN__Y:
-				return y != Y_EDEFAULT;
-			case ModelPackage.TRAIN__ID:
-				return id != ID_EDEFAULT;
-			case ModelPackage.TRAIN__CURRENTLY_ON:
-				return currentlyOn != null;
 			case ModelPackage.TRAIN__PREVIOUSLY_ON:
 				return previouslyOn != null;
+			case ModelPackage.TRAIN__CURRENTLY_ON:
+				return currentlyOn != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (x: ");
-		result.append(x);
-		result.append(", y: ");
-		result.append(y);
-		result.append(", id: ");
-		result.append(id);
-		result.append(')');
-		return result.toString();
 	}
 
 } //TrainImpl
