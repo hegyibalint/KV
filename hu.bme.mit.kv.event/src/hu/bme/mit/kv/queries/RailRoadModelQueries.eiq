@@ -1,0 +1,21 @@
+package hu.bme.mit.kv.queries
+
+import "http://hu.bme.mit.kv.railroadmodel"
+
+pattern section(s : Section) {
+	Section(s);
+}
+
+pattern turnout(t : Turnout) {
+	Turnout(t);
+}
+
+pattern nextSection(tr : Train) {
+	Train.currentlyOn(tr, co);
+	Train.previouslyOn(tr, po);
+	
+	Rail(co);
+	Rail(po);
+	
+	
+}

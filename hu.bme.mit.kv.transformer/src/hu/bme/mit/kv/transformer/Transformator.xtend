@@ -1,13 +1,16 @@
 package hu.bme.mit.kv.transformer
 
 import Jama.Matrix
-import hu.bme.mit.kv.model.railroadmodel.ModelFactory
-import hu.bme.mit.kv.model.railroadmodel.Point
-import hu.bme.mit.kv.model.railroadmodel.Rail
-import hu.bme.mit.kv.model.railroadmodel.RailEndPoint
-import hu.bme.mit.kv.model.railroadmodel.RailPoint
-import hu.bme.mit.kv.model.railroadmodel.Turnout
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelFactory
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.Point
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.Rail
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.RailEndPoint
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.RailPoint
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.SectionModel
+import hu.bme.mit.kv.railrloadmodel.railroadmodel.Turnout
+import java.io.IOException
 import java.net.URL
+import java.util.Collections
 import org.apache.batik.bridge.BridgeContext
 import org.apache.batik.bridge.DocumentLoader
 import org.apache.batik.bridge.GVTBuilder
@@ -17,9 +20,12 @@ import org.apache.batik.dom.svg.SVGOMPathElement
 import org.apache.batik.dom.svg.SVGOMRectElement
 import org.apache.batik.dom.svg.SVGPathContext
 import org.apache.batik.util.XMLResourceDescriptor
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.w3c.dom.Document
-import hu.bme.mit.kv.model.railroadmodel.SectionModel
 
 class Transformator {
 	static extension ModelFactory factory = ModelFactory.eINSTANCE
@@ -120,9 +126,11 @@ class Transformator {
 			rail.points.head.neighbours.add(rail.endpoints.get(0))
 			rail.points.last.neighbours.add(rail.endpoints.get(1))
 
-			for (var p = 1; p < rail.points.size - 1; p++) {
-				rail.points.get(p).neighbours.add(rail.points.get(p - 1))
-				rail.points.get(p).neighbours.add(rail.points.get(p + 1))
+			for (var p = 0; p < rail.points.size; p++) {
+				if (p > 0)
+					rail.points.get(p).neighbours.add(rail.points.get(p - 1))
+				if (p + 1 < rail.points.size)
+					rail.points.get(p).neighbours.add(rail.points.get(p + 1))
 			}
 
 			// println("Section #" + element.id + " added")
@@ -165,6 +173,24 @@ class Transformator {
 			// println("Turnout #" + element.id + " added")
 			sm.sections.add(turnout);
 		}
+	}
+	
+	def void saveToXML() {
+		val reg = Resource.Factory.Registry.INSTANCE;
+		val m = reg.getExtensionToFactoryMap();
+		m.put("kv", new XMIResourceFactoryImpl());
+
+		val resSet = new ResourceSetImpl();
+		val resource = resSet.createResource(URI.createURI("../hu.bme.mit.kv.event/res/SectionModel.kv"));
+
+		resource.getContents().add(this.sm);
+		try {
+			resource.save(Collections.EMPTY_MAP);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Successfully converted SVG to EMF model");
 	}
 
 }

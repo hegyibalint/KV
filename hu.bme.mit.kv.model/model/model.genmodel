@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/hu.bme.mit.kv.model/src" modelPluginID="hu.bme.mit.kv.model"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/hu.bme.mit.kv.railroadmodel/src" modelPluginID="hu.bme.mit.kv.railroadmodel"
     modelName="RailRoadModel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
     language="" operationReflection="true" importOrganizing="true">
   <foreignModel>model.ecore</foreignModel>
-  <genPackages prefix="Model" basePackage="hu.bme.mit.kv.model" disposableProviderFactory="true"
+  <genPackages prefix="Model" basePackage="hu.bme.mit.kv.railrloadmodel" disposableProviderFactory="true"
       ecorePackage="model.ecore#/">
     <genClasses ecoreClass="model.ecore#//TrainModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//TrainModel/trains"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Train">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/x"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/y"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/id"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/currentlyOn"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/previouslyOn"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Train/position"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/nextSection"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Point">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Point/x"/>
@@ -46,6 +47,7 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Turnout/connected"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/notConnected"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/rectangle"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Turnout/settings"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Dimension">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Dimension/width"/>
@@ -55,8 +57,18 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RailEndPoint/nextSection"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//RailPoint">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RailPoint/position"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RailPoint/position"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RailPoint/neighbours"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Setting">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Setting/straightconfiguration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Setting/divergentconfiguration"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//DivergentConfiguration"/>
+    <genClasses ecoreClass="model.ecore#//StraightConfiguration"/>
+    <genClasses ecoreClass="model.ecore#//Configuration">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Configuration/disabled"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Configuration/enabled"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

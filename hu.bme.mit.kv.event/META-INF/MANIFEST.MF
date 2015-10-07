@@ -10,7 +10,6 @@ Export-Package: hu.bme.mit.kv.event,
  hu.bme.mit.kv.event.jobs,
  hu.bme.mit.kv.event.mapping,
  hu.bme.mit.kv.event.patterns.atomic.queryresult,
- hu.bme.mit.kv.event.patterns.complex,
  hu.bme.mit.kv.event.rules,
  hu.bme.mit.kv.queries,
  hu.bme.mit.kv.queries.util
@@ -21,8 +20,7 @@ Require-Bundle: org.junit;bundle-version="4.12.0",
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi;bundle-version="2.11.0",
  org.eclipse.emf.transaction;bundle-version="1.9.0",
- org.eclipse.viatra.cep.core,
- hu.bme.mit.kv.json;bundle-version="1.0.0"
+ hu.bme.mit.kv.json;bundle-version="1.0.0",
+ org.eclipse.incquery.runtime;bundle-version="1.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: hu.bme.mit.kv.model.modelutil,
- hu.bme.mit.kv.model.railroadmodel
+Import-Package: hu.bme.mit.kv.model.railroadmodel

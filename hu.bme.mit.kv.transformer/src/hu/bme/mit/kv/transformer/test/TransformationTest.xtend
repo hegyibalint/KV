@@ -10,5 +10,6 @@ class TransformationTest {
 		val t = new Transformator()
 		t.loadSVG()
 		t.transform()
+		t.saveToXML()
 	}
 }
