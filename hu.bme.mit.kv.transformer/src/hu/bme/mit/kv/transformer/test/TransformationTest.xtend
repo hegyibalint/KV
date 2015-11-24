@@ -1,8 +1,7 @@
 package hu.bme.mit.kv.transformer.test
 
-import org.junit.Test
-import javax.xml.transform.Transformer
 import hu.bme.mit.kv.transformer.Transformator
+import org.junit.Test
 
 class TransformationTest {
 	@Test

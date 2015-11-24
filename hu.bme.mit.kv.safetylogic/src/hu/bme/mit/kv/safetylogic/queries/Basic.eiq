@@ -1,0 +1,95 @@
+package hu.bme.mit.kv.safetylogic.queries
+
+import "http://hu.bme.mit.kv.railroadmodel"
+
+pattern regionGroup(r: Region, g: Group) {
+	Group(g);
+	Group.regions(g, r);
+}
+
+pattern regionNeighbour(sg: Group, g: Group) {
+	Group.regions(sg, reg);
+	Region.neighbours(reg, neighb);
+	Group.regions(g, neighb);
+	g != sg;
+}
+
+pattern trainAtNextGroup(t1: Train) {
+	Train.nextGroup(t1, ng);
+	
+	Train(t2);
+	t1 != t2;
+	
+	Train.currentlyOn(t2, co);
+	Group.regions(ng, co);
+}
+
+pattern unsafe(t: Train) {
+	Train.nextGroup(t, ng);
+	Group.safe(ng, safe);
+	check(safe == false);
+} or {
+	Train.currentlyOn(t, co);
+	Group.regions(g, co);
+	
+	Train.nextGroup(t, ng);
+	PowerableGroup(ng);
+	find regionNeighbour(ng, nng);
+	nng != g;
+	
+	Group.safe(nng, nng_safe);
+	nng_safe == true;
+} or {
+	Train.currentlyOn(t, co);
+	Group.regions(g, co);
+	
+	Train.nextGroup(t, ng);
+	SwitchGroup(ng);
+	SwitchGroup.configuration.enabled(ng, enabled);
+	enabled != g;
+	
+	Group.safe(enabled, nng_safe);
+	nng_safe == true;
+}
+
+//pattern trainWillCollide(t1: Train) {
+//	Train(t2);
+//	t1 != t2;
+//	
+//	Train.currentlyOn(t1, t1co);
+//	Group.regions(t1g, t1co);
+//	Train.nextGroup(t1, t1ng);
+//	
+//	Train.currentlyOn(t2, t2co);
+//	Group.regions(t2g, t2co);
+//	Train.nextGroup(t2, t2ng);
+//	
+//	t1g == t2ng;
+//	t2g == t1ng;
+//}
+
+pattern trainAtNextPowerable(t1: Train) {
+	Train.nextGroup(t1, ng);
+	Train.currentlyOn(t1, t1co);
+	
+	SwitchGroup(ng);
+	SwitchGroup.configuration.enabled(ng, enabled);
+	enabled != t1co;
+	
+	Train(t2);
+	t1 != t2;
+	Train.currentlyOn(t2, t2co);
+	Group.regions(t2g, t2co);
+	
+	enabled == t2g;
+}
+
+pattern trainFromDisabled(t: Train) {
+	SwitchGroup(sg);
+	SwitchGroup.regions(sg, region);
+	SwitchGroup.configuration.enabled(sg, enabled);
+	region != enabled;
+	
+	Train.currentlyOn(t, region);
+	Train.nextGroup(t, sg);
+}

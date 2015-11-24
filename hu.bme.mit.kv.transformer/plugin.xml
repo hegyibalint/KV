@@ -2,4 +2,16 @@
   <extension id="hu.bme.mit.kv.transformer.rules.TransformRules" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:hu.bme.mit.kv.transformer.rules.TransformRules" id="hu.bme.mit.kv.transformer.rules.TransformRules"/>
   </extension>
+  <extension
+        id="Transformator"
+        point="org.eclipse.core.runtime.applications">
+     <application
+           cardinality="singleton-global"
+           thread="main"
+           visible="true">
+        <run
+              class="hu.bme.mit.kv.transformer.Application">
+        </run>
+     </application>
+  </extension>
 </plugin>

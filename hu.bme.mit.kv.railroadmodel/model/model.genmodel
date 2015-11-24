@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/hu.bme.mit.kv.railroadmodel/src" modelPluginID="hu.bme.mit.kv.railroadmodel"
+    modelName="RailRoadModel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    language="" operationReflection="true" importOrganizing="true">
+  <foreignModel>model.ecore</foreignModel>
+  <genPackages prefix="RailroadModel" basePackage="hu.bme.mit.kv" disposableProviderFactory="true"
+      ecorePackage="model.ecore#/">
+    <genClasses ecoreClass="model.ecore#//Region">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Region/neighbours"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Region/id"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//RailRegion">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//RailRegion/line"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//SwitchRegion">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//SwitchRegion/rectangle"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//PowerableGroup">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//PowerableGroup/powered"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//SectionModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//SectionModel/groups"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//SectionModel/trackables"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//SectionModel/settings"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Line">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Line/start"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Line/end"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Rectangle">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Rectangle/corners"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Point">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Point/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Point/y"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Group">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Group/id"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Group/regions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Group/safe"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//SwitchGroup">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//SwitchGroup/configuration"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//SwitchSetting">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//SwitchSetting/straightconfiguration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//SwitchSetting/divergentconfiguration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SwitchSetting/physicalID"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//DivergentConfiguration"/>
+    <genClasses ecoreClass="model.ecore#//StraightConfiguration"/>
+    <genClasses ecoreClass="model.ecore#//Configuration">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Configuration/enabled"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Train">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/previouslyOn"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/currentlyOn"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Train/id"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Train/position"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Train/nextGroup"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//TrainModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//TrainModel/trains"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

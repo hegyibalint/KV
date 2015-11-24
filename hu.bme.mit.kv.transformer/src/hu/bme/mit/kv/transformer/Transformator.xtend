@@ -1,12 +1,11 @@
 package hu.bme.mit.kv.transformer
 
-import Jama.Matrix
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.ModelFactory
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.Point
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.Section
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.SectionModel
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.Switch
-import hu.bme.mit.kv.railrloadmodel.railroadmodel.Trackable
+import hu.bme.mit.kv.railroadmodel.Point
+import hu.bme.mit.kv.railroadmodel.RailRegion
+import hu.bme.mit.kv.railroadmodel.RailroadModelFactory
+import hu.bme.mit.kv.railroadmodel.Region
+import hu.bme.mit.kv.railroadmodel.SectionModel
+import hu.bme.mit.kv.railroadmodel.SwitchRegion
 import java.io.IOException
 import java.net.URL
 import java.util.Collections
@@ -16,7 +15,7 @@ import org.apache.batik.bridge.GVTBuilder
 import org.apache.batik.bridge.UserAgentAdapter
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory
 import org.apache.batik.dom.svg.SVGOMPathElement
-import org.apache.batik.dom.svg.SVGOMRectElement
+import org.apache.batik.dom.svg.SVGOMPolygonElement
 import org.apache.batik.dom.svg.SVGPathContext
 import org.apache.batik.util.XMLResourceDescriptor
 import org.eclipse.emf.common.util.URI
@@ -26,8 +25,10 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.w3c.dom.Document
 
+import static extension hu.bme.mit.kv.railroadmodel.util.RailroadModelHelper.*
+
 class Transformator {
-	static extension ModelFactory factory = ModelFactory.eINSTANCE
+	static extension RailroadModelFactory factory = RailroadModelFactory.eINSTANCE
 
 	var Document doc;
 
@@ -38,7 +39,7 @@ class Transformator {
 		val parser = XMLResourceDescriptor.getXMLParserClassName();
 		val f = new SAXSVGDocumentFactory(parser);
 
-		val fileUrl = new URL("platform:/plugin/hu.bme.mit.kv.transformer/res/board.svg")
+		val fileUrl = new URL("platform:/plugin/hu.bme.mit.kv.transformer/res/board.svg")		
 		doc = f.createDocument(fileUrl.toURI().toString());
 
 		val userAgent = new UserAgentAdapter();
@@ -68,43 +69,43 @@ class Transformator {
 		val line = createLine
 		line.start = start
 		line.end = end
-
 		return line
 	}
 	
-	def pairUp(Trackable a, Trackable b) {
+	def pairUp(Region a, Region b) {
 		println(a.id + "<->" + b.id)
 		a.neighbours += b;
 		b.neighbours += a;
 	}
 
-	dispatch def void intersect(Section a, Section b) {
+	dispatch def void intersect(RailRegion a, RailRegion b) {		
 		val test = [ Point p1, Point p2 |
-			val dist = p1.distanceFrom(p2)
-			if (dist < 0.05) {
+			//println("Dist: " + p1.distanceFrom(p2))
+			if(p1.isProximity(p2, 0.5)) {
 				pairUp(a, b)		
 			}
 		]
-
+		
 		test.apply(a.line.start, b.line.start) 
-		test.apply(a.line.start, b.line.end) 
+		test.apply(a.line.start, b.line.end)
 		test.apply(a.line.end, b.line.start)
 		test.apply(a.line.end, b.line.end)
 	}
 
-	dispatch def void intersect(Section a, Switch b) {
-		if (b.rectangle.isPointInside(a.line.start)) {
+	dispatch def void intersect(RailRegion a, SwitchRegion b) {
+		if (b.rectangle.isPointInside(a.line.start, 0.5)) {
 			pairUp(a, b)
-		} else if(b.rectangle.isPointInside(a.line.end)) {
+		}
+		if(b.rectangle.isPointInside(a.line.end, 0.5)) {
 			pairUp(a, b)
 		}
 	}
 
-	dispatch def void intersect(Switch a, Section b) {
+	dispatch def void intersect(SwitchRegion a, RailRegion b) {
 		_intersect(b, a)
 	}
 	
-	dispatch def void intersect(Switch a, Switch b) {
+	dispatch def void intersect(SwitchRegion a, SwitchRegion b) {
 		return
 	}
 
@@ -124,59 +125,46 @@ class Transformator {
 			val element = elements.item(i) as SVGOMPathElement;
 			val ctx = element.SVGContext as SVGPathContext
 
-			val powerable = createPowerable
+			val powerable = createPowerableGroup
 			powerable.id = Integer::parseUnsignedInt(element.id.substring(2), 16)
+			println("Creating powerable " + powerable.id);
 
-			val step = ctx.totalLength / 10;
+			val step = ctx.totalLength / 10.001f;
 			for (var stepc = 0; stepc <= 9; stepc++) {
-				val section = createSection
-				section.id = element.id + "_" + stepc;
+				val section = createRailRegion
+				section.id = powerable.id + "_" + stepc;
+				println("Creating region " + section.id);
 				
-				section.line = createLineFrom(getPositionAtLength(ctx, step * stepc),
-					getPositionAtLength(ctx, step * (stepc + 1)))
-
+				section.line = createLineFrom(
+					getPositionAtLength(ctx, step * stepc),
+					getPositionAtLength(ctx, step * (stepc + 1))
+				)
+					
 				sm.trackables += section
-				powerable.sections += section
+				powerable.regions += section
 			}
 
-			sm.powerables += powerable
+			sm.groups += powerable
 		}
 	}
 
 	def fillTurnouts() {
-		val elements = doc.getElementById("Turnouts").getElementsByTagName("rect");
+		val elements = doc.getElementById("Turnouts").getElementsByTagName("polygon");
 		for (var i = 0; i < elements.length; i++) {
-			val element = elements.item(i) as SVGOMRectElement;
-			val turnout = createSwitch
+			val element = elements.item(i) as SVGOMPolygonElement;
+			val turnout = createSwitchRegion
 			//turnout.id = Integer::parseUnsignedInt(element.id.substring(2), 16)
 			turnout.id = element.id.substring(2)
 
-			val origin = createPoint
-			origin.setX(element.getX().getBaseVal().getValue());
-			origin.setY(element.getY().getBaseVal().getValue());
-
-			val size = createDimension
-			size.setWidth(element.getWidth().getBaseVal().getValue());
-			size.setHeight(element.getHeight().getBaseVal().getValue());
-
-			val ctm = element.getCTM();
-			val double[][] array = #[#[ctm.a, ctm.c, ctm.e], #[ctm.b, ctm.d, ctm.f], #[0.0, 0.0, 1.0]];
-			val mtx = new Matrix(array);
-			val inv = mtx.inverse();
-
 			val rect = createRectangle
-			var inverseList = rect.inverseMatrix
-			inverseList += inv.get(0, 0)
-			inverseList += inv.get(0, 1)
-			inverseList += inv.get(0, 2)
-			inverseList += inv.get(1, 0)
-			inverseList += inv.get(1, 1)
-			inverseList += inv.get(1, 2)
-			rect.setOrigin(origin);
-			rect.setSize(size);
+			for (var j = 0; j < element.points.numberOfItems; j++) {
+				val p = createPoint
+				p.x = element.points.getItem(j).x
+				p.y = element.points.getItem(j).y
+				rect.corners += p
+			}
 
-			turnout.setRectangle(rect);
-
+			turnout.rectangle = rect;
 			sm.trackables += turnout
 		}
 	}
@@ -187,7 +175,7 @@ class Transformator {
 		m.put("kv", new XMIResourceFactoryImpl());
 
 		val resSet = new ResourceSetImpl();
-		val resource = resSet.createResource(URI.createURI("../hu.bme.mit.kv.event/res/SectionModel.kv"));
+		val resource = resSet.createResource(URI.createURI("../hu.bme.mit.kv.safetylogic/res/SectionModel.railroadmodel"));
 
 		resource.getContents().add(this.sm);
 		try {
