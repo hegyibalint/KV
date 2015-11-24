@@ -1,35 +1,33 @@
-#pragma once 
+#pragma once
 
 /// DIMENSION CONSTANTS ---------------------------
 const float TRAIN_HEIGHT = 5.0;
 const float CAMERA_HEIGHT = 120.0;
-const float BOARD_WIDTH = 219.0;
-const float BOARD_HEIGHT = 143.0;
+const float BOARD_WIDTH = 219.5;
+const float BOARD_HEIGHT = 140.5;
 /// -----------------------------------------------
 
 
 /// COLOR CONSTANTS -------------------------------
-const int HUE_DEVIATION = 49.99;
+const int HUE_DEVIATION = 40;
 
-const int CYAN = 200;
-const int CYAN_LOW = CYAN - HUE_DEVIATION;
-const int CYAN_HIGH = CYAN + HUE_DEVIATION;
+const int RED1 = 360; // 0
+const int RED1_LOW = RED1 - HUE_DEVIATION;
+const int RED1_HIGH = RED1 + HUE_DEVIATION;
 
-const int MAGENTA = 300;
-const int MAGENTA_LOW = MAGENTA - HUE_DEVIATION;
-const int MAGENTA_HIGH = MAGENTA + HUE_DEVIATION;
+const int RED2 = 0; // 0
+const int RED2_LOW = RED2 - HUE_DEVIATION;
+const int RED2_HIGH = RED2 + HUE_DEVIATION;
 
-const int RED = 0; // 0
-const int RED_LOW = RED - HUE_DEVIATION;
-const int RED_HIGH = RED + HUE_DEVIATION;
-
-const int GREEN = 120;
+const int GREEN = 154; // 0
 const int GREEN_LOW = GREEN - HUE_DEVIATION;
 const int GREEN_HIGH = GREEN + HUE_DEVIATION;
 
-const int BLUE = 240; // 240
+const int BLUE = 300; // 0
 const int BLUE_LOW = BLUE - HUE_DEVIATION;
 const int BLUE_HIGH = BLUE + HUE_DEVIATION;
+
+const int GB_DECISION = 100;
 /// -----------------------------------------------
 
 

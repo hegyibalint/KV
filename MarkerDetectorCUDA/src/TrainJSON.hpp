@@ -42,7 +42,7 @@ public:
         }
         
         ss << "\t]" << std::endl;
-        ss << "}" << std::endl;
+        ss << "}";
         
         return ss.str();
     }

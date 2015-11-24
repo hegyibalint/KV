@@ -32,7 +32,7 @@ struct Position {
         Point2f centeredNew = center - newPos.coordinate;
         float z = centeredOld.cross(centeredNew);
  
-        if (abs(z) > 5.0) {
+        if (abs(z) > 7.5) {
             if (z < 0)
                 return DIR_CCW;
             else if (z > 0)

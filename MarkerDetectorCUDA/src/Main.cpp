@@ -1,7 +1,11 @@
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <chrono>
 #include <tuple>
+#include <algorithm>
 
 // OpenCV
 #include <opencv2/opencv.hpp>
@@ -11,8 +15,8 @@
 #include <opencv2/cudaarithm.hpp>
 
 // Network
-//#include <arpa/inet.h>
-//#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
 
 // User
 #include "Board.hpp"
@@ -25,23 +29,26 @@ using namespace cv::cuda;
 Mat distCoeffs, cameraMatrix;
 
 int sockhandler;
+std::ofstream outfile;
 
 void initSocket() {
-	//sockhandler = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	sockhandler = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	outfile.open("data.json");
 }
 
 void sendData(TrainJSON& trainJSON) {
-	/*
-	 struct sockaddr_in addr;
-	 addr.sin_family = AF_INET;
-	 addr.sin_port = htons(24000);
-	 addr.sin_addr.s_addr = inet_addr("152.66.158.41");
-	 
-	 std::string data = trainJSON.generateJSON();
-	 sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
-	 addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	 sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
-	 */
+	struct sockaddr_in addr;
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(24000);
+	addr.sin_addr.s_addr = inet_addr("152.66.156.190");
+	
+	std::string data = trainJSON.generateJSON();
+	sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
+	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	sendto(sockhandler, data.data(), data.size(), 0, (const sockaddr *)&addr, sizeof(addr));
+
+	outfile << data << "," << std::endl;
+	outfile.flush();
 }
 
 void drawMarkerToMat(Mat& marker, int x, int y, int outer, int ring, int inner) {
@@ -93,7 +100,6 @@ Mat convolve(Mat raw, GpuMat circleSpectrum, float thresold) {
 	static GpuMat convoluted = createContinuous(Size(2048, 1024), CV_32FC2);
 	cuda::dft(spectrum, convoluted, grayPadded.size(), DFT_INVERSE | DFT_REAL_OUTPUT, stream);
 	
-	//cuda::magnitude(spectrum, spectrum, stream);
 	cuda::normalize(convoluted, convoluted, 0, 1, NORM_MINMAX, CV_32F, noArray(), stream);
 	cuda::threshold(convoluted, convoluted, thresold, 1, CV_THRESH_BINARY, stream);
 	
@@ -104,6 +110,7 @@ Mat convolve(Mat raw, GpuMat circleSpectrum, float thresold) {
 	spectrumByte(dstRoi).download(contour(srcRoi), stream);
 	
 	stream.waitForCompletion();
+	
 	return contour;
 }
 
@@ -129,30 +136,39 @@ bool findMarker(Point2f a, Point2f b, double min, double max) {
 	return false;
 }
 
-int identifyMarker(Point2f markerCenter, Mat& img) {
+int identifyMarker(Point2f markerCenter, Mat img) {
 	Rect2i roi((markerCenter - Point2f(8, 8)), cv::Size2i(16, 16));
-	
-	Mat sample;
-	cv::cvtColor(img(roi), sample, CV_BGR2HSV);
+
+	Scalar mean = cv::mean(img(roi));
 	cv::rectangle(img, roi, Scalar(0, 0, 255));
+
+	Mat_<Point3f> meanMat(1, 1);
+	meanMat.at<Point3f>(0, 0) = Point3f(mean[0], mean[1], mean[2]);
+	Mat_<Point3f> hsvMat;
+	cv::cvtColor(meanMat, hsvMat, CV_BGR2HSV);
+
+	Point3f hsv = hsvMat.at<Point3f>(0, 0);
 	
-	float hue = cv::mean(sample)[0] * 2;
-	//std::cout << "Hue: " << hue << std::endl;
+	float hue = hsv.x;
+	std::cout << "Hue: " << hue << std::endl;
 	
-	//float sat = cv::mean(sample)[1];
-	//std::cout << sat << std::endl;
+	float sat = hsv.y;
+	//std::cout << "Sat: " << sat << std::endl;
 	
-	float val = cv::mean(sample)[2];
+	float val = hsv.z;
 	//std::cout << val << std::endl << std::endl;
 	
 	if (val > 100) {
-		if (RED_LOW < hue && hue < RED_HIGH)
+		if (RED1_LOW < hue && hue < RED1_HIGH)
 			return MARKER_R;
-		if (GREEN_LOW < hue && hue < GREEN_HIGH)
+		else if (RED2_LOW < hue && hue < RED2_HIGH)
+			return MARKER_R;
+		else if (GREEN_LOW < hue && hue < GREEN_HIGH)
 			return MARKER_G;
-		if (BLUE_LOW < hue && hue < BLUE_HIGH)
-			return MARKER_B;
 	}
+	
+	if (BLUE_LOW < hue && hue < BLUE_HIGH)
+			return MARKER_B;
 	
 	
 	return MARKER_UNKNOWN;
@@ -175,7 +191,8 @@ std::vector<Point2f> calculateMassCenters(Mat contour) {
 			mc[i] = com;
 		}
 	}
-	
+
+	std::random_shuffle(mc.begin(), mc.end());
 	return mc;
 }
 
@@ -184,10 +201,10 @@ Board detectBoard(VideoCapture vid) {
 	vid >> raw;
 	Mat undistorted;
 	cv::undistort(raw, undistorted, cameraMatrix, distCoeffs);
-
+	
 	Point2i decPoint = raw.size() / 2;
-	GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 25, 20, 10);
 	//GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 30, 25, 15);
+	GpuMat boardCicle = createCirclePattern(Size(2048, 1024), 28, 20, 12);
 	
 	std::cout << "Searching board..." << std::endl;
 	
@@ -310,7 +327,7 @@ void drawTrainMarker(Mat& raw, Train& train, Point2f start, Point2f end, Point2f
 			color = Scalar(255, 0, 0);
 			break;
 		default:
-			Scalar(0, 0, 0);
+			color = Scalar(0, 0, 0);
 	}
 	
 	drawLines({
@@ -339,14 +356,37 @@ void drawTrainMarker(Mat& raw, Train& train, Point2f start, Point2f end, Point2f
 	}
 }
 
-void detectTrains(VideoCapture vid, Board board, Train* trains) {
+void detectCenters(VideoCapture vid) {
 	static Mat raw;
 	vid >> raw;
+	
+	imshow("raw", raw);
+	
+	static GpuMat trainCircle = createCirclePattern(Size(2048, 1024), 18, 15, 9);
+	static Mat contour;
+	contour = convolve(raw, trainCircle, 0.80);
+	
+	auto mc = calculateMassCenters(contour);
+	
+	for (auto& c : mc) {
+		std::cout << c;
+	}
+	
+}
+
+void detectTrains(VideoCapture vid, Board board, Train* trains) {
+	static long vidpos = 0;
+	
+	static Mat raw;
+	vid.set(CV_CAP_PROP_POS_MSEC, 100 * vidpos++);
+	vid >> raw;
+	
+	
 	auto timestamp = std::chrono::high_resolution_clock::now();
 	
 	static GpuMat trainCircle = createCirclePattern(Size(2048, 1024), 10, 8, 4);
 	static Mat contour;
-	contour = convolve(raw, trainCircle, 0.8);
+	contour = convolve(raw, trainCircle, 0.6);
 	
 	auto mc = calculateMassCenters(contour);
 	
@@ -356,10 +396,16 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
 	
 	TrainJSON json;
 	json.setTimestamp(timestamp);
-	
+
+	std::tuple<int, Point2f, Point2f, Point2f> markers[MARKER_COUNT];
+	for (int i = 0; i < MARKER_COUNT; ++i) {
+		markers[i] = std::make_tuple(0, Point2f(), Point2f(), Point2f());
+	}
+
 	for (int i = 0; i < mc.size() - 1; ++i) {
 		for (int j = i + 1; j < mc.size(); ++j) {
-			bool found = findMarker(mc[i], mc[j], 50, 70);
+			//bool found = findMarker(mc[i], mc[j], 53, 60);
+			bool found = findMarker(mc[i], mc[j], 60, 64);
 			if (!found)
 				continue;
 			
@@ -368,15 +414,27 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
 			Point2f center = (start + end) / 2;
 			
 			int id = identifyMarker(center, raw);
+			if (id != MARKER_UNKNOWN) {
+				std::get<0>(markers[id])++;
+				std::get<1>(markers[id]) = start;
+				std::get<2>(markers[id]) = end;
+				std::get<3>(markers[id]) = center;
+			}
+			
+		}
+	}
+
+	for (int id = 0; id < MARKER_COUNT; ++id) {
+		if (std::get<0>(markers[id]) == 1) {
 			switch (id) {
 				case MARKER_R:
-					std::cout << "RED MARKER @ ";
+					std::cout << "RED MARKER @ ";
 					break;
 				case MARKER_G:
-					std::cout << "GREEN MARKER @ ";
+					std::cout << "GREEN MARKER @ ";
 					break;
 				case MARKER_B:
-					std::cout << "BLUE MARKER @ ";
+					std::cout << "BLUE MARKER @ ";
 					break;
 				case MARKER_UNKNOWN:
 					std::cout << "UNKOWN MARKER @ ";
@@ -384,35 +442,29 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
 					break;
 			}
 			
-			if (id != MARKER_UNKNOWN) {
-				trains[id].setDetected(true);
-				
-				Mat_<Point2f> cameraCorrectionMat(1, 1, center);
-				cv::undistortPoints(cameraCorrectionMat, cameraCorrectionMat, cameraMatrix, distCoeffs, cv::noArray(), cameraMatrix);
-				Point2f undistorted = cameraCorrectionMat.at<Point2f>(0, 0);
-				Point2f corrected = Train::getCorrectedCenter(undistorted, board);
-				
-				Position pos = {timestamp, corrected};
-				trains[id].setCurrentPosition(pos);
-				
-				std::cout << trains[id].getCoordinate() << std::endl;
-				std::cout << trains[id].getSpeed() << " cm/s" << std::endl;
-				
-				cv::circle(raw, Train::getCorrectedToCamera(Train::getCorrectedCenter(center, board), board), 4, Scalar(0, 0, 255), -1);
-				cv::circle(raw, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
-				json.addTrain(trains[id]);
-			}
-			
-			drawTrainMarker(raw, trains[id], start, end, center);
-			
-			cv::circle(raw, board.topLeft, 10, Scalar(255, 0, 0));
-			cv::circle(raw, board.topRight, 10, Scalar(255, 0, 0));
-			cv::circle(raw, board.bottomLeft, 10, Scalar(255, 0, 0));
-			cv::circle(raw, board.bottomRight, 10, Scalar(255, 0, 0));
+			trains[id].setDetected(true);
+
+			Mat_<Point2f> cameraCorrectionMat(1, 1, std::get<3>(markers[id]));
+			cv::undistortPoints(cameraCorrectionMat, cameraCorrectionMat, cameraMatrix, distCoeffs, cv::noArray(), cameraMatrix);
+			Point2f undistorted = cameraCorrectionMat.at<Point2f>(0, 0);
+			Point2f corrected = Train::getCorrectedCenter(undistorted, board);
+
+			Position pos = { timestamp, corrected };
+			trains[id].setCurrentPosition(pos);
+
+			std::cout << trains[id].getCoordinate() << std::endl;
+			std::cout << trains[id].getSpeed() << " cm/s" << std::endl;
+
+			cv::circle(raw, Train::getCorrectedToCamera(Train::getCorrectedCenter(std::get<3>(markers[id]), board), board), 4, Scalar(0, 0, 255), -1);
+			cv::circle(raw, Train::getCorrectedToCamera(corrected, board), 4, Scalar(0, 255, 0), -1);
+			json.addTrain(trains[id]);
+
+			drawTrainMarker(raw, trains[id], std::get<1>(markers[id]), std::get<2>(markers[id]), std::get<3>(markers[id]));
+		} else {
+			trains[id].setDetected(false);
 		}
 	}
-	
-	
+
 	for (int i = 0; i < MARKER_COUNT; ++i) {
 		if(trains[i].getDetected() == false)
 			trains[i].clearPositions();
@@ -425,16 +477,26 @@ void detectTrains(VideoCapture vid, Board board, Train* trains) {
 	
 	std::cout << "Fps: " << 1000.0 / dur << std::endl;
 	
+	cv::circle(raw, board.topLeft, 10, Scalar(255, 0, 0));
+	cv::circle(raw, board.topRight, 10, Scalar(255, 0, 0));
+	cv::circle(raw, board.bottomLeft, 10, Scalar(255, 0, 0));
+	cv::circle(raw, board.bottomRight, 10, Scalar(255, 0, 0));
+
+	//cv::line(raw, Point2f(1920 / 2, 0), Point2f(1920 / 2, 1080), Scalar(255, 255, 255), 2);
+	//cv::line(raw, Point2f(0, 120), Point2f(1920, 120), Scalar(255, 255, 255), 2);
+	//cv::line(raw, Point2f(0, 960), Point2f(1920, 960), Scalar(255, 255, 255), 2);
+
 	cv::resize(raw, raw, raw.size() / 3 * 2);
 	imshow("Train", raw);
-	waitKey(1);
 }
 
 int main(int argc, char** argv)
 {
 	initSocket();
 	
-	VideoCapture vid(1);
+	VideoCapture vid("Test4.mov");
+	vid.set(CAP_PROP_FRAME_WIDTH, 1920);
+	vid.set(CAP_PROP_FRAME_HEIGHT, 1080);
 	
 	Train trains[] = {
 		Train(MARKER_R),
@@ -447,12 +509,16 @@ int main(int argc, char** argv)
 	fs["Camera_Matrix"] >> cameraMatrix;
 	
 	Board board = detectBoard(vid);
-	//std::cout << board.topLeft;
+	std::cout << board.topLeft;
 	
 	cv::namedWindow("Train");
 	
 	while (true) {
 		detectTrains(vid, board, trains);
+
+		//detectCenters(vid);
+		waitKey(1);
+		
 		std::cout << "-----------" << std::endl;
 	}
 	
