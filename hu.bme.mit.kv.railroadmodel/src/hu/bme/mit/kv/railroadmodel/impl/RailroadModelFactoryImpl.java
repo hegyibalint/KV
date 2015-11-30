@@ -69,6 +69,7 @@ public class RailroadModelFactoryImpl extends EFactoryImpl implements RailroadMo
 			case RailroadModelPackage.STRAIGHT_CONFIGURATION: return createStraightConfiguration();
 			case RailroadModelPackage.TRAIN: return createTrain();
 			case RailroadModelPackage.TRAIN_MODEL: return createTrainModel();
+			case RailroadModelPackage.RAIL_ROAD_MODEL: return createRailRoadModel();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -202,6 +203,16 @@ public class RailroadModelFactoryImpl extends EFactoryImpl implements RailroadMo
 	public TrainModel createTrainModel() {
 		TrainModelImpl trainModel = new TrainModelImpl();
 		return trainModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RailRoadModel createRailRoadModel() {
+		RailRoadModelImpl railRoadModel = new RailRoadModelImpl();
+		return railRoadModel;
 	}
 
 	/**

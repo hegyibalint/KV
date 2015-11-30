@@ -139,6 +139,15 @@ public interface RailroadModelFactory extends EFactory {
 	TrainModel createTrainModel();
 
 	/**
+	 * Returns a new object of class '<em>Rail Road Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Rail Road Model</em>'.
+	 * @generated
+	 */
+	RailRoadModel createRailRoadModel();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

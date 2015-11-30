@@ -1,5 +1,6 @@
 package hu.bme.mit.kv.safetylogic
 
+import hu.bme.mit.kv.railroadmodel.Point
 import hu.bme.mit.kv.railroadmodel.RailRegion
 import hu.bme.mit.kv.railroadmodel.RailroadModelFactory
 import hu.bme.mit.kv.railroadmodel.Region
@@ -26,6 +27,36 @@ class Estimator {
 			train.currentlyOn = getClosest(train)
 		]
 	}
+	
+	def Region getClosest(Point p) {
+		val switches = sm.trackables.filter[it instanceof SwitchRegion];
+		val sections = sm.trackables.filter[it instanceof RailRegion];
+		
+		for (Region tr : switches) {
+			val sw = tr as SwitchRegion;
+			if (sw.rectangle.isPointInside(p, 0.5)) {
+				return sw;
+			}
+		}
+		
+		var double minDistance = Double.MAX_VALUE;
+		var Region minSection = null
+		
+		for (Region tr : sections) {
+			val sec = tr as RailRegion;
+			val halfPoint = createPoint
+			halfPoint.x = (sec.line.start.x + sec.line.end.x) / 2
+			halfPoint.y = (sec.line.start.y + sec.line.end.y) / 2
+			
+			val dist = halfPoint.distanceFrom(p)
+			if (dist < minDistance) {
+				minDistance = dist
+				minSection = sec
+			}
+		}
+		
+		return minSection
+	}	
 	
 	def Region getClosest(Train t) {
 		val switches = sm.trackables.filter[it instanceof SwitchRegion];

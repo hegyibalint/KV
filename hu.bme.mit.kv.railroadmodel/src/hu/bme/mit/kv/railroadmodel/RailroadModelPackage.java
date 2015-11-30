@@ -855,6 +855,52 @@ public interface RailroadModelPackage extends EPackage {
 	 */
 	int TRAIN_MODEL_OPERATION_COUNT = 0;
 
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.kv.railroadmodel.impl.RailRoadModelImpl <em>Rail Road Model</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.kv.railroadmodel.impl.RailRoadModelImpl
+	 * @see hu.bme.mit.kv.railroadmodel.impl.RailroadModelPackageImpl#getRailRoadModel()
+	 * @generated
+	 */
+	int RAIL_ROAD_MODEL = 16;
+
+	/**
+	 * The feature id for the '<em><b>Section Model</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAIL_ROAD_MODEL__SECTION_MODEL = 0;
+
+	/**
+	 * The feature id for the '<em><b>Train Model</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAIL_ROAD_MODEL__TRAIN_MODEL = 1;
+
+	/**
+	 * The number of structural features of the '<em>Rail Road Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAIL_ROAD_MODEL_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Rail Road Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAIL_ROAD_MODEL_OPERATION_COUNT = 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.railroadmodel.Region <em>Region</em>}'.
@@ -1314,6 +1360,38 @@ public interface RailroadModelPackage extends EPackage {
 	EReference getTrainModel_Trains();
 
 	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.kv.railroadmodel.RailRoadModel <em>Rail Road Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Rail Road Model</em>'.
+	 * @see hu.bme.mit.kv.railroadmodel.RailRoadModel
+	 * @generated
+	 */
+	EClass getRailRoadModel();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.kv.railroadmodel.RailRoadModel#getSectionModel <em>Section Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Section Model</em>'.
+	 * @see hu.bme.mit.kv.railroadmodel.RailRoadModel#getSectionModel()
+	 * @see #getRailRoadModel()
+	 * @generated
+	 */
+	EReference getRailRoadModel_SectionModel();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.kv.railroadmodel.RailRoadModel#getTrainModel <em>Train Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Train Model</em>'.
+	 * @see hu.bme.mit.kv.railroadmodel.RailRoadModel#getTrainModel()
+	 * @see #getRailRoadModel()
+	 * @generated
+	 */
+	EReference getRailRoadModel_TrainModel();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1711,6 +1789,32 @@ public interface RailroadModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TRAIN_MODEL__TRAINS = eINSTANCE.getTrainModel_Trains();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.kv.railroadmodel.impl.RailRoadModelImpl <em>Rail Road Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.kv.railroadmodel.impl.RailRoadModelImpl
+		 * @see hu.bme.mit.kv.railroadmodel.impl.RailroadModelPackageImpl#getRailRoadModel()
+		 * @generated
+		 */
+		EClass RAIL_ROAD_MODEL = eINSTANCE.getRailRoadModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Section Model</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RAIL_ROAD_MODEL__SECTION_MODEL = eINSTANCE.getRailRoadModel_SectionModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Train Model</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RAIL_ROAD_MODEL__TRAIN_MODEL = eINSTANCE.getRailRoadModel_TrainModel();
 
 	}
 

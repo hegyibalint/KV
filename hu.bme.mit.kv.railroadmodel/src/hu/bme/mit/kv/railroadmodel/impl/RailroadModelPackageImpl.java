@@ -9,6 +9,7 @@ import hu.bme.mit.kv.railroadmodel.Line;
 import hu.bme.mit.kv.railroadmodel.Point;
 import hu.bme.mit.kv.railroadmodel.PowerableGroup;
 import hu.bme.mit.kv.railroadmodel.RailRegion;
+import hu.bme.mit.kv.railroadmodel.RailRoadModel;
 import hu.bme.mit.kv.railroadmodel.RailroadModelFactory;
 import hu.bme.mit.kv.railroadmodel.RailroadModelPackage;
 import hu.bme.mit.kv.railroadmodel.Rectangle;
@@ -146,6 +147,13 @@ public class RailroadModelPackageImpl extends EPackageImpl implements RailroadMo
 	 * @generated
 	 */
 	private EClass trainModelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass railRoadModelEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -600,6 +608,33 @@ public class RailroadModelPackageImpl extends EPackageImpl implements RailroadMo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRailRoadModel() {
+		return railRoadModelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRailRoadModel_SectionModel() {
+		return (EReference)railRoadModelEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRailRoadModel_TrainModel() {
+		return (EReference)railRoadModelEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public RailroadModelFactory getRailroadModelFactory() {
 		return (RailroadModelFactory)getEFactoryInstance();
 	}
@@ -681,6 +716,10 @@ public class RailroadModelPackageImpl extends EPackageImpl implements RailroadMo
 
 		trainModelEClass = createEClass(TRAIN_MODEL);
 		createEReference(trainModelEClass, TRAIN_MODEL__TRAINS);
+
+		railRoadModelEClass = createEClass(RAIL_ROAD_MODEL);
+		createEReference(railRoadModelEClass, RAIL_ROAD_MODEL__SECTION_MODEL);
+		createEReference(railRoadModelEClass, RAIL_ROAD_MODEL__TRAIN_MODEL);
 	}
 
 	/**
@@ -777,6 +816,10 @@ public class RailroadModelPackageImpl extends EPackageImpl implements RailroadMo
 
 		initEClass(trainModelEClass, TrainModel.class, "TrainModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTrainModel_Trains(), this.getTrain(), null, "trains", null, 0, -1, TrainModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(railRoadModelEClass, RailRoadModel.class, "RailRoadModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRailRoadModel_SectionModel(), this.getSectionModel(), null, "sectionModel", null, 1, 1, RailRoadModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRailRoadModel_TrainModel(), this.getTrainModel(), null, "trainModel", null, 1, 1, RailRoadModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -360,7 +360,6 @@ void detectCenters(VideoCapture vid) {
 	static Mat raw;
 	vid >> raw;
 	
-	imshow("raw", raw);
 	
 	static GpuMat trainCircle = createCirclePattern(Size(2048, 1024), 18, 15, 9);
 	static Mat contour;
@@ -494,7 +493,7 @@ int main(int argc, char** argv)
 {
 	initSocket();
 	
-	VideoCapture vid("Test4.mov");
+	VideoCapture vid(1);
 	vid.set(CAP_PROP_FRAME_WIDTH, 1920);
 	vid.set(CAP_PROP_FRAME_HEIGHT, 1080);
 	

@@ -18,7 +18,7 @@ class JSONReceiver {
 		this.tm = tm
 	}
 	
-	def receiveMessage() {
+	private def receiveMessage() {
 		for (var i = 0; i < buffer.size; i++) {
 			buffer.set(i, 0 as byte);
 		}
@@ -31,7 +31,11 @@ class JSONReceiver {
 	}
 	
 	def postTrainPositions() {
-		val obj = JsonObject.readFrom(receiveMessage())
+		postTrainPositions(receiveMessage());
+	}
+	
+	def postTrainPositions(String message) {
+		val obj = JsonObject.readFrom(message)
 		val arr = obj.get("trains").asArray
 		
 		arr.forEach[trainVal |

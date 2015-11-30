@@ -2,14 +2,29 @@
  */
 package hu.bme.mit.kv.railroadmodel.util;
 
-import hu.bme.mit.kv.railroadmodel.*;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
+
+import hu.bme.mit.kv.railroadmodel.Configuration;
+import hu.bme.mit.kv.railroadmodel.DivergentConfiguration;
+import hu.bme.mit.kv.railroadmodel.Group;
+import hu.bme.mit.kv.railroadmodel.Line;
+import hu.bme.mit.kv.railroadmodel.Point;
+import hu.bme.mit.kv.railroadmodel.PowerableGroup;
+import hu.bme.mit.kv.railroadmodel.RailRegion;
+import hu.bme.mit.kv.railroadmodel.RailRoadModel;
+import hu.bme.mit.kv.railroadmodel.RailroadModelPackage;
+import hu.bme.mit.kv.railroadmodel.Rectangle;
+import hu.bme.mit.kv.railroadmodel.Region;
+import hu.bme.mit.kv.railroadmodel.SectionModel;
+import hu.bme.mit.kv.railroadmodel.StraightConfiguration;
+import hu.bme.mit.kv.railroadmodel.SwitchGroup;
+import hu.bme.mit.kv.railroadmodel.SwitchRegion;
+import hu.bme.mit.kv.railroadmodel.SwitchSetting;
+import hu.bme.mit.kv.railroadmodel.Train;
+import hu.bme.mit.kv.railroadmodel.TrainModel;
 
 /**
  * <!-- begin-user-doc -->
@@ -130,6 +145,10 @@ public class RailroadModelAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseTrainModel(TrainModel object) {
 				return createTrainModelAdapter();
+			}
+			@Override
+			public Adapter caseRailRoadModel(RailRoadModel object) {
+				return createRailRoadModelAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -372,6 +391,20 @@ public class RailroadModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTrainModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.kv.railroadmodel.RailRoadModel <em>Rail Road Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.kv.railroadmodel.RailRoadModel
+	 * @generated
+	 */
+	public Adapter createRailRoadModelAdapter() {
 		return null;
 	}
 

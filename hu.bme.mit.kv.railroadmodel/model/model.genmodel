@@ -64,5 +64,9 @@
     <genClasses ecoreClass="model.ecore#//TrainModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//TrainModel/trains"/>
     </genClasses>
+    <genClasses ecoreClass="model.ecore#//RailRoadModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//RailRoadModel/sectionModel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//RailRoadModel/trainModel"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -2,12 +2,28 @@
  */
 package hu.bme.mit.kv.railroadmodel.util;
 
-import hu.bme.mit.kv.railroadmodel.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import hu.bme.mit.kv.railroadmodel.Configuration;
+import hu.bme.mit.kv.railroadmodel.DivergentConfiguration;
+import hu.bme.mit.kv.railroadmodel.Group;
+import hu.bme.mit.kv.railroadmodel.Line;
+import hu.bme.mit.kv.railroadmodel.Point;
+import hu.bme.mit.kv.railroadmodel.PowerableGroup;
+import hu.bme.mit.kv.railroadmodel.RailRegion;
+import hu.bme.mit.kv.railroadmodel.RailRoadModel;
+import hu.bme.mit.kv.railroadmodel.RailroadModelPackage;
+import hu.bme.mit.kv.railroadmodel.Rectangle;
+import hu.bme.mit.kv.railroadmodel.Region;
+import hu.bme.mit.kv.railroadmodel.SectionModel;
+import hu.bme.mit.kv.railroadmodel.StraightConfiguration;
+import hu.bme.mit.kv.railroadmodel.SwitchGroup;
+import hu.bme.mit.kv.railroadmodel.SwitchRegion;
+import hu.bme.mit.kv.railroadmodel.SwitchSetting;
+import hu.bme.mit.kv.railroadmodel.Train;
+import hu.bme.mit.kv.railroadmodel.TrainModel;
 
 /**
  * <!-- begin-user-doc -->
@@ -165,6 +181,12 @@ public class RailroadModelSwitch<T> extends Switch<T> {
 			case RailroadModelPackage.TRAIN_MODEL: {
 				TrainModel trainModel = (TrainModel)theEObject;
 				T result = caseTrainModel(trainModel);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RailroadModelPackage.RAIL_ROAD_MODEL: {
+				RailRoadModel railRoadModel = (RailRoadModel)theEObject;
+				T result = caseRailRoadModel(railRoadModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -409,6 +431,21 @@ public class RailroadModelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseTrainModel(TrainModel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Rail Road Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Rail Road Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRailRoadModel(RailRoadModel object) {
 		return null;
 	}
 

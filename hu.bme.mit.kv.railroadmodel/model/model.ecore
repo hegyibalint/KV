@@ -83,4 +83,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="trains" upperBound="-1"
         eType="#//Train" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RailRoadModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sectionModel" lowerBound="1"
+        eType="#//SectionModel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trainModel" lowerBound="1"
+        eType="#//TrainModel" containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>

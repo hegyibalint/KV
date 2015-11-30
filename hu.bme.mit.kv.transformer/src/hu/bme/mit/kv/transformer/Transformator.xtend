@@ -175,7 +175,7 @@ class Transformator {
 		m.put("kv", new XMIResourceFactoryImpl());
 
 		val resSet = new ResourceSetImpl();
-		val resource = resSet.createResource(URI.createURI("../hu.bme.mit.kv.safetylogic/res/SectionModel.railroadmodel"));
+		val resource = resSet.createResource(URI.createURI("../hu.bme.mit.kv.railroadmodel/processed/SectionModel.railroadmodel"));
 
 		resource.getContents().add(this.sm);
 		try {
