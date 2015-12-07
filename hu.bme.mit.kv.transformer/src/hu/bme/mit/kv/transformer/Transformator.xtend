@@ -152,9 +152,13 @@ class Transformator {
 		val elements = doc.getElementById("Turnouts").getElementsByTagName("polygon");
 		for (var i = 0; i < elements.length; i++) {
 			val element = elements.item(i) as SVGOMPolygonElement;
+
+			val powerable = createSwitchGroup
+			powerable.id = Integer::parseUnsignedInt(element.id.substring(2), 16)
 			val turnout = createSwitchRegion
 			//turnout.id = Integer::parseUnsignedInt(element.id.substring(2), 16)
 			turnout.id = element.id.substring(2)
+			powerable.regions += turnout
 
 			val rect = createRectangle
 			for (var j = 0; j < element.points.numberOfItems; j++) {
@@ -164,8 +168,9 @@ class Transformator {
 				rect.corners += p
 			}
 
-			turnout.rectangle = rect;
+			turnout.rectangle = rect
 			sm.trackables += turnout
+			sm.groups += powerable
 		}
 	}
 

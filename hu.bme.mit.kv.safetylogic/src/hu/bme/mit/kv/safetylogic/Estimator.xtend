@@ -10,27 +10,27 @@ import hu.bme.mit.kv.railroadmodel.Train
 import hu.bme.mit.kv.railroadmodel.TrainModel
 
 import static extension hu.bme.mit.kv.railroadmodel.util.RailroadModelHelper.*
+import hu.bme.mit.kv.railroadmodel.util.RailroadModelProvider
 
 class Estimator {
 	static extension RailroadModelFactory = RailroadModelFactory.eINSTANCE
 	
-	var TrainModel tm
-	var SectionModel sm
+	var RailroadModelProvider provider
 	
-	new (SectionModel sm) {
-		this.sm = sm 
+	new (RailroadModelProvider provider) {
+		this.provider = provider
 	}
 	
 	def estimateTrainPositions() {
-		tm.trains.forEach[train |
+		provider.tm.trains.forEach[train |
 			train.previouslyOn = train.currentlyOn
 			train.currentlyOn = getClosest(train)
 		]
 	}
 	
 	def Region getClosest(Point p) {
-		val switches = sm.trackables.filter[it instanceof SwitchRegion];
-		val sections = sm.trackables.filter[it instanceof RailRegion];
+		val switches = provider.sm.trackables.filter[it instanceof SwitchRegion];
+		val sections = provider.sm.trackables.filter[it instanceof RailRegion];
 		
 		for (Region tr : switches) {
 			val sw = tr as SwitchRegion;
@@ -59,8 +59,8 @@ class Estimator {
 	}	
 	
 	def Region getClosest(Train t) {
-		val switches = sm.trackables.filter[it instanceof SwitchRegion];
-		val sections = sm.trackables.filter[it instanceof RailRegion];
+		val switches = provider.sm.trackables.filter[it instanceof SwitchRegion];
+		val sections = provider.sm.trackables.filter[it instanceof RailRegion];
 		
 		for (Region tr : switches) {
 			val sw = tr as SwitchRegion;

@@ -5,7 +5,8 @@ Bundle-SymbolicName: hu.bme.mit.kv.safetylogic;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: dep/KVControlRequestSender.jar,
  .
-Export-Package: hu.bme.mit.kv.safetylogic.queries,
+Export-Package: hu.bme.mit.kv.safetylogic,
+ hu.bme.mit.kv.safetylogic.queries,
  hu.bme.mit.kv.safetylogic.queries.util
 Require-Bundle: org.junit;bundle-version="4.12.0",
  com.google.guava,

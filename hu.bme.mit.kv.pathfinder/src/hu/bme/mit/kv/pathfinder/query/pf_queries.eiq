@@ -1,0 +1,33 @@
+package hu.bme.mit.kv.pathfinder.query
+
+import "http://www.eclipse.org/emf/2002/Ecore"
+import "http://hu.bme.mit.kv.pathfindermodel"
+
+pattern SectionByID(id : EInt, s : Section) {
+	Section.id(s, id);
+}
+
+pattern TrainOnSection(t : Train, s : Section) {
+	Train.currentlyOn(t, s);
+}
+
+pattern TrainNeighbourSection(t : Train, from : Section, to : Section) {
+	Train.currentlyOn(t, from);
+	Section.neighbours(from, to);
+	neg find TrainOnSection(_, to);
+} or {
+	Rail(from);
+	Train.currentlyOn(t, from);
+	from == to;
+	neg find TrainOnSection(_, to);
+}
+
+pattern TrainGoal() {
+	neg find NegTrainGoal(_);
+}
+
+pattern NegTrainGoal(t : Train) {
+	Train.currentlyOn(t, co);
+	Train.goal(t, g);
+	co != g;	
+}

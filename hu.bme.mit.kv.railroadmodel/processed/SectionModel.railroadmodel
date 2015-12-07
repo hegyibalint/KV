@@ -15,6 +15,12 @@
   <groups xsi:type="railroadmodel:PowerableGroup" id="23" regions="//@trackables.120 //@trackables.121 //@trackables.122 //@trackables.123 //@trackables.124 //@trackables.125 //@trackables.126 //@trackables.127 //@trackables.128 //@trackables.129"/>
   <groups xsi:type="railroadmodel:PowerableGroup" id="11" regions="//@trackables.130 //@trackables.131 //@trackables.132 //@trackables.133 //@trackables.134 //@trackables.135 //@trackables.136 //@trackables.137 //@trackables.138 //@trackables.139"/>
   <groups xsi:type="railroadmodel:PowerableGroup" id="19" regions="//@trackables.140 //@trackables.141 //@trackables.142 //@trackables.143 //@trackables.144 //@trackables.145 //@trackables.146 //@trackables.147 //@trackables.148 //@trackables.149"/>
+  <groups xsi:type="railroadmodel:SwitchGroup" id="5" regions="//@trackables.150"/>
+  <groups xsi:type="railroadmodel:SwitchGroup" id="6" regions="//@trackables.151"/>
+  <groups xsi:type="railroadmodel:SwitchGroup" id="3" regions="//@trackables.152"/>
+  <groups xsi:type="railroadmodel:SwitchGroup" id="7" regions="//@trackables.153"/>
+  <groups xsi:type="railroadmodel:SwitchGroup" id="1" regions="//@trackables.154"/>
+  <groups xsi:type="railroadmodel:SwitchGroup" id="2" regions="//@trackables.155"/>
   <trackables xsi:type="railroadmodel:RailRegion" neighbours="//@trackables.1 //@trackables.19" id="10_0">
     <line>
       <start x="178.6219940185547" y="107.79199981689453"/>

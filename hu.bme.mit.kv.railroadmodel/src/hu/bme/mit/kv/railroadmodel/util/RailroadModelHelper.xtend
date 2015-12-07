@@ -14,29 +14,6 @@ class RailroadModelHelper {
 	
 	static extension RailroadModelFactory = RailroadModelFactory.eINSTANCE
 
-	/* 
-	 * ----------------------------------------------------------------------------
-	 * MODEL STRUCTURE HELPER FUNCTIONS
-	 */
-	 
-	 static def RailRoadModel createLoadedRRM() {
-	 	val rrm = createRailRoadModel
-	 	rrm.trainModel = createTrainModel
-	 	rrm.sectionModel = loadSectionModel
-	 	
-	 	return rrm
-	 }
-	 
-	 static def SectionModel loadSectionModel() {
-		val reg = Resource.Factory.Registry.INSTANCE
-		val m = reg.getExtensionToFactoryMap()
-		m.put("kv", new XMIResourceFactoryImpl())
-
-		val resSet = new ResourceSetImpl()
-		val resource = resSet.getResource(URI.createURI("platform:/plugin/hu.bme.mit.kv.safetylogic/res/SectionModel.railroadmodel"), true)
-
-		return resource.contents.head as SectionModel
-	}
 	
 	/* 
 	 * ----------------------------------------------------------------------------

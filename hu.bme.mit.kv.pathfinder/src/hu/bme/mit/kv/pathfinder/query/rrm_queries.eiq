@@ -1,0 +1,18 @@
+package hu.bme.mit.kv.pathfinder.query
+
+import "http://hu.bme.mit.kv.railroadmodel"
+
+pattern Rails(g : PowerableGroup) {
+	PowerableGroup(g);
+}
+
+pattern Switches(g : SwitchGroup) {
+	SwitchGroup(g);
+}
+
+pattern GroupNeighbour(g1: Group, g2 : Group) {
+	g1 != g2;
+	Group.regions(g1, r1);
+	Region.neighbours(r1, r1n);
+	Group.regions(g2, r1n);
+}

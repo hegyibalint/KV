@@ -1,21 +1,22 @@
-package hu.bme.mit.kv.safetylogic
+package hu.bme.mit.kv.receiver
 
 import hu.bme.mit.kv.json.JsonObject
+import hu.bme.mit.kv.railroadmodel.RailRoadModel
 import hu.bme.mit.kv.railroadmodel.RailroadModelFactory
 import hu.bme.mit.kv.railroadmodel.Train
-import hu.bme.mit.kv.railroadmodel.TrainModel
 import java.net.DatagramPacket
 import java.net.DatagramSocket
+import hu.bme.mit.kv.railroadmodel.util.RailroadModelProvider
 
-class JSONReceiver {
+class Receiver {
 	static extension RailroadModelFactory = RailroadModelFactory.eINSTANCE
 	
-	val TrainModel tm
+	var RailroadModelProvider provider
 	val buffer = newByteArrayOfSize(1024)
 	val socket = new DatagramSocket(24000)
 	
-	new (TrainModel tm) {
-		this.tm = tm
+	new (RailroadModelProvider provider) {
+		this.provider = provider
 	}
 	
 	private def receiveMessage() {
@@ -30,8 +31,11 @@ class JSONReceiver {
 		return message
 	}
 	
-	def postTrainPositions() {
-		postTrainPositions(receiveMessage());
+	def startReceiving() {
+		while (true) {
+			val message = receiveMessage()
+			postTrainPositions(message)
+		}
 	}
 	
 	def postTrainPositions(String message) {
@@ -41,12 +45,12 @@ class JSONReceiver {
 		arr.forEach[trainVal |
 			val trainObj = trainVal.asObject
 			
-			val filtered = tm.trains.filter[train | train.id == trainObj.get("id").asInt]
+			val filtered = provider.tm.trains.filter[train | train.id == trainObj.get("id").asInt]
 			var Train train
 			if (filtered.empty) {
 				train = createTrain
 				train.id = trainObj.get("id").asInt
-				tm.trains += train
+				provider.tm.trains += train
 			} else {
 				train = filtered.head
 			}
@@ -59,4 +63,5 @@ class JSONReceiver {
 			println('''Train: «train.id», Position:«position»''')
 		]
 	}
+	
 }

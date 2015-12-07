@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><plugin>
+  <extension id="hu.bme.mit.kv.pathfinder.query.Rrm_queries" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:hu.bme.mit.kv.pathfinder.query.Rrm_queries" id="hu.bme.mit.kv.pathfinder.query.Rrm_queries"/>
+  </extension>
+  <extension id="hu.bme.mit.kv.pathfinder.query.Pf_queries" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:hu.bme.mit.kv.pathfinder.query.Pf_queries" id="hu.bme.mit.kv.pathfinder.query.Pf_queries"/>
+  </extension>
+</plugin>

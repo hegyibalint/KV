@@ -493,9 +493,10 @@ int main(int argc, char** argv)
 {
 	initSocket();
 	
-	VideoCapture vid(1);
+	VideoCapture vid("Test3.mov");
 	vid.set(CAP_PROP_FRAME_WIDTH, 1920);
 	vid.set(CAP_PROP_FRAME_HEIGHT, 1080);
+	vid.set(CAP_PROP_FPS, 5);
 	
 	Train trains[] = {
 		Train(MARKER_R),
