@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link hu.bme.mit.kv.pathfindermodel.Section#getNeighbours <em>Neighbours</em>}</li>
  *   <li>{@link hu.bme.mit.kv.pathfindermodel.Section#getId <em>Id</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.pathfindermodel.Section#isHunted <em>Hunted</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.kv.pathfindermodel.PathfindermodelPackage#getSection()
@@ -66,5 +67,31 @@ public interface Section extends EObject {
 	 * @generated
 	 */
 	void setId(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Hunted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Hunted</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Hunted</em>' attribute.
+	 * @see #setHunted(boolean)
+	 * @see hu.bme.mit.kv.pathfindermodel.PathfindermodelPackage#getSection_Hunted()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @generated
+	 */
+	boolean isHunted();
+
+	/**
+	 * Sets the value of the '{@link hu.bme.mit.kv.pathfindermodel.Section#isHunted <em>Hunted</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Hunted</em>' attribute.
+	 * @see #isHunted()
+	 * @generated
+	 */
+	void setHunted(boolean value);
 
 } // Section

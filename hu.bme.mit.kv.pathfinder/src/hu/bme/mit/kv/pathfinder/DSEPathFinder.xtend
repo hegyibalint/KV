@@ -19,7 +19,7 @@ import org.eclipse.viatra.dse.solutionstore.SimpleSolutionStore
 import org.eclipse.viatra.dse.statecoding.simple.SimpleStateCoderFactory
 import org.eclipse.xtend.lib.annotations.Accessors
 
-class PathFinder {
+class DSEPathFinder {
 	
 	static extension PathfindermodelFactory = PathfindermodelFactory.eINSTANCE
 	

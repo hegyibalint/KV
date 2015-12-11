@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link hu.bme.mit.kv.pathfindermodel.Train#getCurrentlyOn <em>Currently On</em>}</li>
  *   <li>{@link hu.bme.mit.kv.pathfindermodel.Train#getId <em>Id</em>}</li>
  *   <li>{@link hu.bme.mit.kv.pathfindermodel.Train#getGoal <em>Goal</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.pathfindermodel.Train#isPrior <em>Prior</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.kv.pathfindermodel.PathfindermodelPackage#getTrain()
@@ -101,5 +102,32 @@ public interface Train extends EObject {
 	 * @generated
 	 */
 	void setGoal(Section value);
+
+	/**
+	 * Returns the value of the '<em><b>Prior</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Prior</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Prior</em>' attribute.
+	 * @see #setPrior(boolean)
+	 * @see hu.bme.mit.kv.pathfindermodel.PathfindermodelPackage#getTrain_Prior()
+	 * @model default="false" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @generated
+	 */
+	boolean isPrior();
+
+	/**
+	 * Sets the value of the '{@link hu.bme.mit.kv.pathfindermodel.Train#isPrior <em>Prior</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Prior</em>' attribute.
+	 * @see #isPrior()
+	 * @generated
+	 */
+	void setPrior(boolean value);
 
 } // Train

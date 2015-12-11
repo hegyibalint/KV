@@ -1,6 +1,7 @@
 package hu.bme.mit.kv.pathfinder.tests
 
-import hu.bme.mit.kv.pathfinder.PathFinder
+import hu.bme.mit.kv.pathfinder.BFSPathFinder
+import hu.bme.mit.kv.pathfinder.DSEPathFinder
 import hu.bme.mit.kv.pathfinder.PathModelTransformator
 import hu.bme.mit.kv.pathfindermodel.PathFinderModel
 import hu.bme.mit.kv.pathfindermodel.PathfindermodelFactory
@@ -10,7 +11,6 @@ import java.util.HashSet
 import java.util.Random
 import java.util.Set
 import org.junit.Test
-import java.util.LinkedHashSet
 
 class Tests {
 
@@ -25,9 +25,9 @@ class Tests {
 	}
 
 	@Test
-	def void pathFinderTest() {
+	def void dsePathFinderTest() {
 		val provider = new RailroadModelProvider()
-		val pf = new PathFinder(provider)
+		val pf = new DSEPathFinder(provider)
 		val pfm = pf.pfm
 
 		generateTrains(pfm, 3).forEach [
@@ -39,58 +39,42 @@ class Tests {
 		pf.initDSE
 		try {
 			pf.findPath
-		} catch (Exception e) {
-		}
-
-		pfm.trains.clear
-		generateTrains(pfm, 3).forEach [
-			pfm.trains +=
-				it
-			println('''Train going from «it.currentlyOn.id»(«Integer.toHexString(it.currentlyOn.id)») - to «it.goal.id»(«Integer.toHexString(it.goal.id)»)''')
-		]
-
-		pf.initDSE
-		try {
-			pf.findPath
-		} catch (Exception e) {
-		}
-		
-		pfm.trains.clear
-		generateTrains(pfm, 3).forEach [
-			pfm.trains +=
-				it
-			println('''Train going from «it.currentlyOn.id»(«Integer.toHexString(it.currentlyOn.id)») - to «it.goal.id»(«Integer.toHexString(it.goal.id)»)''')
-		]
-
-		pf.initDSE
-		try {
-			pf.findPath
-		} catch (Exception e) {
-		}
-		
-		pfm.trains.clear
-		generateTrains(pfm, 3).forEach [
-			pfm.trains +=
-				it
-			println('''Train going from «it.currentlyOn.id»(«Integer.toHexString(it.currentlyOn.id)») - to «it.goal.id»(«Integer.toHexString(it.goal.id)»)''')
-		]
-
-		pf.initDSE
-		try {
-			pf.findPath
-		} catch (Exception e) {
-		}
+		} catch (Exception e) { }
 		
 		return
 	}
+	
+	@Test
+	def void bfsPathFinderTest() {
+		val provider = new RailroadModelProvider()
+		val pf = new BFSPathFinder(provider)
+		val pfm = pf.pfm
+
+
+
+		generateTrains(pfm, 3).forEach [
+			pfm.trains += it
+			println('''Train going from «it.currentlyOn.id»(«Integer.toHexString(it.currentlyOn.id)») - to «it.goal.id»(«Integer.toHexString(it.goal.id)»)''')
+		]
+
+		pf.initDSE
+		try {
+			pf.findPath
+		} catch (Exception e) { }
+		
+		return
+	}
+	
 
 	def Set<Train> generateTrains(PathFinderModel pfm, int tc) {
 		val rnd = new Random
-		val randomSet = new HashSet<Integer>(pfm.sections.size)
+		val randomSet = new HashSet<Integer>(tc*2)
 		val trainSet = new HashSet<Train>(tc)
 
 		while (randomSet.size != tc * 2) {
-			randomSet += (1 + rnd.nextInt(pfm.sections.size))
+			val rndInt = 1 + rnd.nextInt(pfm.sections.size)
+			if( !(rndInt == 7 || rndInt == 18) )
+				randomSet += (rndInt)
 		}
 
 		val randomList = randomSet.toList

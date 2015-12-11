@@ -184,6 +184,15 @@ public class PathfindermodelPackageImpl extends EPackageImpl implements Pathfind
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSection_Hunted() {
+		return (EAttribute)sectionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRail() {
 		return railEClass;
 	}
@@ -238,6 +247,15 @@ public class PathfindermodelPackageImpl extends EPackageImpl implements Pathfind
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getTrain_Prior() {
+		return (EAttribute)trainEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public PathfindermodelFactory getPathfindermodelFactory() {
 		return (PathfindermodelFactory)getEFactoryInstance();
 	}
@@ -268,6 +286,7 @@ public class PathfindermodelPackageImpl extends EPackageImpl implements Pathfind
 		sectionEClass = createEClass(SECTION);
 		createEReference(sectionEClass, SECTION__NEIGHBOURS);
 		createEAttribute(sectionEClass, SECTION__ID);
+		createEAttribute(sectionEClass, SECTION__HUNTED);
 
 		railEClass = createEClass(RAIL);
 
@@ -277,6 +296,7 @@ public class PathfindermodelPackageImpl extends EPackageImpl implements Pathfind
 		createEReference(trainEClass, TRAIN__CURRENTLY_ON);
 		createEAttribute(trainEClass, TRAIN__ID);
 		createEReference(trainEClass, TRAIN__GOAL);
+		createEAttribute(trainEClass, TRAIN__PRIOR);
 	}
 
 	/**
@@ -321,6 +341,7 @@ public class PathfindermodelPackageImpl extends EPackageImpl implements Pathfind
 		initEClass(sectionEClass, Section.class, "Section", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSection_Neighbours(), this.getSection(), null, "neighbours", null, 0, 4, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSection_Id(), theXMLTypePackage.getInt(), "id", "0", 0, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSection_Hunted(), theXMLTypePackage.getBoolean(), "hunted", null, 0, 1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(railEClass, Rail.class, "Rail", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -330,6 +351,7 @@ public class PathfindermodelPackageImpl extends EPackageImpl implements Pathfind
 		initEReference(getTrain_CurrentlyOn(), this.getSection(), null, "currentlyOn", null, 1, 1, Train.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTrain_Id(), theXMLTypePackage.getInt(), "id", "0", 0, 1, Train.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTrain_Goal(), this.getSection(), null, "goal", null, 1, 1, Train.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTrain_Prior(), theXMLTypePackage.getBoolean(), "prior", "false", 0, 1, Train.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

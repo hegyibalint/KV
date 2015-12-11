@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link hu.bme.mit.kv.pathfindermodel.impl.TrainImpl#getCurrentlyOn <em>Currently On</em>}</li>
  *   <li>{@link hu.bme.mit.kv.pathfindermodel.impl.TrainImpl#getId <em>Id</em>}</li>
  *   <li>{@link hu.bme.mit.kv.pathfindermodel.impl.TrainImpl#getGoal <em>Goal</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.pathfindermodel.impl.TrainImpl#isPrior <em>Prior</em>}</li>
  * </ul>
  *
  * @generated
@@ -69,6 +70,26 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	 * @ordered
 	 */
 	protected Section goal;
+
+	/**
+	 * The default value of the '{@link #isPrior() <em>Prior</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isPrior()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean PRIOR_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isPrior() <em>Prior</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isPrior()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean prior = PRIOR_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -191,6 +212,27 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isPrior() {
+		return prior;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPrior(boolean newPrior) {
+		boolean oldPrior = prior;
+		prior = newPrior;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PathfindermodelPackage.TRAIN__PRIOR, oldPrior, prior));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -202,6 +244,8 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 			case PathfindermodelPackage.TRAIN__GOAL:
 				if (resolve) return getGoal();
 				return basicGetGoal();
+			case PathfindermodelPackage.TRAIN__PRIOR:
+				return isPrior();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -222,6 +266,9 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 				return;
 			case PathfindermodelPackage.TRAIN__GOAL:
 				setGoal((Section)newValue);
+				return;
+			case PathfindermodelPackage.TRAIN__PRIOR:
+				setPrior((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -244,6 +291,9 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 			case PathfindermodelPackage.TRAIN__GOAL:
 				setGoal((Section)null);
 				return;
+			case PathfindermodelPackage.TRAIN__PRIOR:
+				setPrior(PRIOR_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -262,6 +312,8 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 				return id != ID_EDEFAULT;
 			case PathfindermodelPackage.TRAIN__GOAL:
 				return goal != null;
+			case PathfindermodelPackage.TRAIN__PRIOR:
+				return prior != PRIOR_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -278,6 +330,8 @@ public class TrainImpl extends MinimalEObjectImpl.Container implements Train {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (id: ");
 		result.append(id);
+		result.append(", prior: ");
+		result.append(prior);
 		result.append(')');
 		return result.toString();
 	}

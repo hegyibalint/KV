@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <ul>
  *   <li>{@link hu.bme.mit.kv.pathfindermodel.impl.SectionImpl#getNeighbours <em>Neighbours</em>}</li>
  *   <li>{@link hu.bme.mit.kv.pathfindermodel.impl.SectionImpl#getId <em>Id</em>}</li>
+ *   <li>{@link hu.bme.mit.kv.pathfindermodel.impl.SectionImpl#isHunted <em>Hunted</em>}</li>
  * </ul>
  *
  * @generated
@@ -62,6 +63,26 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 	 * @ordered
 	 */
 	protected int id = ID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isHunted() <em>Hunted</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isHunted()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean HUNTED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isHunted() <em>Hunted</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isHunted()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean hunted = HUNTED_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -120,6 +141,27 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isHunted() {
+		return hunted;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setHunted(boolean newHunted) {
+		boolean oldHunted = hunted;
+		hunted = newHunted;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PathfindermodelPackage.SECTION__HUNTED, oldHunted, hunted));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -127,6 +169,8 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 				return getNeighbours();
 			case PathfindermodelPackage.SECTION__ID:
 				return getId();
+			case PathfindermodelPackage.SECTION__HUNTED:
+				return isHunted();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -147,6 +191,9 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 			case PathfindermodelPackage.SECTION__ID:
 				setId((Integer)newValue);
 				return;
+			case PathfindermodelPackage.SECTION__HUNTED:
+				setHunted((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -165,6 +212,9 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 			case PathfindermodelPackage.SECTION__ID:
 				setId(ID_EDEFAULT);
 				return;
+			case PathfindermodelPackage.SECTION__HUNTED:
+				setHunted(HUNTED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -181,6 +231,8 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 				return neighbours != null && !neighbours.isEmpty();
 			case PathfindermodelPackage.SECTION__ID:
 				return id != ID_EDEFAULT;
+			case PathfindermodelPackage.SECTION__HUNTED:
+				return hunted != HUNTED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -197,6 +249,8 @@ public abstract class SectionImpl extends MinimalEObjectImpl.Container implement
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (id: ");
 		result.append(id);
+		result.append(", hunted: ");
+		result.append(hunted);
 		result.append(')');
 		return result.toString();
 	}

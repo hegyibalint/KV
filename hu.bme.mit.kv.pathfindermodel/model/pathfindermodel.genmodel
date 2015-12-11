@@ -14,6 +14,7 @@
     <genClasses ecoreClass="pathfindermodel.ecore#//Section">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pathfindermodel.ecore#//Section/neighbours"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pathfindermodel.ecore#//Section/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pathfindermodel.ecore#//Section/hunted"/>
     </genClasses>
     <genClasses ecoreClass="pathfindermodel.ecore#//Rail"/>
     <genClasses ecoreClass="pathfindermodel.ecore#//Switch"/>
@@ -21,6 +22,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pathfindermodel.ecore#//Train/currentlyOn"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pathfindermodel.ecore#//Train/id"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pathfindermodel.ecore#//Train/goal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pathfindermodel.ecore#//Train/prior"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

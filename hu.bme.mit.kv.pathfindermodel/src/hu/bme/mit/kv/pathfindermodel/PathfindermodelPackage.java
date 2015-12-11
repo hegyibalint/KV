@@ -131,13 +131,22 @@ public interface PathfindermodelPackage extends EPackage {
 	int SECTION__ID = 1;
 
 	/**
+	 * The feature id for the '<em><b>Hunted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SECTION__HUNTED = 2;
+
+	/**
 	 * The number of structural features of the '<em>Section</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SECTION_FEATURE_COUNT = 2;
+	int SECTION_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Section</em>' class.
@@ -175,6 +184,15 @@ public interface PathfindermodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int RAIL__ID = SECTION__ID;
+
+	/**
+	 * The feature id for the '<em><b>Hunted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAIL__HUNTED = SECTION__HUNTED;
 
 	/**
 	 * The number of structural features of the '<em>Rail</em>' class.
@@ -221,6 +239,15 @@ public interface PathfindermodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int SWITCH__ID = SECTION__ID;
+
+	/**
+	 * The feature id for the '<em><b>Hunted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH__HUNTED = SECTION__HUNTED;
 
 	/**
 	 * The number of structural features of the '<em>Switch</em>' class.
@@ -278,13 +305,22 @@ public interface PathfindermodelPackage extends EPackage {
 	int TRAIN__GOAL = 2;
 
 	/**
+	 * The feature id for the '<em><b>Prior</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRAIN__PRIOR = 3;
+
+	/**
 	 * The number of structural features of the '<em>Train</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRAIN_FEATURE_COUNT = 3;
+	int TRAIN_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Train</em>' class.
@@ -361,6 +397,17 @@ public interface PathfindermodelPackage extends EPackage {
 	EAttribute getSection_Id();
 
 	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.pathfindermodel.Section#isHunted <em>Hunted</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Hunted</em>'.
+	 * @see hu.bme.mit.kv.pathfindermodel.Section#isHunted()
+	 * @see #getSection()
+	 * @generated
+	 */
+	EAttribute getSection_Hunted();
+
+	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.kv.pathfindermodel.Rail <em>Rail</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -422,6 +469,17 @@ public interface PathfindermodelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTrain_Goal();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.kv.pathfindermodel.Train#isPrior <em>Prior</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Prior</em>'.
+	 * @see hu.bme.mit.kv.pathfindermodel.Train#isPrior()
+	 * @see #getTrain()
+	 * @generated
+	 */
+	EAttribute getTrain_Prior();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -499,6 +557,14 @@ public interface PathfindermodelPackage extends EPackage {
 		EAttribute SECTION__ID = eINSTANCE.getSection_Id();
 
 		/**
+		 * The meta object literal for the '<em><b>Hunted</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SECTION__HUNTED = eINSTANCE.getSection_Hunted();
+
+		/**
 		 * The meta object literal for the '{@link hu.bme.mit.kv.pathfindermodel.impl.RailImpl <em>Rail</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -551,6 +617,14 @@ public interface PathfindermodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TRAIN__GOAL = eINSTANCE.getTrain_Goal();
+
+		/**
+		 * The meta object literal for the '<em><b>Prior</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRAIN__PRIOR = eINSTANCE.getTrain_Prior();
 
 	}
 

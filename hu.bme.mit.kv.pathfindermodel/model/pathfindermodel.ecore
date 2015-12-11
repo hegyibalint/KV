@@ -13,6 +13,7 @@
         eType="#//Section"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hunted" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rail" eSuperTypes="#//Section"/>
   <eClassifiers xsi:type="ecore:EClass" name="Switch" eSuperTypes="#//Section"/>
@@ -22,5 +23,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         defaultValueLiteral="0" iD="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="goal" lowerBound="1" eType="#//Section"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prior" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
 </ecore:EPackage>
