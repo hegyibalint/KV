@@ -27,6 +27,17 @@ pattern TrainNeighbourSectionPrio(t:Train, from: Section, to : Section){
 	
 	Train.currentlyOn(t, from);
 	Section.neighbours(from, to);
+	
+	Section.hunted(to, hunted);
+	hunted == false;
+}
+
+pattern TrainGoalPrio() {
+	Train.currentlyOn(t, co);
+	Train.goal(t, g);
+	co == g;
+	Train.prior(t,prio);
+	prio == true;
 }
 
 pattern TrainGoal() {
