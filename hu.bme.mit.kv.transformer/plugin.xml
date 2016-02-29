@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><plugin>
+  <extension
+        id="Transformator"
+        point="org.eclipse.core.runtime.applications">
+     <application
+           cardinality="singleton-global"
+           thread="main"
+           visible="true">
+        <run
+              class="hu.bme.mit.kv.transformer.Application">
+        </run>
+     </application>
+  </extension>
+</plugin>

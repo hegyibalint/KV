@@ -8,16 +8,15 @@
 struct Train {
     const int BUFFER_SIZE = 5;
 	
-    int identifier;
+    int id;
     int dir = DIR_NONE;
     bool detected = false;
     float lastSpeed = 0.0;
     std::vector<Position> positions;
     
-    Train(int identifier) : identifier(identifier) { }
+    Train(int identifier) : id(identifier) { }
     
     void setCurrentPosition(Position pos) {
-        
         if (positions.size() < BUFFER_SIZE) {
             positions.push_back(pos);
             lastSpeed = 0.0;
@@ -29,10 +28,15 @@ struct Train {
             for (int i = 0; i < positions.size() - 1; ++i) {
                 accumulatedSpeed += positions[i].getSpeed(positions[i+1]);
             }
-            lastSpeed = accumulatedSpeed / positions.size();
-            
-            dir = positions[0].getDir(positions[positions.size() - 1]);
-            std::cout << dir << std::endl;
+			
+			float speed = accumulatedSpeed / positions.size();
+			if (speed < 0.5) {
+				lastSpeed = 0.0;
+			} else {
+				lastSpeed = speed;
+			}
+			
+			dir = positions[0].getDir(positions[positions.size() - 1]);
         }
     }
     

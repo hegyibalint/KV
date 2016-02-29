@@ -18,11 +18,7 @@ struct Position {
         float distance = cv::norm(coordinate - newPos.coordinate);
         float ms = std::chrono::duration_cast<std::chrono::milliseconds>(newPos.time - time).count();
         
-        float newSpeed = distance / (ms / 1000);
-        if (newSpeed < 0.5) {
-            newSpeed = 0.0;
-        }
-        
+        float newSpeed = distance / ms * 1000;
         return newSpeed;
     }
     
@@ -36,7 +32,7 @@ struct Position {
         Point2f centeredNew = center - newPos.coordinate;
         float z = centeredOld.cross(centeredNew);
  
-        if (abs(z) > 2.0) {
+        if (abs(z) > 7.5) {
             if (z < 0)
                 return DIR_CCW;
             else if (z > 0)

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Receiver
+Bundle-SymbolicName: hu.bme.mit.kv.receiver
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: hu.bme.mit.kv.json;bundle-version="1.0.0",
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ hu.bme.mit.kv.railroadmodel;bundle-version="1.0.0"
+Export-Package: hu.bme.mit.kv.receiver
+

@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Manager
+Bundle-SymbolicName: hu.bme.mit.kv.manager;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ org.eclipse.equinox.app;bundle-version="1.3.300",
+ hu.bme.mit.kv.pathfinder;bundle-version="1.0.0",
+ hu.bme.mit.kv.railroadmodel;bundle-version="1.0.0",
+ hu.bme.mit.kv.receiver;bundle-version="1.0.0",
+ hu.bme.mit.kv.safetylogic;bundle-version="1.0.0"
+

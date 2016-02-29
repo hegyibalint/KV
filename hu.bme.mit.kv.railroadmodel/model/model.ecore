@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="railroadmodel" nsURI="http://hu.bme.mit.kv.railroadmodel" nsPrefix="railroadmodel">
+  <eClassifiers xsi:type="ecore:EClass" name="Region" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="neighbours" upperBound="2"
+        eType="#//Region"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RailRegion" eSuperTypes="#//Region">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="line" lowerBound="1" eType="#//Line"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SwitchRegion" eSuperTypes="#//Region">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rectangle" lowerBound="1"
+        eType="#//Rectangle" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PowerableGroup" eSuperTypes="#//Group">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="powered" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SectionModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="groups" upperBound="-1"
+        eType="#//Group" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackables" upperBound="-1"
+        eType="#//Region" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="settings" upperBound="-1"
+        eType="#//SwitchSetting" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Line">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" lowerBound="1" eType="#//Point"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="end" lowerBound="1" eType="#//Point"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rectangle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="corners" lowerBound="4"
+        upperBound="4" eType="#//Point" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Point">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Group" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="regions" lowerBound="1"
+        upperBound="-1" eType="#//Region"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="safe" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SwitchGroup" eSuperTypes="#//Group">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuration" lowerBound="1"
+        eType="#//Configuration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SwitchSetting">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="straightconfiguration"
+        lowerBound="1" eType="#//StraightConfiguration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="divergentconfiguration"
+        lowerBound="1" eType="#//DivergentConfiguration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="physicalID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DivergentConfiguration" eSuperTypes="#//Configuration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StraightConfiguration" eSuperTypes="#//Configuration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Configuration" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enabled" lowerBound="2"
+        upperBound="2" eType="#//PowerableGroup"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Train">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="previouslyOn" eType="#//Region"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentlyOn" eType="#//Region"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" lowerBound="1"
+        eType="#//Point" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nextGroup" lowerBound="1"
+        upperBound="2" eType="#//Group"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrainModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trains" upperBound="-1"
+        eType="#//Train" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RailRoadModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sectionModel" lowerBound="1"
+        eType="#//SectionModel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trainModel" lowerBound="1"
+        eType="#//TrainModel" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>
