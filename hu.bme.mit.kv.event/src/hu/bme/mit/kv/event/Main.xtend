@@ -1,6 +1,5 @@
 package hu.bme.mit.kv.event
 
-import hu.bme.mit.kv.event.mapping.QueryEngine2ViatraCep
 import hu.bme.mit.kv.json.JsonObject
 import hu.bme.mit.kv.model.modelutil.ModelUtil
 import hu.bme.mit.kv.model.railroadmodel.ModelFactory
@@ -11,15 +10,15 @@ import hu.bme.mit.kv.model.railroadmodel.Train
 import hu.bme.mit.kv.model.railroadmodel.TrainModel
 import hu.bme.mit.kv.model.railroadmodel.Turnout
 import hu.bme.mit.kv.queries.InSameRailroadPartMatcher
+import hu.bme.mit.kv.queries.NextSectionFromSectionInClockwiseMatcher
 import hu.bme.mit.kv.queries.SectionNeighborMatcher
 import hu.bme.mit.kv.queries.SectionsInSameRailroadPartAsTrainMatcher
 import hu.bme.mit.kv.queries.TrainGoingToCutTheTurnoutMatcher
+import hu.bme.mit.kv.queries.TrainIsGoingToHitMatcher
 import hu.bme.mit.kv.queries.TrainsNextTurnoutMatcher
-import java.net.DatagramPacket
-import java.net.DatagramSocket
-import kvcontrol.requests.AbstractRequest
-import kvcontrol.senders.SectionStateRequestSender
-import kvcontrol.senders.TurnoutDirectionRequestSender
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.Map
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -27,26 +26,24 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
-import org.eclipse.viatra.cep.core.api.engine.CEPEngine
-import org.eclipse.viatra.cep.core.api.engine.ResetTransformations
-import org.eclipse.viatra.cep.core.metamodels.automaton.EventContext
-import org.eclipse.viatra.cep.examples.sosym.tests.internal.DefaultRealm
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
+import org.eclipse.paho.client.mqttv3.MqttAsyncClient
+import org.eclipse.paho.client.mqttv3.MqttCallback
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+import org.eclipse.paho.client.mqttv3.MqttMessage
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
 import org.junit.Before
 import org.junit.Test
 
-import static kvcontrol.requests.AbstractRequest.*
-import hu.bme.mit.kv.queries.TrainIsGoingToHitMatcher
-
+//import static kvcontrol.requests.AbstractRequest.*
 class Main {
-	extension CepFactory factory = CepFactory.instance
+
+
 
 	val Object lock = new Object;
-	var DefaultRealm realm;
 
-	var QueryEngine2ViatraCep mapping
 	var Resource resource
 	var ResourceSet resourceSet
-	var CEPEngine eventEngine
 	var IncQueryEngine queryEngine
 
 	var SectionModel sectionModel // root of the runtime EMF model
@@ -54,9 +51,6 @@ class Main {
 
 	@Before
 	def void setUp() {
-		realm = new DefaultRealm;
-
-		eventEngine = CEPEngine.newEngine().eventContext(EventContext.CHRONICLE).rules(allRules).prepare();
 
 		sectionModel = ModelUtil.loadReadySectionModel
 		trainModel = ModelUtil.createReadyTrainModel(sectionModel)
@@ -72,15 +66,13 @@ class Main {
 
 		queryEngine = IncQueryEngine.on(new EMFScope(resourceSet))
 
-		mapping = QueryEngine2ViatraCep.register(resourceSet, eventEngine.streamManager.newEventStream)
-
 	}
 
 	@Test
 	def void visualizeGraph() {
 		println("=================================")
-		var asd = ResetTransformations.toGraphViz(eventEngine.internalModel)
-		println(asd)
+//		var asd = ResetTransformations.toGraphViz(eventEngine.internalModel)
+//		println(asd)
 	}
 
 	@Test
@@ -98,18 +90,17 @@ class Main {
 		]
 	}
 
-	@Test
-	def void serverTest() {
-		AbstractRequest.defaultPort = 8080
-		val sender = new SectionStateRequestSender;
-
-		sectionModel.sections.forEach[section|sender.disableSection(section.id) Thread.sleep(250)]
-
-		Thread.sleep(2000)
-		sectionModel.sections.forEach[section|sender.enableSection(section.id) Thread.sleep(250)]
-
-	}
-
+//	@Test
+//	def void serverTest() {
+//		AbstractRequest.defaultPort = 8080
+//		val sender = new SectionStateRequestSender;
+//
+//		sectionModel.sections.forEach[section|sender.disableSection(section.id) Thread.sleep(250)]
+//
+//		Thread.sleep(2000)
+//		sectionModel.sections.forEach[section|sender.enableSection(section.id) Thread.sleep(250)]
+//
+//	}
 	def Turnout findOccupiedTurnout(Train t, SectionModel sm) {
 		val p = ModelFactory.eINSTANCE.createPoint
 		p.x = t.x
@@ -154,21 +145,18 @@ class Main {
 		return minSec
 	}
 
-	@Test
-	def void turnoutReaderTest() {
-		AbstractRequest.defaultPort = 8080
-		val sender = new TurnoutDirectionRequestSender
-//		var turnoutIds = #[0x81, 0x82, 0x83, 0x84, 0x85];
-		var turnoutIds = #[0x86, 0x87];
-		while(true) {
-			for (id : turnoutIds) {
-				println(id + "switch state = " + sender.isTurnoutStraight(id))
-			}
-			Thread.sleep(1000)
-		}
-
-	}
-
+//	@Test
+//	def void turnoutReaderTest() {
+////		var turnoutIds = #[0x81, 0x82, 0x83, 0x84, 0x85];
+//		var turnoutIds = #[0x86, 0x87];
+//		while(true) {
+//			for (id : turnoutIds) {
+//				println(id + "switch state = " + sender.isTurnoutStraight(id))
+//			}
+//			Thread.sleep(1000)
+//		}
+//
+//	}
 	@Test
 	def void patternTest() {
 		var train1 = trainModel.trains.findFirst[t|t.id == 1]
@@ -179,33 +167,49 @@ class Main {
 		train0.currentlyOn = ModelUtil.getSectionByID(sectionModel, 0xB);
 		train1.goingClockwise = false;
 
+		println("=====================================================");
+
 		for (match : TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches) {
 			println("CUT")
 		}
+
+		println("=====================================================");
 
 		for (match : TrainsNextTurnoutMatcher.on(queryEngine).allMatches) {
 			println("train " + match.train.id + " next turnout = " + match.turnout.id)
 		}
 
+		println("=====================================================");
+
 		for (match : SectionsInSameRailroadPartAsTrainMatcher.on(queryEngine).allMatches) {
 			println("train " + match.train.id + " is in the same part as seciton " + match.section.id)
 		}
+
+		println("=====================================================");
 
 		for (match : InSameRailroadPartMatcher.on(queryEngine).allMatches) {
 			println("In same railroad : " + ModelUtil.toHexa(match.section.id) + " with " + ModelUtil.toHexa(match.someSection.id))
 		}
 
+		println("=====================================================");
+
 		for (match : SectionNeighborMatcher.on(queryEngine).allMatches) {
 			println("Section = " + match.s1.id + " is the neighbor of section = " + match.s2.id)
 		}
+
+		println("=====================================================");
+
+		for (match : NextSectionFromSectionInClockwiseMatcher.on(queryEngine).allMatches) {
+			println("Section = " + ModelUtil.toHexa(match.section.id) + " the next cw section = " + ModelUtil.toHexa(match.nextSection.id))
+		}
+
 	}
 
 	@Test
 	def void englishTurnoutTest() {
-		var reader = new TurnoutReader(sectionModel, lock)
-		var thread = new Thread(reader);
-		thread.start
-
+//		var reader = new TurnoutReader(sectionModel, lock)
+//		var thread = new Thread(reader);
+//		thread.start
 		var englishTurnout = ModelUtil.getEnglishTurnout(sectionModel)
 		while(true) {
 			println("cw = " + ModelUtil.toHexa(englishTurnout.clockwise.id) + "\tccw = " + ModelUtil.toHexa(englishTurnout.counterClockwise.id) + "\tnot = " + ModelUtil.toHexa(englishTurnout.notConnectedSection.id) + "\tnotcw = " + ModelUtil.toHexa(englishTurnout.notConnectedClockwiseSection.id))
@@ -215,63 +219,135 @@ class Main {
 
 	@Test
 	def void networkTest() {
-		var reader = new TurnoutReader(sectionModel, lock)
-		var thread = new Thread(reader);
-		thread.start
+		val turnoutStates = new ArrayList<Boolean>
 
-		val DatagramSocket socket = new DatagramSocket(24000)
-		var boolean flag = true
-
-		while(flag) {
-			val buffer = newByteArrayOfSize(1024 * 16)
-			val sender = new SectionStateRequestSender
-			val packet = new DatagramPacket(buffer, buffer.length)
-
-			socket.receive(packet);
-			val trimmed = new String(packet.data).trim
-			var JsonObject data;
-			try {
-				parseJsonFromPacket(lock, sectionModel, trainModel, trimmed)
-			} catch(Exception e) {
-				println("failed to parse json, here is the file : ")
-				println(trimmed);
-				data = null
-			}
-
-			var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
-			if(matches.size == 0) {
-				println("I don't see the next turnout")
-			}
-			for (match : matches) {
-				println("train " + match.train.id + " next turnout = " + match.turnout.id)
-			}
-
-			val cutMatches = TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches
-			if(cutMatches.size == 0) {
-				println("No cut")
-			} else {
-				for (match : cutMatches) {
-					println("CUT on turnout #" + match.turnout.id + " with train #" + match.train.id)
-					match.train.currentlyOn.enabled = false
-					sender.disableSection(match.train.currentlyOn.id);
-				}
-			}
-
-			var trainHitMatchers = TrainIsGoingToHitMatcher.on(queryEngine).allMatches
-			if(trainHitMatchers.size == 0) {
-				println("No train is going to hit the other");
-			}
-
-			for (match : trainHitMatchers) {
-				println("Train #" + match.t1.id + " is going to hit train #" + match.t2.id)
-				match.t1.currentlyOn.enabled = false
-				sender.disableSection(match.t1.currentlyOn.id);
-			}
-
-			sectionModel.sections.filter[section|section.enabled == true].forEach [
-				sender.enableSection(it.id)
-			]
+		for (var int i = 0; i != 10; i++) {
+			turnoutStates.add(true);
 		}
+		
+		val Map<Integer, Integer> englishTurnoutMap = new HashMap<Integer, Integer>
+		englishTurnoutMap.put(7, 4); // XXX add this mapping to the model? 
+
+		val client = new MqttAsyncClient('tcp://192.168.1.2', 'SafetyLogic', new MemoryPersistence)
+		val MqttConnectOptions connOpts = new MqttConnectOptions
+		connOpts.cleanSession = true
+
+		client.callback = new MqttCallback() {
+
+			override connectionLost(Throwable arg0) {
+				System.err.println("connection lost");
+			}
+
+			override deliveryComplete(IMqttDeliveryToken arg0) {
+//				throw new UnsupportedOperationException("TODO: auto-generated method stub")
+				// Who the fuck cares?
+				println('delivery complete')
+			}
+
+			override messageArrived(String topic, MqttMessage msg) throws Exception {
+				if(topic.equals('modes3/cv')) {
+					processCV(msg)
+				} else if(topic.equals('modes3/turnout')) {
+					processTurnout(msg)
+				} else {
+					// WHAT?
+				}
+				msg.payload.toString
+			}
+
+			def processTurnout(MqttMessage message) {
+//				if(message.payload.toString.startsWith('X'))
+				for(line : message.payload.toString.split('\n')){
+					if(line.startsWith('X')){
+						var int id = Integer.parseInt(line.substring(2,1))
+						var modelId = fromPhysicalID(id)
+						if(englishTurnoutMap.keySet.contains(modelId)){
+							var remappedId = englishTurnoutMap.get(id);
+							ModelUtil.switchEnglishTurnout(ModelUtil.getTurnoutByID(sectionModel, remappedId));
+							
+						} else {
+							ModelUtil.switchTurnout(ModelUtil.getTurnoutByID(sectionModel, modelId));
+						}
+					}
+				}
+
+			}
+
+			def fromPhysicalID(Integer integer) { // XXX This should be in the model too
+				switch integer {
+					case 81: 1
+					case 82: 2
+					case 83: 3
+					case 86: 4
+					case 84: 5
+					case 85: 6
+					case 87: 7
+				}
+
+			}
+
+			def processCV(MqttMessage msg) {
+				val trimmed = new String(msg.payload.toString).trim
+				var JsonObject data;
+				try {
+					parseJsonFromPacket(lock, sectionModel, trainModel, trimmed)
+				} catch(Exception e) {
+					println("failed to parse json, here is the file : ")
+					println(trimmed);
+					data = null
+				}
+
+				var matches = TrainsNextTurnoutMatcher.on(queryEngine).allMatches
+				if(matches.size == 0) {
+					println("I don't see the next turnout")
+				}
+				for (match : matches) {
+					println("train " + match.train.id + " next turnout = " + match.turnout.id)
+				}
+
+				val cutMatches = TrainGoingToCutTheTurnoutMatcher.on(queryEngine).allMatches
+				if(cutMatches.size == 0) {
+					println("No cut")
+				} else {
+					for (match : cutMatches) {
+						println("CUT on turnout #" + match.turnout.id + " with train #" + match.train.id)
+						match.train.currentlyOn.enabled = false
+						disableSection(match.train.currentlyOn.id);
+					}
+				}
+
+				var trainHitMatchers = TrainIsGoingToHitMatcher.on(queryEngine).allMatches
+				if(trainHitMatchers.size == 0) {
+					println("No train is going to hit the other");
+				}
+
+				for (match : trainHitMatchers) {
+					println("Train #" + match.t1.id + " is going to hit train #" + match.t2.id)
+					match.t1.currentlyOn.enabled = false
+					disableSection(match.t1.currentlyOn.id);
+				}
+
+				sectionModel.sections.filter[section|section.enabled == true].forEach [
+					enableSection(it.id)
+				]
+			}
+
+			def enableSection(int i) {
+				client.publish('modes3/section-control', new MqttMessage((i + ';' + 1).bytes))
+			}
+
+			def disableSection(int i) {
+				client.publish('modes3/section-control', new MqttMessage((i + ';' + 0).bytes))
+			}
+
+		}
+
+		client.connect(connOpts)
+
+		Thread.sleep(500);
+
+		client.subscribe('modes3/cv', 1)
+		client.subscribe('modes3/turnout', 1)
 
 	}
 
@@ -293,12 +369,12 @@ class Main {
 				val direction = jsonTrain.get("dir").asString
 
 				var modelTrain = trainModel.trains.findFirst[t|t.id == id]
-				//XXX this should be in somewhere else?
-				if(modelTrain == null){
+				// XXX this should be in somewhere else?
+				if(modelTrain == null) {
 					modelTrain = ModelUtil.addTrain(trainModel, id);
-					
+
 				}
-				
+
 				modelTrain.x = posX
 				modelTrain.y = posY
 				if(!direction.toUpperCase.equals("NONE")) {
@@ -306,7 +382,7 @@ class Main {
 				}
 
 				var Section occupied = findOccupiedTurnout(modelTrain, sectionModel)
-				if(occupied == null) { //If it's not on a turnout, it must be on a section
+				if(occupied == null) { // If it's not on a turnout, it must be on a section
 					occupied = findClosestSection(modelTrain, sectionModel)
 				}
 
@@ -316,4 +392,4 @@ class Main {
 		}
 	}
 
-} 
+}
